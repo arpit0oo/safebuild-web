@@ -1,8 +1,33 @@
 ---
-// src/pages/index.astro
-// Phase 9 page — Homepage (built last).
-// This is a scaffold placeholder only. Do not add content here yet.
+// =============================================================
+// src/pages/index.astro — Safe Build Engineering
+// Homepage — Dynamic featured products via Firestore, GSAP hero,
+// AOS animations on sections, clean component layout with BaseLayout.
+// =============================================================
+
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getFeaturedProducts, getProducts } from '../lib/firestore';
+import type { Product } from '../lib/types';
+
+// ── SSR: Fetch featured products ─────────────────────────────
+let featuredProducts: Product[] = [];
+try {
+  featuredProducts = await getFeaturedProducts(6);
+  if (featuredProducts.length === 0) {
+    const all = await getProducts();
+    featuredProducts = all.filter(p => p.isFeatured).slice(0, 6);
+  }
+} catch (e) {
+  console.warn('[index.astro] getFeaturedProducts query failed, falling back to all products filter:', e);
+  try {
+    const all = await getProducts();
+    featuredProducts = all.filter(p => p.isFeatured).slice(0, 6);
+  } catch (err) {
+    console.error('[index.astro] Firestore fetch error:', err);
+  }
+}
 ---
 
 <BaseLayout
@@ -10,19 +35,417 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   description="Safe Build Engineering designs and manufactures EOT cranes, gantry cranes, and hoists for Indian industry. Built to Lift. Built to Last."
   activePage="home"
 >
-  <!-- Homepage content will be built in Phase 9 -->
-  <section style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #F6FAFE;">
-    <div style="text-align: center; padding: 2rem;">
-      <p style="font-family: 'Barlow Condensed', sans-serif; font-size: 14px; letter-spacing: 0.15em; color: #F97316; text-transform: uppercase; margin-bottom: 1rem;">
-        — Scaffold Placeholder
+
+  {/* ================================================================
+      SECTION 1: HERO
+      Dark theme, GSAP staggered word reveal on H1
+      ================================================================ */}
+  <section class="relative w-full h-screen flex items-center overflow-hidden bg-[#0D1117]">
+    {/* Background Image with Dark Overlay */}
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-[#0D1117]/80 z-10"></div>
+      <img
+        src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1600&q=80"
+        alt="Heavy industrial crane manufacturing background"
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    {/* Hero Content Container */}
+    <div class="relative z-20 w-full max-w-container-max mx-auto px-gutter lg:px-section-padding border-l-4 border-primary-container h-full flex flex-col justify-center">
+      <p class="font-label-caps text-label-caps text-primary-container mb-6 tracking-widest uppercase">
+        — PRECISION CRANE MANUFACTURING
       </p>
-      <h1 style="font-family: 'Rajdhani', sans-serif; font-size: 48px; font-weight: 700; color: #171C1F; margin: 0;">
-        Safe Build Engineering
+
+      {/* GSAP Target H1 */}
+      <h1 id="hero-title" class="font-display-xl text-display-xl text-surface-white mb-6 max-w-4xl uppercase leading-none">
+        <span class="hero-word inline-block">India's</span>{' '}
+        <span class="hero-word inline-block">Next-Generation</span><br />
+        <span class="hero-word border-b-4 border-primary-container pb-2 inline-block mt-2">
+          Crane Manufacturer.
+        </span>
       </h1>
-      <p style="font-family: 'Inter', sans-serif; font-size: 18px; color: #584237; margin-top: 1rem;">
-        Phase 1 scaffolding complete. Homepage built in Phase 9.
+
+      <p class="font-body-lg text-body-lg text-secondary-fixed-dim mb-10 max-w-2xl">
+        Engineering heavy-duty lifting solutions for the world's most demanding industrial environments.
+        Precision-built, zero-margin error.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a
+          href="/products"
+          class="btn-primary"
+          id="hero-explore-cta"
+        >
+          Explore Products
+          <span class="material-symbols-outlined text-[18px] leading-none">arrow_forward</span>
+        </a>
+        <a
+          href="/contact?type=quote"
+          class="btn-ghost"
+          id="hero-quote-cta"
+        >
+          Request a Quote
+        </a>
+      </div>
+    </div>
+
+    {/* Scroll indicator icon */}
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+      <span class="material-symbols-outlined text-surface-white/70 text-4xl">expand_more</span>
+    </div>
+
+    <div class="absolute bottom-8 right-8 z-20 hidden md:block">
+      <p class="font-technical-data text-technical-data text-surface-white/50 tracking-widest uppercase text-right">
+        EST. 2024 — LUCKNOW, INDIA
       </p>
     </div>
   </section>
-</BaseLayout>
 
+
+  {/* ================================================================
+      SECTION 2: STATS STRIP
+      ================================================================ */}
+  <section class="bg-surface-white border-b border-border-subtle py-10">
+    <div class="max-w-container-max mx-auto px-gutter grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-border-subtle text-center">
+      <div class="px-4" data-aos="fade-up" data-aos-delay="0">
+        <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">12+</h3>
+        <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">Crane Models</p>
+      </div>
+      <div class="px-4" data-aos="fade-up" data-aos-delay="100">
+        <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">3</h3>
+        <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">Manufacturing Units</p>
+      </div>
+      <div class="px-4" data-aos="fade-up" data-aos-delay="200">
+        <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">IS:807</h3>
+        <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">Compliant Design</p>
+      </div>
+      <div class="px-4" data-aos="fade-up" data-aos-delay="300">
+        <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">2024</h3>
+        <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">Established</p>
+      </div>
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 3: PRODUCTS OVERVIEW (FEATURED PRODUCTS)
+      ================================================================ */}
+  <section class="bg-[#0D1117] py-section-padding" id="products">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div class="mb-12" data-aos="fade-up">
+        <SectionLabel text="— OUR LIFTING SOLUTIONS" />
+        <h2 class="font-headline-lg text-headline-lg text-surface-white uppercase mt-4">
+          Cranes Built for Every Industry
+        </h2>
+      </div>
+
+      {/* Featured Products Grid */}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-12">
+        {featuredProducts.map((p, i) => (
+          <div class="flex flex-col" data-aos="fade-up" data-aos-delay={String(i * 80)}>
+            <ProductCard
+              name={p.name}
+              category={p.category}
+              shortDescription={p.shortDescription}
+              imageUrl={p.imageUrl}
+              slug={p.slug}
+              capacity={p.specs?.capacity ?? ''}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* View All Products Link */}
+      <div class="text-center" data-aos="fade-up">
+        <a
+          href="/products"
+          class="btn-ghost"
+          id="view-all-products-btn"
+        >
+          View All 12 Products →
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 4: WHY SAFE BUILD (THE ADVANTAGE)
+      ================================================================ */}
+  <section class="bg-surface-container-low py-section-padding">
+    <div class="max-w-container-max mx-auto px-gutter flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+
+      <div class="w-full lg:w-[40%]" data-aos="fade-up">
+        <SectionLabel text="— THE SAFE BUILD ADVANTAGE" />
+        <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase mt-4 mb-8">
+          Engineering Excellence<br />at Every Scale
+        </h2>
+        <div class="relative w-full aspect-[4/3] bg-image-placeholder border border-border-subtle p-2 overflow-hidden shadow-sm">
+          <img
+            src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80"
+            alt="Engineering Precision at Safe Build"
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div class="w-full lg:w-[60%] grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {/* Feature 1 */}
+        <div class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group" data-aos="fade-up" data-aos-delay="0">
+          <span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">verified_user</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-3 uppercase">Safety First</h4>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            Every crane is rigorously tested to exceed IS standards. Overload protection and fail-safe brakes come standard.
+          </p>
+        </div>
+
+        {/* Feature 2 */}
+        <div class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group" data-aos="fade-up" data-aos-delay="100">
+          <span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">precision_manufacturing</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-3 uppercase">Precision Engineering</h4>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            Machined components and laser-aligned structures ensure minimal wear, reduced sway, and millimeter accuracy.
+          </p>
+        </div>
+
+        {/* Feature 3 */}
+        <div class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group" data-aos="fade-up" data-aos-delay="200">
+          <span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">architecture</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-3 uppercase">Custom Solutions</h4>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            We design specifically for your facility's layout, headroom constraints, and unique operational workflows.
+          </p>
+        </div>
+
+        {/* Feature 4 */}
+        <div class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group" data-aos="fade-up" data-aos-delay="300">
+          <span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">support_agent</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-3 uppercase">End-to-End Support</h4>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            From initial consultation and blueprinting to installation, commissioning, and lifetime maintenance.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 5: ABOUT SNAPSHOT
+      ================================================================ */}
+  <section class="bg-[#0D1117] flex flex-col lg:flex-row min-h-[600px]">
+    <div class="w-full lg:w-[55%] min-h-[400px] lg:min-h-full bg-image-placeholder relative" data-aos="fade-right">
+      <img
+        src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=1000&q=80"
+        alt="Safe Build Engineering leadership and manufacturing facility"
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="w-full lg:w-[45%] p-12 lg:p-24 flex flex-col justify-center" data-aos="fade-up">
+      <SectionLabel text="— WHO WE ARE" />
+      <h2 class="font-headline-lg text-headline-lg text-surface-white uppercase mt-4 mb-6">
+        Founded with one mission — build cranes India can trust.
+      </h2>
+      <p class="font-body-md text-body-md text-secondary-fixed-dim mb-8">
+        We combine decades of structural engineering expertise with modern automation to deliver lifting equipment that forms the backbone of core industries.
+      </p>
+      <ul class="space-y-4 mb-10">
+        <li class="flex items-start">
+          <span class="text-primary-container font-bold mr-3">—</span>
+          <span class="font-body-md text-body-md text-surface-white">In-house design and fabrication facilities.</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-container font-bold mr-3">—</span>
+          <span class="font-body-md text-body-md text-surface-white">Strict adherence to national and international safety codes.</span>
+        </li>
+      </ul>
+      <div data-aos="fade-up">
+        <a
+          href="/about"
+          class="btn-primary"
+          id="about-story-btn"
+        >
+          Our Story →
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 6: INDUSTRIES
+      ================================================================ */}
+  <section class="bg-surface-white py-section-padding">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <SectionLabel text="— INDUSTRIES" />
+        <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase mt-4">
+          Powering Core Sectors
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Tile 1 */}
+        <div class="relative h-72 group overflow-hidden bg-[#0D1117]" data-aos="fade-up" data-aos-delay="0">
+          <img
+            src="https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=600&q=80"
+            alt="Steel & Fabrication Industry"
+            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+            <h4 class="font-headline-sm text-headline-sm text-surface-white uppercase">Steel & Fabrication</h4>
+          </div>
+        </div>
+
+        {/* Tile 2 */}
+        <div class="relative h-72 group overflow-hidden bg-[#0D1117]" data-aos="fade-up" data-aos-delay="80">
+          <img
+            src="https://images.unsplash.com/photo-1516214104703-d870798883c5?w=600&q=80"
+            alt="Shipbuilding & Port Industry"
+            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+            <h4 class="font-headline-sm text-headline-sm text-surface-white uppercase">Shipbuilding & Port</h4>
+          </div>
+        </div>
+
+        {/* Tile 3 */}
+        <div class="relative h-72 group overflow-hidden bg-[#0D1117]" data-aos="fade-up" data-aos-delay="160">
+          <img
+            src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80"
+            alt="Automotive Industry"
+            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+            <h4 class="font-headline-sm text-headline-sm text-surface-white uppercase">Automotive</h4>
+          </div>
+        </div>
+
+        {/* Tile 4 */}
+        <div class="relative h-72 group overflow-hidden bg-[#0D1117]" data-aos="fade-up" data-aos-delay="240">
+          <img
+            src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=600&q=80"
+            alt="Construction Industry"
+            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+            <h4 class="font-headline-sm text-headline-sm text-surface-white uppercase">Construction</h4>
+          </div>
+        </div>
+
+        {/* Tile 5 */}
+        <div class="relative h-72 group overflow-hidden bg-[#0D1117]" data-aos="fade-up" data-aos-delay="320">
+          <img
+            src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80"
+            alt="Power & Energy Industry"
+            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+            <h4 class="font-headline-sm text-headline-sm text-surface-white uppercase">Power & Energy</h4>
+          </div>
+        </div>
+
+        {/* Tile 6 */}
+        <div class="relative h-72 group overflow-hidden bg-[#0D1117]" data-aos="fade-up" data-aos-delay="400">
+          <img
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80"
+            alt="Warehousing Industry"
+            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+            <h4 class="font-headline-sm text-headline-sm text-surface-white uppercase">Warehousing</h4>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 7: CTA BANNER
+      ================================================================ */}
+  <section class="bg-primary-container relative overflow-hidden py-24">
+    <div class="max-w-container-max mx-auto px-gutter relative z-10 flex flex-col md:flex-row items-center justify-between">
+      <div class="w-full md:w-2/3 mb-10 md:mb-0" data-aos="fade-up">
+        <h2 class="font-headline-lg text-headline-lg text-surface-white mb-4 uppercase">
+          Ready to Lift Your Operations?
+        </h2>
+        <p class="font-body-lg text-body-lg text-surface-white/90 mb-8 max-w-xl">
+          Speak with our engineering team to design a lifting solution tailored to your facility's exact specifications.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="/contact?type=quote"
+            class="btn-dark"
+            id="cta-get-quote"
+          >
+            Get a Quote →
+          </a>
+          <a
+            href="/products"
+            class="btn-ghost"
+            id="cta-explore-products"
+          >
+            Explore Products
+          </a>
+        </div>
+      </div>
+
+      <div class="w-full md:w-1/3 flex justify-end opacity-20 pointer-events-none" data-aos="fade-left">
+        <span class="material-symbols-outlined text-[200px] text-surface-white leading-none">
+          precision_manufacturing
+        </span>
+      </div>
+    </div>
+  </section>
+
+  {/* ================================================================
+      GSAP HERO ANIMATION SCRIPT
+      Staggered word reveal for Hero H1
+      ================================================================ */}
+  <script>
+    import { gsap } from 'gsap';
+
+    function initHeroAnimation() {
+      const heroWords = document.querySelectorAll('.hero-word');
+      if (heroWords.length > 0) {
+        gsap.fromTo(
+          heroWords,
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            stagger: 0.15,
+            ease: 'power3.out',
+          }
+        );
+      }
+    }
+
+    // Run on view transition page load and initial load
+    document.addEventListener('astro:page-load', initHeroAnimation);
+    initHeroAnimation();
+  </script>
+
+</BaseLayout>

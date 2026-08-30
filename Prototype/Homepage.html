@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Safe Build Engineering | Precision Crane Manufacturing</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&amp;family=Inter:wght@400;500;600&amp;family=Rajdhani:wght@600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#171c1f",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffdbca",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#f97316",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#dfe2eb",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "on-tertiary-container": "#293340",
+                        "tertiary-container": "#919bab",
+                        "on-secondary-fixed": "#181c22",
+                        "inverse-on-surface": "#edf1f5",
+                        "surface-white": "#FFFFFF",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-secondary-container": "#61646c",
+                        "tertiary-fixed": "#d9e3f4",
+                        "on-primary-fixed": "#341100",
+                        "inverse-surface": "#2c3134",
+                        "surface-dim": "#d6dade",
+                        "surface-container-high": "#e4e9ed",
+                        "background": "#f6fafe",
+                        "on-primary-fixed-variant": "#783200",
+                        "surface-container": "#eaeef2",
+                        "surface-container-highest": "#dfe3e7",
+                        "outline-variant": "#e0c0b1",
+                        "tertiary-fixed-dim": "#bdc7d8",
+                        "secondary": "#5b5e66",
+                        "surface-variant": "#dfe3e7",
+                        "primary": "#9d4300",
+                        "secondary-fixed": "#dfe2eb",
+                        "outline": "#8c7164",
+                        "border-subtle": "#E5E7EB",
+                        "on-tertiary-fixed-variant": "#3e4755",
+                        "surface-tint": "#9d4300",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "on-tertiary-fixed": "#121c28",
+                        "surface-container-lowest": "#ffffff",
+                        "image-placeholder": "#F1F5F9",
+                        "on-error": "#ffffff",
+                        "tertiary": "#555f6d",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f6fafe",
+                        "on-primary-container": "#582200",
+                        "surface": "#f6fafe",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb690",
+                        "surface-container-low": "#f0f4f8",
+                        "on-surface-variant": "#584237",
+                        "on-surface": "#171c1f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "stack-sm": "0.5rem",
+                        "card-padding": "2rem",
+                        "gutter": "1.5rem",
+                        "section-padding": "5rem",
+                        "stack-md": "1rem",
+                        "stack-lg": "2rem"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Rajdhani"],
+                        "label-caps": ["Barlow Condensed"],
+                        "headline-lg": ["Rajdhani"],
+                        "technical-data": ["Inter"],
+                        "headline-lg-mobile": ["Rajdhani"],
+                        "display-xl": ["Rajdhani"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Rajdhani"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "label-caps": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "technical-data": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-xl": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sharp-edges {
+            border-radius: 0px !important;
+        }
+
+        .hero-border {
+            border-left: 4px solid #f97316;
+        }
+
+        @keyframes bounce-subtle {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        .animate-bounce-subtle {
+            animation: bounce-subtle 2s infinite ease-in-out;
+        }
+
+        .hover-border-accent {
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .hover-border-accent:hover {
+            border-left: 3px solid #f97316;
+        }
+
+        .card-shadow {
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-white sharp-edges">
+    <!-- SECTION 1: HERO -->
+    <section class="relative w-full h-screen flex items-center overflow-hidden bg-[#0D1117]">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-[#0D1117]/75 z-10"></div>
+            <!-- Missing Image 31 placeholder handling as per instructions, using a generic placeholder div if missing from prompt list but required, wait, the prompt asks for IMAGE_31 but it's not in the available images list. I will use a generic placeholder style for it since I can't generate new placeholders. -->
+            <div class="w-full h-full bg-cover bg-center"
+                data-alt="A massive, cinematic view of a heavy-duty industrial crane manufacturing floor, dramatic lighting, high contrast steel structures, glowing sparks, dark and professional engineering mood."
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBObnCFtxOIdrrhJk9X0yvI8NZQOjjh0HViJKNqoMOxTmSeRN1ZwkLS18HKpajMfvgf5E5y-Wvb6wj7BfQy-jaf_bYZlq-UH5rry5VDG_b4779sPt1dJcizVYklLHB1TO2y52MtTr2dm90FOZHelk3AV_0CyDteNPuD-ejJ7SZ4aEG14Wrr-thtTKphifnS92ygLi2jGPpSEHEHT2YN8eA86AvOcpb8Sg4njC7xO2LndXoc_vo5uoKV')">
+            </div>
+        </div>
+        <div
+            class="relative z-20 w-full max-w-container-max mx-auto px-gutter lg:px-section-padding hero-border h-full flex flex-col justify-center">
+            <p class="font-label-caps text-label-caps text-primary-container mb-6 tracking-widest uppercase">
+                — PRECISION CRANE MANUFACTURING
+            </p>
+            <h1 class="font-display-xl text-display-xl text-surface-white mb-6 max-w-4xl">
+                India's Next-Generation<br />
+                <span class="border-b-4 border-primary-container pb-2 inline-block mt-2">Crane Manufacturer.</span>
+            </h1>
+            <p class="font-body-lg text-body-lg text-secondary-fixed-dim mb-10 max-w-2xl">
+                Engineering heavy-duty lifting solutions for the world's most demanding industrial environments.
+                Precision-built, zero-margin error.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a class="inline-flex items-center justify-center bg-primary-container hover:bg-[#EA6C0A] text-surface-white font-label-caps text-label-caps px-8 py-4 uppercase transition-colors sharp-edges"
+                    href="#products">
+                    Explore Products →
+                </a>
+                <a class="inline-flex items-center justify-center border-2 border-surface-white hover:bg-surface-white hover:text-[#0D1117] text-surface-white font-label-caps text-label-caps px-8 py-4 uppercase transition-all sharp-edges"
+                    href="#quote">
+                    Request a Quote
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-subtle">
+            <span class="material-symbols-outlined text-surface-white text-4xl">expand_more</span>
+        </div>
+        <div class="absolute bottom-8 right-8 z-20">
+            <p class="font-label-caps text-label-caps text-surface-white/50 tracking-widest uppercase text-right">
+                EST. 2024 — LUCKNOW, INDIA
+            </p>
+        </div>
+    </section>
+    <!-- SECTION 2: STATS STRIP -->
+    <section class="bg-surface-white border-b border-border-subtle py-8">
+        <div
+            class="max-w-container-max mx-auto px-gutter grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-border-subtle text-center">
+            <div class="px-4">
+                <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">12+</h3>
+                <p class="font-technical-data text-technical-data text-on-secondary-container uppercase">Crane Models
+                </p>
+            </div>
+            <div class="px-4">
+                <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">3</h3>
+                <p class="font-technical-data text-technical-data text-on-secondary-container uppercase">Manufacturing
+                    Units</p>
+            </div>
+            <div class="px-4">
+                <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">IS:807</h3>
+                <p class="font-technical-data text-technical-data text-on-secondary-container uppercase">Compliant
+                    Design</p>
+            </div>
+            <div class="px-4">
+                <h3 class="font-headline-lg text-headline-lg text-primary-container mb-2">2024</h3>
+                <p class="font-technical-data text-technical-data text-on-secondary-container uppercase">Established</p>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION 3: PRODUCTS OVERVIEW -->
+    <section class="bg-[#0D1117] py-section-padding" id="products">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="mb-12">
+                <p class="font-label-caps text-label-caps text-primary-container mb-4 uppercase">
+                    — OUR LIFTING SOLUTIONS
+                </p>
+                <h2 class="font-headline-lg text-headline-lg text-surface-white">Cranes Built for Every Industry</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- Card 1 -->
+                <div
+                    class="bg-[#161B22] border border-[#2d333b] hover-border-accent relative group overflow-hidden sharp-edges flex flex-col">
+                    <div class="relative h-64 overflow-hidden bg-image-placeholder">
+                        <img alt=""
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="A massive yellow EOT crane installed in a heavy machinery manufacturing plant. Industrial setting, dark steel structures, glowing lights, high contrast, precise engineering focus."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBn_T-F6afQd9f8j17kmYQw0OuzmhzkokBxVl_8Cg0elFMqIhwRKUBi77brWKAV8QhMXSj042xRdNX_ZvivSTU3oXdlQpsvAL1fG9LPWEo-kgDGQm8DDcEzF4uCNfDw-DYTfOACX0Df5fiV7PH133d4VcPgQO6rel4l5hIrIpeKc10k8g17Upk_ArHvtvZNLeOZKImi4lHRwsn1YBHGI4l6oqL6Xd95zyIR_ONt5vZpzU_xosbYoWF" />
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase sharp-edges">
+                            Heavy Duty
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="font-headline-md text-headline-md text-surface-white mb-3">EOT Cranes</h3>
+                        <p class="font-body-md text-body-md text-secondary-fixed-dim mb-6 flex-grow">
+                            Single and double girder Electric Overhead Traveling cranes designed for maximum span and
+                            load capacity in indoor facilities.
+                        </p>
+                        <a class="inline-flex items-center font-label-caps text-label-caps text-primary-container hover:text-surface-white transition-colors uppercase"
+                            href="#">
+                            View Specs →
+                        </a>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div
+                    class="bg-[#161B22] border border-[#2d333b] hover-border-accent relative group overflow-hidden sharp-edges flex flex-col">
+                    <div class="relative h-64 overflow-hidden bg-image-placeholder">
+                        <img alt=""
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc_CcqHlfxBphFxfI2xxsESGkoiFcmpjTxIVEHWDh0HEVwYY5Bj0tQR3VLLW6vF5t7WoDgXaHzMUGM96gzaqiLq8cobVUBh2c8wu4zkT1V_QHI_UPqgatNj7ikFY5FAk3l0kfq7ecw5Ov166Dv7yQuTTYzuIG8JEgDrh-X1VhQTiSEuQTTcQy0GWyMsO6uu67tjxGKLppan246AMG7P3PUJFkmOxyJGg8SgQ7qg0VMpxSdBJiaRdBr" />
+                        <div
+                            class="absolute top-4 left-4 bg-[#0D1117] text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase sharp-edges">
+                            Outdoor Spec
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="font-headline-md text-headline-md text-surface-white mb-3">Gantry Cranes</h3>
+                        <p class="font-body-md text-body-md text-secondary-fixed-dim mb-6 flex-grow">
+                            Robust freestanding structures ideal for outdoor yards, ports, and railyards. High wind
+                            resistance and stability.
+                        </p>
+                        <a class="inline-flex items-center font-label-caps text-label-caps text-primary-container hover:text-surface-white transition-colors uppercase"
+                            href="#">
+                            View Specs →
+                        </a>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div
+                    class="bg-[#161B22] border border-[#2d333b] hover-border-accent relative group overflow-hidden sharp-edges flex flex-col">
+                    <div class="relative h-64 overflow-hidden bg-image-placeholder">
+                        <img alt=""
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsdGBTUCHphXgAKloYluIUBz5o0nD2GRpRfVZUTNc0gnhJi6yE32EPExyXo0uaPZjamfNzBAb1fK-l9re1TciCANEN1kBFBaBA7eUvd1Jnl6UlxBYhhWOSvMzA3n4s4oXEBGVxPfQz1XBmTg_87ovve7RUzFkMUcXlc7yqyyhjbIE9GkNGIleB_rWu0W-qAt0thz-SaMTgNLA6Cesvj52HrvTh7ZUVv8KUatWB579k_GE8jlFBJNaV" />
+                        <div
+                            class="absolute top-4 left-4 bg-[#0D1117] text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase sharp-edges">
+                            Components
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="font-headline-md text-headline-md text-surface-white mb-3">Wire Rope Hoists</h3>
+                        <p class="font-body-md text-body-md text-secondary-fixed-dim mb-6 flex-grow">
+                            High-performance lifting mechanisms engineered for smooth operation, durability, and precise
+                            positioning.
+                        </p>
+                        <a class="inline-flex items-center font-label-caps text-label-caps text-primary-container hover:text-surface-white transition-colors uppercase"
+                            href="#">
+                            View Specs →
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a class="inline-block border border-[#2d333b] hover:border-primary-container text-surface-white hover:text-primary-container font-label-caps text-label-caps px-8 py-4 uppercase transition-colors sharp-edges"
+                    href="#">
+                    View All 12 Products →
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION 4: WHY SAFE BUILD -->
+    <section class="bg-surface-container-low py-section-padding">
+        <div class="max-w-container-max mx-auto px-gutter flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+            <div class="w-full lg:w-[40%]">
+                <p class="font-label-caps text-label-caps text-primary-container mb-4 uppercase">
+                    — THE SAFE BUILD ADVANTAGE
+                </p>
+                <h2 class="font-headline-lg text-headline-lg text-[#0D1117] mb-8">Engineering Excellence at Every Scale
+                </h2>
+                <div
+                    class="relative w-full aspect-[4/3] bg-image-placeholder sharp-edges overflow-hidden border border-border-subtle p-2">
+                    <img alt="" class="w-full h-full object-cover sharp-edges"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCP9o3dhWYiYc6iy1NHcHfGns3HvBdkcIxdhzjGqN2ygKVyfpXgyWz95grIQXxp_CONf-_7QhELbNcHVj9SqL2UPZFb_19Xy8RPieyEJWrCaSHcsDyJxgYvULj6CIbLG6iiZFF7yQTMKYIoTFNIu93XqStgf9GjrefAntQKE1TIL-wJ1Cl2D_BmBov5tZc4FXIiEygUDZlfR0Xb4AZbm6TgcGcvPddweTUr_t5APna4XCgve2hT5gV" />
+                </div>
+            </div>
+            <div class="w-full lg:w-[60%] grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Feature 1 -->
+                <div
+                    class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group sharp-edges">
+                    <span
+                        class="material-symbols-outlined text-primary-container text-4xl mb-6 block">verified_user</span>
+                    <h4 class="font-headline-sm text-headline-sm text-[#0D1117] mb-3">Safety First</h4>
+                    <p class="font-body-md text-body-md text-secondary">
+                        Every crane is rigorously tested to exceed IS standards. Overload protection and fail-safe
+                        brakes come standard.
+                    </p>
+                </div>
+                <!-- Feature 2 -->
+                <div
+                    class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group sharp-edges">
+                    <span
+                        class="material-symbols-outlined text-primary-container text-4xl mb-6 block">precision_manufacturing</span>
+                    <h4 class="font-headline-sm text-headline-sm text-[#0D1117] mb-3">Precision Engineering</h4>
+                    <p class="font-body-md text-body-md text-secondary">
+                        Machined components and laser-aligned structures ensure minimal wear, reduced sway, and
+                        millimeter accuracy.
+                    </p>
+                </div>
+                <!-- Feature 3 -->
+                <div
+                    class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group sharp-edges">
+                    <span
+                        class="material-symbols-outlined text-primary-container text-4xl mb-6 block">architecture</span>
+                    <h4 class="font-headline-sm text-headline-sm text-[#0D1117] mb-3">Custom Solutions</h4>
+                    <p class="font-body-md text-body-md text-secondary">
+                        We design specifically for your facility's layout, headroom constraints, and unique operational
+                        workflows.
+                    </p>
+                </div>
+                <!-- Feature 4 -->
+                <div
+                    class="bg-surface-white p-8 border border-border-subtle hover-border-accent card-shadow group sharp-edges">
+                    <span
+                        class="material-symbols-outlined text-primary-container text-4xl mb-6 block">support_agent</span>
+                    <h4 class="font-headline-sm text-headline-sm text-[#0D1117] mb-3">End-to-End Support</h4>
+                    <p class="font-body-md text-body-md text-secondary">
+                        From initial consultation and blueprinting to installation, commissioning, and lifetime
+                        maintenance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION 5: ABOUT SNAPSHOT -->
+    <section class="bg-[#0D1117] flex flex-col lg:flex-row min-h-[600px]">
+        <div class="w-full lg:w-[55%] min-h-[400px] lg:min-h-full bg-image-placeholder relative">
+            <!-- Missing Image 26 placeholder handling, using generic style if needed -->
+            <div class="absolute inset-0 bg-cover bg-center"
+                data-alt="A cinematic portrait of a lead engineer or factory floor at Safe Build Engineering, focused on structural steel, dramatic lighting, industrial confidence, dark background."
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpnlX_kDlOXKXFcxNuH7pcF-kC6EsgNd5K4Lj1dax_kV7IusaMU-KkDkxjIarQY0G0856R6JtZXnBae_aip24x4akfcEexZkexJJj6wcrJxBg7-wQa0-7kFVe-yXX5JzXWyswDg5-qJaNLP8DVFKV-5T4cDwP3ZsDkxpoGbqmJ4PSu3GX-c1XgtuBCGQQ0JU6uhxnBStj_iBgrTZHC-gwMFQPUm1B5XfeWUY7kVSt1diXvMNrcXdQQ')">
+            </div>
+        </div>
+        <div class="w-full lg:w-[45%] p-12 lg:p-24 flex flex-col justify-center">
+            <p class="font-label-caps text-label-caps text-primary-container mb-6 uppercase">
+                — WHO WE ARE
+            </p>
+            <h2 class="font-headline-lg text-headline-lg text-surface-white mb-6">
+                Founded with one mission — build cranes India can trust.
+            </h2>
+            <p class="font-body-md text-body-md text-secondary-fixed-dim mb-8">
+                We combine decades of structural engineering expertise with modern automation to deliver lifting
+                equipment that forms the backbone of core industries.
+            </p>
+            <ul class="space-y-4 mb-10">
+                <li class="flex items-start">
+                    <span class="text-primary-container font-bold mr-3">—</span>
+                    <span class="font-body-md text-body-md text-surface-white">In-house design and fabrication
+                        facilities.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary-container font-bold mr-3">—</span>
+                    <span class="font-body-md text-body-md text-surface-white">Strict adherence to national and
+                        international safety codes.</span>
+                </li>
+            </ul>
+            <div>
+                <a class="inline-flex items-center justify-center border-2 border-primary-container text-primary-container hover:bg-primary-container hover:text-surface-white font-label-caps text-label-caps px-8 py-4 uppercase transition-all sharp-edges"
+                    href="#">
+                    Our Story →
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION 6: INDUSTRIES -->
+    <section class="bg-surface-white py-section-padding">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="text-center mb-16">
+                <p class="font-label-caps text-label-caps text-primary-container mb-4 uppercase">
+                    — INDUSTRIES
+                </p>
+                <h2 class="font-headline-lg text-headline-lg text-[#0D1117]">Powering Core Sectors</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tile 1 -->
+                <div class="relative h-72 group overflow-hidden sharp-edges bg-[#0D1117]">
+                    <img alt=""
+                        class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                        data-alt="A fiery steel mill interior with glowing molten metal, heavy machinery, and industrial cranes operating in extreme conditions."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqqcATNaN8f9j87B-hZLA1tbkOmbbcdXQdYVMBBlHDyxIyxq5vdHfs26blH2PlY5Mps2lFgFWpftinPV7hRlcTLk7CjpaoXIo5xTcy6eYdUnYgS7mIASJDoPzUptqcEcjM0O4MHlNRbnMtXEK1YxaK7fmtVD69g60WOzbmcP5mlfmWihy9yg-cwBlBiq9qr-0jBtf42fxcFWUcRQyposyrbZKlXPe-oTcYkilHTzvrcMMkjIY8BdwF" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+                        <h4 class="font-headline-sm text-headline-sm text-surface-white">Steel &amp; Fabrication</h4>
+                    </div>
+                </div>
+                <!-- Tile 2 -->
+                <div class="relative h-72 group overflow-hidden sharp-edges bg-[#0D1117]">
+                    <img alt=""
+                        class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0RDrsHvVnYMw1maw_cfK2z3fYmwGmuimhTjflPQr3pBVua8IjNqN6r7dCz7YPlJEtjKiKLhOxQW-AFhxG7viyYLCoXRU8ZebdFW5ZSQmIzUQY5XpOG4KSPg0EYctedIoK6KxwrSh_r4wVYsBIZzvw6NBjiueDL8urlqdZiYf-n31uBemNMiGSWhPVyIbOBjSymXh0GZcppCaYeItsTWDRcPtmruN1Uk1V2UBRjRq2yVZHI1o_h5SK" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+                        <h4 class="font-headline-sm text-headline-sm text-surface-white">Shipbuilding &amp; Port</h4>
+                    </div>
+                </div>
+                <!-- Tile 3 -->
+                <div class="relative h-72 group overflow-hidden sharp-edges bg-[#0D1117]">
+                    <img alt=""
+                        class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsgE3fzU3Ol5tcmDN783T72WQlVxZAVgtxI52r1rIObn7YVTiERB26rwBB9JjmxdTbOxA4X4ozraqAJIBF7cZ58q6JNcfYJI97GKGJ2YYU-QpeKP3KADIYnPMBXPAHgZo0ym6c86LZfzkpbTKLXs81S220y_xxdEZPkVJahVgMxLXJ9e30K_hjY31_XeJgqnxdo3NV0PZiPjPFuiIlGA-n1L2Sws4Dz8iI4ROvWIxS5KPIrXPeG77H" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+                        <h4 class="font-headline-sm text-headline-sm text-surface-white">Automotive</h4>
+                    </div>
+                </div>
+                <!-- Tile 4 -->
+                <div class="relative h-72 group overflow-hidden sharp-edges bg-[#0D1117]">
+                    <img alt=""
+                        class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAfQuGDd5OVm4eSWS3LBDrTTft2enw-TZTYbDZC69FbYrhpy157xbTq__wXzO9GNSVfp7TiYI4zhPdG568v7R1Kb69ON9Lg2AbQi_-HJm4Qx_4TH7Ezgxwui8ZmUicZatPAzy3L9YyWlmukeuagcT4EexPH84wgrUuKL_YCDao9Rf6rswrWNJB9UO11LP9RQ0W45vPmCBrfEP5IBmSn0Qr4BFjUC3bKYslMoKnc7VEVQH9M44PDDmd" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+                        <h4 class="font-headline-sm text-headline-sm text-surface-white">Construction</h4>
+                    </div>
+                </div>
+                <!-- Tile 5 -->
+                <div class="relative h-72 group overflow-hidden sharp-edges bg-[#0D1117]">
+                    <img alt=""
+                        class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyzUhhNWe4NHlqZwPZWMxXJ__Z24Im0gyyGgimYDoXg9jWiYy9AHqK8CdXPV9LoQPnC7sImEPcEWzlIhTENDZTmee2E-m6yRPeVBtSNb_q0wnWuTsCG71nFC6_zVOxmna30_BpO07GMXu3D0EgUnais0j2uGnrF5LiU4IBVWoIwB7gVhu4bf9cYf1U1zTv0QL_eHh9IJaiPA8mXjuWvEt6l1PSesOsjXC-id8joptijVJxTKnxo1IC" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+                        <h4 class="font-headline-sm text-headline-sm text-surface-white">Power &amp; Energy</h4>
+                    </div>
+                </div>
+                <!-- Tile 6 -->
+                <div class="relative h-72 group overflow-hidden sharp-edges bg-[#0D1117]">
+                    <img alt=""
+                        class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtfxHCaRC1ByeNdMHeJckQTVPQRkZmUTsF2Ivm7XR8bUoon9dyLPiJUMzmiiT4PgPbSk3wr0Bl1IshR8nPhkTD8ZL51NhoHc_t4G5FxwmXNQQw2Qiti4WvZ8i45PlBWJXT3TmhukzNzYcJvertpvMdMzAcNed5TjS5JjH9DY4BgNR_OCDyPeAnmXcy6GtE0saMsAgUtBuaHEhknLOditW5YSjT8KF9A_iDd0aQalWtH6-tEDj9Yoza" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-90">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 border-b-4 border-transparent group-hover:border-primary-container transition-all">
+                        <h4 class="font-headline-sm text-headline-sm text-surface-white">Warehousing</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION 7: CTA BANNER -->
+    <section class="bg-primary-container relative overflow-hidden py-24">
+        <div
+            class="max-w-container-max mx-auto px-gutter relative z-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="w-full md:w-2/3 mb-10 md:mb-0">
+                <h2 class="font-headline-lg text-headline-lg text-surface-white mb-4">Ready to Lift Your Operations?
+                </h2>
+                <p class="font-body-lg text-body-lg text-surface-white/90 mb-8 max-w-xl">
+                    Speak with our engineering team to design a lifting solution tailored to your facility's exact
+                    specifications.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a class="inline-flex items-center justify-center bg-[#0D1117] hover:bg-surface-white hover:text-[#0D1117] text-surface-white font-label-caps text-label-caps px-8 py-4 uppercase transition-colors sharp-edges"
+                        href="#">
+                        Get a Quote →
+                    </a>
+                    <a class="inline-flex items-center justify-center border-2 border-surface-white hover:bg-surface-white hover:text-[#0D1117] text-surface-white font-label-caps text-label-caps px-8 py-4 uppercase transition-all sharp-edges"
+                        href="#">
+                        Download Brochure
+                    </a>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 flex justify-end opacity-20 pointer-events-none">
+                <span
+                    class="material-symbols-outlined text-[200px] text-surface-white leading-none">precision_manufacturing</span>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
