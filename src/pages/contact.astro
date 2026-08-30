@@ -1,0 +1,503 @@
+---
+// =============================================================
+// src/pages/contact.astro — Safe Build Engineering
+// Contact page: enquiry + quote forms, map, contact info.
+//
+// Sections:
+//   1. Hero         — H1 + lead + hero image
+//   2. Get In Touch — contact info card (orange LEFT border only) + enquiry form
+//   3. Quote Form   — engineering specs quote, writes to Firestore quotes
+//   4. Map          — Google Maps iframe for real address
+//   5. CTA Banner   — Call Now + WhatsApp CTAs
+//
+// All form submissions → POST to this page (SSR), redirect back
+// with ?eq=1 or ?qr=1 on success. Firestore writes use lib/firestore.ts.
+// BaseLayout provides Navbar + Footer.
+// =============================================================
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+
+// ── COMPANY CONSTANTS ───────────────────────────────────────
+const ADDRESS     = '891, Murlipur Goyala, Near RSB Transmission Ltd., Behind Tata Telco, Deva Road, Lucknow — 226028';
+const PHONE       = '+91 99351 05322';
+const PHONE_TEL   = 'tel:+919935105322';
+const EMAIL       = 'safebuildengineering26@gmail.com';
+const WHATSAPP    = 'https://wa.me/919935105322';
+const HOURS       = 'Mon – Sat, 9:00 AM – 6:00 PM';
+const MAPS_EMBED  = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.9823!2d80.9482!3d26.8504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDUxJzAxLjQiTiA4MMKwNTYnNTMuNSJF!5e0!3m2!1sen!2sin!4v1234567890!5m2!1sen!2sin';
+
+// ── SSR: handle POST submissions ─────────────────────────────
+// Two distinct form IDs distinguish enquiry vs. quote.
+// On success → 302 redirect with flag to avoid re-POST on refresh.
+const url = new URL(Astro.request.url);
+const equSubmitted = url.searchParams.get('eq') === '1';  // enquiry success
+const qrSubmitted  = url.searchParams.get('qr') === '1';  // quote success
+let equError = false;
+let qrError  = false;
+
+if (Astro.request.method === 'POST') {
+  try {
+    const fd      = await Astro.request.formData();
+    const formId  = String(fd.get('_form') ?? '');
+
+    if (formId === 'enquiry') {
+      const name    = String(fd.get('name')    ?? '').trim();
+      const company = String(fd.get('company') ?? '').trim();
+      const email   = String(fd.get('email')   ?? '').trim();
+      const phone   = String(fd.get('phone')   ?? '').trim();
+      const message = String(fd.get('message') ?? '').trim();
+
+      if (name && email && message) {
+        const { submitEnquiry } = await import('../lib/firestore');
+        await submitEnquiry({ name, company, email, phone, message, source: 'contact-form' });
+        return Astro.redirect('/contact?eq=1#enquiry', 302);
+      }
+      equError = true;
+
+    } else if (formId === 'quote') {
+      const name     = String(fd.get('name')     ?? '').trim();
+      const company  = String(fd.get('company')  ?? '').trim();
+      const email    = String(fd.get('email')    ?? '').trim();
+      const phone    = String(fd.get('phone')    ?? '').trim();
+      const interest = String(fd.get('interest') ?? '').trim();
+      const capacity = String(fd.get('capacity') ?? '').trim();
+      const span     = String(fd.get('span')     ?? '').trim();
+      const notes    = String(fd.get('notes')    ?? '').trim();
+
+      if (name && email) {
+        const { submitQuote } = await import('../lib/firestore');
+        await submitQuote({ name, company, email, phone, productInterest: interest, capacity, span, liftHeight: '', additionalNotes: notes });
+        return Astro.redirect('/contact?qr=1#quote', 302);
+      }
+      qrError = true;
+    }
+  } catch (e) {
+    console.error('[contact] form submit failed:', e);
+    const fd2 = await Astro.request.formData().catch(() => null);
+    const fid = fd2 ? String(fd2.get('_form') ?? '') : '';
+    if (fid === 'enquiry') equError = true; else qrError = true;
+  }
+}
+---
+
+<BaseLayout
+  title="Contact — Safe Build Engineering"
+  description="Reach Safe Build Engineering's team in Lucknow. Get in touch for EOT cranes, gantry cranes, hoists, or custom lifting solutions. Call +91 99351 05322."
+  activePage="contact"
+>
+
+  {/* ================================================================
+      SECTION 1 — HERO
+      Big H1 (display-xl), generous padding, 2-col with factory image
+      ================================================================ */}
+  <section class="py-20 md:py-28 bg-surface-white border-b border-border-subtle">
+    <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+      <div class="flex flex-col gap-stack-md" data-aos="fade-up">
+        <SectionLabel text="— CONTACT US" />
+        <h1 class="font-display-xl text-display-xl text-on-surface uppercase leading-none mt-2">
+          Let's Talk<br />Lifting.
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mt-2">
+          Reach our engineering team to discuss your requirements, request a
+          site visit, or get a quote for your next project.
+        </p>
+      </div>
+
+      <div
+        class="relative w-full h-[380px] md:h-[440px] bg-image-placeholder border border-border-subtle overflow-hidden"
+        data-aos="fade-left"
+        data-aos-delay="100"
+      >
+        <img
+          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80"
+          alt="Industrial manufacturing floor — Safe Build Engineering Lucknow"
+          class="w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 2 — GET IN TOUCH + ENQUIRY FORM
+      Left: info card — orange LEFT border ONLY (3px), no outline box
+      Right: general enquiry form → Firestore enquiries collection
+      ================================================================ */}
+  <section class="py-section-padding bg-surface-white" id="enquiry">
+    <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12 gap-10">
+
+      {/* Left: contact info card — border-l-[3px] orange only */}
+      <div
+        class="md:col-span-5 flex flex-col gap-5 border-l-[3px] border-primary-container pl-6 py-2"
+        data-aos="fade-up"
+      >
+        <h2 class="font-headline-md text-headline-md text-on-surface uppercase">
+          Get In Touch
+        </h2>
+
+        {/* Address */}
+        <div class="flex items-start gap-4">
+          <span class="material-symbols-outlined text-primary-container text-[22px] mt-1 shrink-0">location_on</span>
+          <div>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Address</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              891, Murlipur Goyala,<br />
+              Near RSB Transmission Ltd.,<br />
+              Behind Tata Telco, Deva Road,<br />
+              Lucknow — 226028
+            </p>
+          </div>
+        </div>
+
+        {/* Phone */}
+        <div class="flex items-start gap-4">
+          <span class="material-symbols-outlined text-primary-container text-[22px] mt-1 shrink-0">call</span>
+          <div>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Phone</h3>
+            <a
+              href={PHONE_TEL}
+              class="font-body-md text-body-md text-on-surface-variant hover:text-primary-container transition-colors"
+            >
+              {PHONE}
+            </a>
+          </div>
+        </div>
+
+        {/* Email */}
+        <div class="flex items-start gap-4">
+          <span class="material-symbols-outlined text-primary-container text-[22px] mt-1 shrink-0">mail</span>
+          <div>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Email</h3>
+            <a
+              href={`mailto:${EMAIL}`}
+              class="font-body-md text-body-md text-on-surface-variant hover:text-primary-container transition-colors break-all"
+            >
+              {EMAIL}
+            </a>
+          </div>
+        </div>
+
+        {/* Hours */}
+        <div class="flex items-start gap-4">
+          <span class="material-symbols-outlined text-primary-container text-[22px] mt-1 shrink-0">schedule</span>
+          <div>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Working Hours</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">{HOURS}</p>
+          </div>
+        </div>
+
+        {/* WhatsApp CTA */}
+        <a
+          href={WHATSAPP}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-6 py-3 font-label-caps text-label-caps uppercase tracking-widest transition-colors self-start"
+          id="contact-whatsapp"
+        >
+          <span class="material-symbols-outlined text-[18px] leading-none">chat</span>
+          Chat on WhatsApp
+        </a>
+      </div>
+
+      {/* Right: enquiry form */}
+      <div
+        class="md:col-span-7 bg-image-placeholder border border-border-subtle p-card-padding"
+        data-aos="fade-up"
+        data-aos-delay="80"
+      >
+        <h2 class="font-headline-md text-headline-md text-on-surface uppercase mb-6">
+          Send an Enquiry
+        </h2>
+
+        {/* Success */}
+        {equSubmitted && (
+          <div class="border border-border-subtle bg-surface-white p-8 text-center" role="alert" id="enquiry-success">
+            <span
+              class="material-symbols-outlined text-primary-container text-[52px] block mb-4"
+              style="font-variation-settings: 'FILL' 1;"
+            >check_circle</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase mb-2">Enquiry Received</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Thank you — our team will get back to you within 24 hours.
+            </p>
+          </div>
+        )}
+
+        {/* Error */}
+        {equError && (
+          <div class="border border-error bg-error-container p-4 mb-6 flex items-start gap-3" role="alert">
+            <span class="material-symbols-outlined text-error text-[20px] mt-0.5 shrink-0">error</span>
+            <p class="font-body-md text-body-md text-error">
+              Please fill in all required fields and try again.
+            </p>
+          </div>
+        )}
+
+        {!equSubmitted && (
+          <form method="POST" action="/contact#enquiry" class="flex flex-col gap-stack-md" id="enquiry-form">
+            <input type="hidden" name="_form" value="enquiry" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label for="eq-name" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Full Name <span class="text-primary-container">*</span>
+                </label>
+                <input id="eq-name" name="name" type="text" required autocomplete="name" class="input-field" placeholder="Your full name" />
+              </div>
+              <div class="space-y-1">
+                <label for="eq-company" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Company Name
+                </label>
+                <input id="eq-company" name="company" type="text" autocomplete="organization" class="input-field" placeholder="Your company" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label for="eq-email" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Email Address <span class="text-primary-container">*</span>
+                </label>
+                <input id="eq-email" name="email" type="email" required autocomplete="email" class="input-field" placeholder="you@company.com" />
+              </div>
+              <div class="space-y-1">
+                <label for="eq-phone" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Phone Number
+                </label>
+                <input id="eq-phone" name="phone" type="tel" autocomplete="tel" class="input-field" placeholder="+91 98765 43210" />
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <label for="eq-message" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                Message <span class="text-primary-container">*</span>
+              </label>
+              <textarea id="eq-message" name="message" rows={4} required class="input-field resize-none" placeholder="Describe your requirement or question…"></textarea>
+            </div>
+
+            <button type="submit" id="enquiry-submit" class="btn-primary self-start mt-2">
+              Send Enquiry
+              <span class="material-symbols-outlined text-[18px] leading-none">arrow_forward</span>
+            </button>
+          </form>
+        )}
+
+      </div>
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 3 — QUOTE REQUEST
+      bg-image-placeholder, left: intro copy, right: quote form
+      Writes to Firestore quotes collection
+      ================================================================ */}
+  <section class="py-section-padding bg-image-placeholder border-y border-border-subtle" id="quote">
+    <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+      {/* Left */}
+      <div class="lg:col-span-5 flex flex-col gap-stack-md" data-aos="fade-up">
+        <SectionLabel text="— ENGINEERING SPECS" />
+        <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase mt-2">
+          Request a<br />Detailed Quote
+        </h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Provide your technical specifications and our engineering team will
+          prepare a comprehensive proposal tailored to your lifting requirements.
+        </p>
+      </div>
+
+      {/* Right: quote form */}
+      <div
+        class="lg:col-span-7 bg-surface-white border border-border-subtle p-card-padding"
+        data-aos="fade-up"
+        data-aos-delay="80"
+      >
+
+        {/* Success */}
+        {qrSubmitted && (
+          <div class="p-8 text-center" role="alert" id="quote-success">
+            <span
+              class="material-symbols-outlined text-primary-container text-[52px] block mb-4"
+              style="font-variation-settings: 'FILL' 1;"
+            >check_circle</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase mb-2">Quote Request Received</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+              Our engineering team will prepare your proposal within 24 hours.
+            </p>
+            <a href="/products" class="btn-secondary">View All Products</a>
+          </div>
+        )}
+
+        {/* Error */}
+        {qrError && (
+          <div class="border border-error bg-error-container p-4 mb-6 flex items-start gap-3" role="alert">
+            <span class="material-symbols-outlined text-error text-[20px] mt-0.5 shrink-0">error</span>
+            <p class="font-body-md text-body-md text-error">
+              Please fill in all required fields and try again.
+            </p>
+          </div>
+        )}
+
+        {!qrSubmitted && (
+          <form method="POST" action="/contact#quote" class="flex flex-col gap-stack-md" id="quote-form">
+            <input type="hidden" name="_form" value="quote" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label for="qr-name" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Full Name <span class="text-primary-container">*</span>
+                </label>
+                <input id="qr-name" name="name" type="text" required autocomplete="name" class="input-field" placeholder="Your full name" />
+              </div>
+              <div class="space-y-1">
+                <label for="qr-company" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Company
+                </label>
+                <input id="qr-company" name="company" type="text" autocomplete="organization" class="input-field" placeholder="Your company" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label for="qr-email" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Email <span class="text-primary-container">*</span>
+                </label>
+                <input id="qr-email" name="email" type="email" required autocomplete="email" class="input-field" placeholder="you@company.com" />
+              </div>
+              <div class="space-y-1">
+                <label for="qr-phone" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Phone
+                </label>
+                <input id="qr-phone" name="phone" type="tel" autocomplete="tel" class="input-field" placeholder="+91 98765 43210" />
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <label for="qr-interest" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                Product Interest
+              </label>
+              <select id="qr-interest" name="interest" class="input-field">
+                <option value="EOT Cranes">EOT Cranes</option>
+                <option value="Gantry Cranes">Gantry Cranes</option>
+                <option value="Hoists">Hoists</option>
+                <option value="Custom Engineering">Custom Engineering</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label for="qr-capacity" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Required Capacity (Tons)
+                </label>
+                <input id="qr-capacity" name="capacity" type="text" class="input-field" placeholder="e.g. 10 Ton" />
+              </div>
+              <div class="space-y-1">
+                <label for="qr-span" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                  Required Span (Meters)
+                </label>
+                <input id="qr-span" name="span" type="text" class="input-field" placeholder="e.g. 20m" />
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <label for="qr-notes" class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider">
+                Additional Notes
+              </label>
+              <textarea id="qr-notes" name="notes" rows={3} class="input-field resize-none" placeholder="Any special requirements, site conditions, or specifications…"></textarea>
+            </div>
+
+            <button type="submit" id="quote-submit" class="btn-primary self-start w-full md:w-auto mt-2">
+              Request Quote
+              <span class="material-symbols-outlined text-[18px] leading-none">arrow_forward</span>
+            </button>
+          </form>
+        )}
+
+      </div>
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 4 — MAP
+      Real Google Maps iframe for the Lucknow address
+      ================================================================ */}
+  <section class="py-section-padding bg-surface-white border-b border-border-subtle">
+    <div class="max-w-container-max mx-auto px-gutter flex flex-col gap-8 items-center text-center">
+
+      <div data-aos="fade-up">
+        <SectionLabel text="— LOCATION" />
+        <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase mt-4">Find Us</h2>
+      </div>
+
+      {/* Google Maps embed */}
+      <div
+        class="w-full h-[420px] border border-border-subtle overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+        data-aos="fade-up"
+        data-aos-delay="80"
+      >
+        <iframe
+          title="Safe Build Engineering — Lucknow Office Location"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8824278055395!2d80.97583557543736!3d26.85083097672107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfda9c2e0b5cf%3A0x93e248da1a1c6e78!2sDeva%20Rd%2C%20Lucknow%2C%20Uttar%20Pradesh%20226028!5e0!3m2!1sen!2sin!4v1725023400000!5m2!1sen!2sin"
+          width="100%"
+          height="420"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl" data-aos="fade-up">
+        891, Murlipur Goyala, Near RSB Transmission Ltd.,<br />
+        Behind Tata Telco, Deva Road, Lucknow — 226028
+      </p>
+
+    </div>
+  </section>
+
+
+  {/* ================================================================
+      SECTION 5 — CTA BANNER (orange bg)
+      Call Now → tel: | WhatsApp → wa.me
+      ================================================================ */}
+  <section class="py-section-padding bg-primary-container">
+    <div class="max-w-container-max mx-auto px-gutter text-center flex flex-col items-center gap-stack-md">
+
+      <h2 class="font-display-xl text-display-xl text-white uppercase leading-none" data-aos="fade-up">
+        Need an Urgent<br />Consultation?
+      </h2>
+      <p class="font-body-lg text-body-lg text-white/90 max-w-2xl" data-aos="fade-up" data-aos-delay="80">
+        Call us directly or WhatsApp for the fastest response on your requirements.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 mt-6" data-aos="fade-up" data-aos-delay="160">
+        <a
+          href={PHONE_TEL}
+          class="btn-dark"
+          id="cta-call"
+        >
+          <span class="material-symbols-outlined text-[18px] leading-none">call</span>
+          Call Now
+        </a>
+        <a
+          href={WHATSAPP}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-ghost"
+          id="cta-whatsapp"
+        >
+          <span class="material-symbols-outlined text-[18px] leading-none">chat</span>
+          WhatsApp Us
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>

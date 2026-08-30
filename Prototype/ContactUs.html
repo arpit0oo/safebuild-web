@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Contact - Safe Build Engineering</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&amp;family=Inter:wght@400;500&amp;family=Barlow+Condensed:wght@600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#121c28",
+                        "error-container": "#ffdad6",
+                        "primary": "#9d4300",
+                        "on-tertiary-container": "#293340",
+                        "surface-bright": "#f6fafe",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#919bab",
+                        "surface-container-high": "#e4e9ed",
+                        "on-error-container": "#93000a",
+                        "border-subtle": "#E5E7EB",
+                        "image-placeholder": "#F1F5F9",
+                        "primary-fixed": "#ffdbca",
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "on-background": "#171c1f",
+                        "background": "#f6fafe",
+                        "surface": "#f6fafe",
+                        "tertiary-fixed-dim": "#bdc7d8",
+                        "tertiary": "#555f6d",
+                        "surface-container-highest": "#dfe3e7",
+                        "inverse-on-surface": "#edf1f5",
+                        "surface-container-low": "#f0f4f8",
+                        "surface-variant": "#dfe3e7",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#341100",
+                        "on-secondary-container": "#61646c",
+                        "on-tertiary-fixed-variant": "#3e4755",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "secondary-fixed": "#dfe2eb",
+                        "on-surface": "#171c1f",
+                        "inverse-primary": "#ffb690",
+                        "on-surface-variant": "#584237",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#dfe2eb",
+                        "surface-tint": "#9d4300",
+                        "outline-variant": "#e0c0b1",
+                        "on-primary-fixed-variant": "#783200",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-white": "#FFFFFF",
+                        "on-secondary-fixed": "#181c22",
+                        "surface-container": "#eaeef2",
+                        "primary-container": "#f97316",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8c7164",
+                        "on-primary-container": "#582200",
+                        "tertiary-fixed": "#d9e3f4",
+                        "inverse-surface": "#2c3134",
+                        "surface-dim": "#d6dade",
+                        "secondary": "#5b5e66"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    spacing: {
+                        "stack-lg": "2rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1200px",
+                        "card-padding": "2rem",
+                        "stack-md": "1rem",
+                        "stack-sm": "0.5rem",
+                        "section-padding": "5rem"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Rajdhani"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Rajdhani"],
+                        "headline-lg": ["Rajdhani"],
+                        "label-caps": ["Barlow Condensed"],
+                        "headline-md": ["Rajdhani"],
+                        "display-xl": ["Rajdhani"],
+                        "body-md": ["Inter"],
+                        "technical-data": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-caps": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display-xl": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "technical-data": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-surface-white text-on-surface font-body-md antialiased">
+    <!-- Page Hero -->
+    <section class="py-section-padding bg-surface-white border-b border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center">
+                <div class="flex flex-col gap-stack-md">
+                    <span class="font-label-caps text-label-caps text-primary-container uppercase tracking-wider">—
+                        CONTACT US</span>
+                    <h1 class="font-display-xl text-display-xl text-on-surface md:hidden">Let's Talk Lifting.</h1>
+                    <h1 class="font-display-xl text-display-xl text-on-surface hidden md:block">Let's Talk Lifting.</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        Reach our engineering team to discuss your requirements, request a site visit, or get a quote
+                        for your next project.
+                    </p>
+                </div>
+                <div class="relative w-full h-[400px] bg-image-placeholder border border-border-subtle">
+                    <img alt="Industrial Manufacturing Floor" class="object-cover w-full h-full"
+                        data-alt="A wide angle photograph of a modern, clean industrial manufacturing floor bathed in bright, white light. The aesthetic is highly technical and precise, featuring steel structures, a striking yellow gantry crane overhead, and engineers in high-visibility gear working diligently. The mood conveys engineering excellence and industrial strength."
+                        src="https://lh3.googleusercontent.com/aida/AEtjO1VzOEY81sLZMt3kSHxTPs-wKI-GfBCdXn1F-xDSAgjmmI_6omJgGeNoYLN-yKOKZcVj0u9DfKZrs8w9dt257_L76-dEx-LhSeDXo37l1uoxLB5JQVqRuLl8mPlzLK5VJO6LTy4aUpbB11-aOURWDdgT50Oa4LLGniLaJT42sLJxJtTbz70WvFLSp9UpwOFJId0FHI1IBDExU1icjXROcR0SmFEykOX-zMBPcG4g1cKZIMHtJrp8SB6VZS4" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Info + Form -->
+    <section class="py-section-padding bg-surface-white">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-stack-lg">
+                <!-- Contact Info (40%) -->
+                <div
+                    class="md:col-span-5 flex flex-col gap-stack-md border-l-4 border-primary-container pl-6 py-4 bg-surface-container-lowest border-y border-r border-border-subtle shadow-sm">
+                    <h2
+                        class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-4">
+                        Get In Touch</h2>
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-primary-container mt-1">location_on</span>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm mb-1">Address</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant">
+                                891, Murlipur Goyala, Near-RSB Transmission Ltd.<br />
+                                Behind Tata Telco, Deva Road,<br />
+                                Lucknow - 226028
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 mt-2">
+                        <span class="material-symbols-outlined text-primary-container mt-1">call</span>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm mb-1">Phone</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant">+91 99351 05322</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 mt-2">
+                        <span class="material-symbols-outlined text-primary-container mt-1">mail</span>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm mb-1">Email</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant">
+                                safebuildengineering26@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 mt-2 mb-4">
+                        <span class="material-symbols-outlined text-primary-container mt-1">schedule</span>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm mb-1">Working Hours</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Mon–Sat, 9:00 AM – 6:00 PM</p>
+                        </div>
+                    </div>
+                    <a class="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-6 py-3 font-label-caps text-label-caps transition-colors border border-[#25D366] self-start"
+                        href="#">
+                        Chat on WhatsApp <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <!-- Enquiry Form (60%) -->
+                <div
+                    class="md:col-span-7 bg-surface-container-lowest border border-border-subtle p-card-padding shadow-sm">
+                    <h2
+                        class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-6">
+                        Send an Enquiry</h2>
+                    <form class="flex flex-col gap-stack-md">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Full
+                                    Name</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    placeholder="ENTER NAME" type="text" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Company
+                                    Name</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    placeholder="ENTER COMPANY" type="text" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Email
+                                    Address</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    placeholder="ENTER EMAIL" type="email" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Phone
+                                    Number</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    placeholder="ENTER PHONE" type="tel" />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Message</label>
+                            <textarea
+                                class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container resize-none"
+                                placeholder="DESCRIBE YOUR REQUIREMENT" rows="4"></textarea>
+                        </div>
+                        <button
+                            class="bg-primary-container hover:bg-[#EA6C0A] text-white px-8 py-4 font-label-caps text-label-caps uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2 self-start mt-2 border border-primary-container"
+                            type="submit">
+                            Send Enquiry <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Quote Request -->
+    <section class="py-section-padding bg-image-placeholder border-y border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
+                <div class="lg:col-span-5 flex flex-col gap-stack-md">
+                    <span class="font-label-caps text-label-caps text-primary-container uppercase tracking-wider">—
+                        ENGINEERING SPECS</span>
+                    <h2
+                        class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">
+                        Request a Detailed Quote</h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">
+                        Provide us with your technical specifications and our engineering team will prepare a
+                        comprehensive proposal tailored to your lifting requirements.
+                    </p>
+                </div>
+                <div class="lg:col-span-7 bg-surface-white border border-border-subtle p-card-padding shadow-sm">
+                    <form class="flex flex-col gap-stack-md">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Full
+                                    Name</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    type="text" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Company</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    type="text" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Email</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    type="email" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Phone</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    type="tel" />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Product
+                                Interest</label>
+                            <select
+                                class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface">
+                                <option>EOT Cranes</option>
+                                <option>Gantry Cranes</option>
+                                <option>Hoists</option>
+                                <option>Custom Engineering</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Required
+                                    Capacity (Tons)</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    type="text" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Required
+                                    Span (Meters)</label>
+                                <input
+                                    class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container"
+                                    type="text" />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block font-technical-data text-technical-data text-on-surface-variant mb-2 uppercase">Additional
+                                Notes</label>
+                            <textarea
+                                class="w-full border border-border-subtle px-4 py-3 bg-surface-white focus:outline-none focus:border-primary-container focus:ring-0 font-body-md text-on-surface placeholder-tertiary-container resize-none"
+                                rows="3"></textarea>
+                        </div>
+                        <button
+                            class="bg-primary-container hover:bg-[#EA6C0A] text-white px-8 py-4 font-label-caps text-label-caps uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2 w-full md:w-auto self-start mt-2 border border-primary-container"
+                            type="submit">
+                            Request Quote <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Map Section -->
+    <section class="py-section-padding bg-surface-white">
+        <div class="max-w-container-max mx-auto px-gutter flex flex-col gap-stack-lg items-center text-center">
+            <h2
+                class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">
+                Find Us</h2>
+            <div
+                class="w-full h-[400px] bg-image-placeholder border border-border-subtle flex items-center justify-center relative overflow-hidden group cursor-crosshair">
+                <div class="absolute inset-0 bg-image-placeholder opacity-50 flex items-center justify-center"
+                    data-location="Lucknow" style="">
+                    <img alt="Map of Lucknow Location" class="object-cover w-full h-full opacity-60 mix-blend-multiply"
+                        data-alt="A highly detailed, technical blueprint-style map of Lucknow industrial area, specifically highlighting Deva Road. The aesthetic is clean, light-mode, with sharp lines, a light grey background, and precise orange crosshair markers indicating the factory location. It looks like an engineering schematic rather than a consumer map."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJX2PUJ7IXMW4gGuzFYu6hIiiEtr6FIIHYmft4u53BmsL3yz9pgtiGHFXsAy31dM_GuGdAjWZl-jDSMsiVpkxode4gziy5ZUzgrszQJQE72mq0GAbxTdWg4UjHIR4O0FZtpJTtFoOwF_ghth6mBZ5-qd-tx5s-_KJwT-TT1uA9YDhXd098xr6J78ZIcl5XoUZg-czqqrFL6KmOsHrV1Q3p9RAgsSPufLJLSP_pXFcBNmtHeVUA5y2K" />
+                </div>
+                <div
+                    class="z-10 flex flex-col items-center bg-surface-white/90 p-4 border border-border-subtle backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-primary-container text-4xl mb-2">my_location</span>
+                    <span class="font-technical-data text-technical-data uppercase text-on-surface tracking-widest">Safe
+                        Build HQ</span>
+                </div>
+            </div>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                891, Murlipur Goyala, Near-RSB Transmission Ltd.<br />
+                Behind Tata Telco, Deva Road, Lucknow - 226028
+            </p>
+        </div>
+    </section>
+    <!-- CTA Banner -->
+    <section class="py-section-padding bg-primary-container text-white border-t border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter text-center flex flex-col items-center gap-stack-md">
+            <h2 class="font-display-xl text-display-xl text-white">Need an Urgent Consultation?</h2>
+            <p class="font-body-lg text-body-lg text-white/90 max-w-2xl">
+                Call us directly or WhatsApp for fastest response on your urgent requirements.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                <a class="bg-[#0D1117] hover:bg-black text-white px-8 py-4 font-label-caps text-label-caps uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2 border border-[#0D1117]"
+                    href="#">
+                    <span class="material-symbols-outlined text-sm">call</span> Call Now
+                </a>
+                <a class="bg-transparent hover:bg-white hover:text-primary-container text-white px-8 py-4 font-label-caps text-label-caps uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2 border-2 border-white"
+                    href="#">
+                    <span class="material-symbols-outlined text-sm">chat</span> WhatsApp Us
+                </a>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
