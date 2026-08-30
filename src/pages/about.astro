@@ -1,0 +1,377 @@
+---
+// =============================================================
+// about.astro — Safe Build Engineering
+// Phase 3: Converted from Prototype/about-raw.html
+// Static page — no Firestore data needed.
+//
+// Sections:
+//   1. Hero         — headline, lead, CTA buttons, hero image
+//   2. Our Story    — image + left-border text block
+//   3. Vision & Mission — 2-col card grid
+//   4. Why We're Different — 4-item feature grid
+//   5. Core Values  — horizontal 5-item strip
+//   6. CTA Banner   — orange full-width CTA (CTABanner component)
+// =============================================================
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+// Data arrays — kept in frontmatter so the template stays clean
+const features = [
+  {
+    icon: 'verified_user',
+    title: 'Safety First',
+    description:
+      'Every component undergoes exhaustive load testing and stress analysis before deployment. We build machinery meant to protect operators.',
+  },
+  {
+    icon: 'architecture',
+    title: 'Precision Engineering',
+    description:
+      'Utilizing modern CAD modeling and CNC machining to achieve exact tolerances, ensuring smooth operation and minimal wear over time.',
+  },
+  {
+    icon: 'handyman',
+    title: 'Custom Solutions',
+    description:
+      'We design bespoke lifting systems tailored to the specific spatial and load requirements of your facility, ensuring optimal workflow.',
+  },
+  {
+    icon: 'support_agent',
+    title: 'End-to-End Support',
+    description:
+      'From initial structural consultation and manufacturing to installation and ongoing technical maintenance, we provide complete oversight.',
+  },
+];
+
+const coreValues = [
+  { icon: 'gavel',           label: 'Integrity'   },
+  { icon: 'lightbulb',       label: 'Innovation'  },
+  { icon: 'health_and_safety', label: 'Safety'    },
+  { icon: 'high_quality',    label: 'Quality'     },
+  { icon: 'sync',            label: 'Reliability' },
+];
+
+// Dot-grid SVG overlay (encoded as base64 — same as prototype)
+const dotGridOverlay = `url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiLz48L3N2Zz4=")`;
+---
+
+<BaseLayout
+  title="About Us — Safe Build Engineering"
+  description="Learn about Safe Build Engineering — an Indian crane manufacturer built on precision, safety, and zero-margin engineering. EOT cranes, gantry cranes, and hoists."
+  activePage="about"
+>
+
+  <!-- ============================================================
+       SECTION 1 — HERO
+       White bg, 2-col: left = copy + CTAs | right = full-bleed image
+       ============================================================ -->
+  <section class="w-full bg-surface-white border-b border-border-subtle">
+    <div class="max-w-container-max mx-auto px-gutter md:px-0">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-0 min-h-[600px] items-stretch">
+
+        <!-- Left: Copy -->
+        <div class="flex flex-col justify-center py-section-padding md:pr-12 md:pl-gutter">
+
+          <SectionLabel text="ABOUT US" />
+
+          <h1
+            class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-[64px] text-on-surface mb-stack-md font-bold leading-[1.1]"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            Built on Precision.<br />Driven by Safety.
+          </h1>
+
+          <p
+            class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg max-w-[500px]"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            We are a newly established engineering firm specializing in
+            high-performance cranes and lifting solutions. Our mandate is simple:
+            deliver structurally sound, meticulously designed machinery for the
+            modern industrial landscape.
+          </p>
+
+          <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
+            <a href="/contact?type=quote" class="btn-primary">
+              Get a Quote
+            </a>
+            <a href="/products" class="btn-secondary">
+              View Products
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right: Hero Image (hidden on mobile) -->
+        <div class="hidden md:block relative bg-image-placeholder h-full w-full overflow-hidden">
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr3rlCLVanouxMzkR-CruLaFOXkPR8i0diNC_alpyBdhwps5k3D6wAyamCYJKqplc8tIM63zJelrNmik8mGrX5npmbXyV829DCtUT6HCr2UzV-OB7zsd7JKB6MbtaXxubaMD5ThpP2Z3i8J5-dzOyeK8BtbdMnoCBAy5P_cx1Z6OJVDlm4rt8NGd2veCUkovJcPihfwlJpZY3QX_av8wxPDpXuy8B_Vyi2ccBE2JBvUT6yfQtnMpiV"
+            alt="Industrial crane at a construction site — Safe Build Engineering"
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <!-- Technical dot-grid overlay — matches prototype -->
+          <div
+            class="absolute inset-0 pointer-events-none"
+            style={`background-image: ${dotGridOverlay};`}
+            aria-hidden="true"
+          ></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 2 — OUR STORY
+       Grey bg, 2-col: left = framed image | right = orange-left-border text
+       ============================================================ -->
+  <section class="w-full bg-image-placeholder py-section-padding border-b border-border-subtle">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center">
+
+        <!-- Image with inner border frame (prototype detail) -->
+        <div
+          class="relative bg-image-placeholder aspect-[4/3] border border-border-subtle overflow-hidden"
+          data-aos="fade-right"
+        >
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZmKbjgHXwmqCh4lEHBEHWLb3gEvGGtxYVWje2w1jPPusRMuWyz3Y9ceB5_fR1BIvEV80_Bgi_i11YQ85C_Meg0YZ6g8d1wpaJyUxxy7fLT79ix6sq3CGIygrLI2J6UtEQFbAb79YKxYDePsECX_WdpR3v_NVASpa2IT69uJ_LyWHlf0spkItEqTB6Z_8isAj1Gg82f49H7neGCTuZa0wPHgKEPR9kW21Nx6VLJd4iN7kCaJi5nOxq"
+            alt="EOT crane assembly line at Safe Build Engineering facility"
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+          <!-- Inner border frame — prototype detail -->
+          <div
+            class="absolute inset-0 border border-on-surface opacity-10 m-2 pointer-events-none"
+            aria-hidden="true"
+          ></div>
+        </div>
+
+        <!-- Text block: left orange 3px border -->
+        <div
+          class="pl-0 md:pl-8 border-l-[3px] border-primary-container py-4"
+          data-aos="fade-left"
+          data-aos-delay="100"
+        >
+          <h2 class="font-headline-md text-headline-md text-on-surface mb-stack-md">
+            Our Story
+          </h2>
+          <div class="font-body-md text-body-md text-on-surface-variant space-y-4">
+            <p>
+              Safe Build Engineering was founded with a singular focus: to engineer
+              cranes that Indian industries can trust unconditionally. We recognized
+              a need in the market for heavy lifting equipment that prioritizes
+              structural integrity and operational safety without compromise.
+            </p>
+            <p>
+              Operating from a state-of-the-art facility, our engineering team
+              utilizes rigorous testing and precision manufacturing techniques.
+              Every EOT crane, gantry, and hoist we produce is a testament to our
+              commitment to building reliable, heavy-duty machinery for critical
+              infrastructure projects.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 3 — VISION & MISSION
+       White bg, 2-col card grid.
+       Each card: left orange border, icon + title + body, hover overlay.
+       ============================================================ -->
+  <section class="w-full bg-surface-white py-section-padding border-b border-border-subtle">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+
+        <!-- Vision Card -->
+        <div
+          class="bg-surface-white border border-border-subtle p-card-padding card-hover relative group border-l-[3px] border-l-primary shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+          data-aos="fade-up"
+          data-aos-delay="0"
+        >
+          <!-- Animated left border glow on hover -->
+          <div
+            class="absolute top-0 left-0 w-[3px] h-full bg-primary-container opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            aria-hidden="true"
+          ></div>
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="material-symbols-outlined text-[32px] text-primary-container leading-none shrink-0 mt-0.5">
+              visibility
+            </span>
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">
+                Our Vision
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                To set a new benchmark for structural safety and engineering precision
+                in the Indian heavy lifting sector, becoming the preferred partner for
+                critical infrastructure development.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mission Card -->
+        <div
+          class="bg-surface-white border border-border-subtle p-card-padding card-hover relative group border-l-[3px] border-l-primary shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <div
+            class="absolute top-0 left-0 w-[3px] h-full bg-primary-container opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            aria-hidden="true"
+          ></div>
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="material-symbols-outlined text-[32px] text-primary-container leading-none shrink-0 mt-0.5">
+              flag
+            </span>
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">
+                Our Mission
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                To design and manufacture industrial cranes with zero-margin error.
+                We execute rigorous quality control and utilize advanced materials
+                to ensure maximum operational uptime and safety for our clients.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 4 — WHY WE'RE DIFFERENT
+       Grey bg, centre-aligned heading, 2×2 feature card grid.
+       ============================================================ -->
+  <section class="w-full bg-image-placeholder border-b border-border-subtle pt-section-padding pb-section-padding">
+    <div class="max-w-container-max mx-auto px-gutter">
+
+      <!-- Section heading -->
+      <div class="text-center mb-12" data-aos="fade-up">
+        <SectionLabel text="THE SAFE BUILD ADVANTAGE" class="justify-center" />
+        <h2 class="font-headline-md text-headline-md text-on-surface">
+          Why We're Different
+        </h2>
+      </div>
+
+      <!-- Feature grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+        {features.map((feature, i) => (
+          <div
+            class="bg-surface-white border border-border-subtle p-stack-lg card-hover flex flex-col md:flex-row gap-4 items-start"
+            data-aos="fade-up"
+            data-aos-delay={String(i * 80)}
+          >
+            <!-- Icon box -->
+            <div class="p-2 border border-border-subtle shrink-0">
+              <span class="material-symbols-outlined text-primary-container text-[24px] leading-none block">
+                {feature.icon}
+              </span>
+            </div>
+            <!-- Text -->
+            <div>
+              <h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">
+                {feature.title}
+              </h4>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                {feature.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 5 — CORE VALUES
+       White bg, horizontal strip of 5 values divided by vertical borders.
+       ============================================================ -->
+  <section class="w-full bg-surface-white py-section-padding border-b border-border-subtle overflow-hidden">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div
+        class="flex flex-wrap md:flex-nowrap justify-between gap-stack-md border-t border-b border-border-subtle py-8"
+        data-aos="fade-up"
+      >
+        {coreValues.map((value, i) => (
+          <div
+            class={[
+              'flex items-center gap-3 w-full md:w-auto md:flex-1 md:justify-center md:px-8 pb-4 md:pb-0',
+              i < coreValues.length - 1 ? 'md:border-r border-border-subtle' : '',
+            ].join(' ')}
+          >
+            <span class="material-symbols-outlined text-primary-container text-[28px] leading-none shrink-0">
+              {value.icon}
+            </span>
+            <div>
+              <span class="font-technical-data text-on-surface block uppercase tracking-wider" style="font-size: 16px;">
+                {value.label}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 6 — CTA BANNER
+       Full orange band — uses the CTABanner reusable component.
+       ============================================================ -->
+  <CTABanner
+    heading="Ready to Lift Your Operations?"
+    subtext="Contact our engineering team today to discuss load requirements and site-specific structural solutions."
+    primaryLabel="Get a Quote"
+    primaryHref="/contact?type=quote"
+    secondaryLabel="View Our Products"
+    secondaryHref="/products"
+  />
+
+
+  <!-- ============================================================
+       PAGE-LEVEL GSAP ANIMATION
+       Hero H1 split character entrance. Runs after Lenis/AOS init.
+       ============================================================ -->
+  <script>
+    // GSAP hero headline entrance animation
+    // Runs only on this page via Astro's island script scoping
+    import { gsap } from 'gsap';
+
+    document.addEventListener('astro:page-load', () => {
+      const h1 = document.querySelector('h1');
+      if (!h1) return;
+
+      // Fade + slide up from slightly below
+      gsap.fromTo(
+        h1,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          delay: 0.15,
+        }
+      );
+    });
+  </script>
+
+</BaseLayout>

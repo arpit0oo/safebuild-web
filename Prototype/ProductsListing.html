@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html class="light" lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Safe Build Engineering - Products</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&amp;family=Inter:wght@400;500&amp;family=Rajdhani:wght@600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#ffb690",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dfe3e7",
+                        "on-tertiary-fixed": "#121c28",
+                        "surface-tint": "#9d4300",
+                        "inverse-surface": "#2c3134",
+                        "tertiary-fixed": "#d9e3f4",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "surface-bright": "#f6fafe",
+                        "on-tertiary-fixed-variant": "#3e4755",
+                        "outline": "#8c7164",
+                        "primary": "#9d4300",
+                        "border-subtle": "#E5E7EB",
+                        "outline-variant": "#e0c0b1",
+                        "primary-fixed": "#ffdbca",
+                        "on-surface": "#171c1f",
+                        "secondary-container": "#dfe2eb",
+                        "secondary": "#5b5e66",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#dfe3e7",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#582200",
+                        "surface-container": "#eaeef2",
+                        "on-secondary-container": "#61646c",
+                        "tertiary": "#555f6d",
+                        "on-background": "#171c1f",
+                        "surface-white": "#FFFFFF",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f0f4f8",
+                        "tertiary-fixed-dim": "#bdc7d8",
+                        "on-tertiary-container": "#293340",
+                        "on-primary-fixed-variant": "#783200",
+                        "on-surface-variant": "#584237",
+                        "surface-container-high": "#e4e9ed",
+                        "image-placeholder": "#F1F5F9",
+                        "tertiary-container": "#919bab",
+                        "surface-dim": "#d6dade",
+                        "background": "#f6fafe",
+                        "inverse-on-surface": "#edf1f5",
+                        "primary-fixed-dim": "#ffb690",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "primary-container": "#f97316",
+                        "secondary-fixed": "#dfe2eb",
+                        "on-primary-fixed": "#341100",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f6fafe",
+                        "on-secondary-fixed": "#181c22"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "section-padding": "5rem",
+                        "stack-lg": "2rem",
+                        "gutter": "1.5rem",
+                        "card-padding": "2rem",
+                        "container-max": "1200px",
+                        "stack-md": "1rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": [
+                            "Rajdhani"
+                        ],
+                        "body-md": [
+                            "Inter"
+                        ],
+                        "display-xl": [
+                            "Rajdhani"
+                        ],
+                        "headline-sm": [
+                            "Rajdhani"
+                        ],
+                        "label-caps": [
+                            "Barlow Condensed"
+                        ],
+                        "body-lg": [
+                            "Inter"
+                        ],
+                        "headline-md": [
+                            "Rajdhani"
+                        ],
+                        "headline-lg": [
+                            "Rajdhani"
+                        ],
+                        "technical-data": [
+                            "Inter"
+                        ]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": [
+                            "32px",
+                            {
+                                "lineHeight": "1.2",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "display-xl": [
+                            "72px",
+                            {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "headline-sm": [
+                            "24px",
+                            {
+                                "lineHeight": "1.4",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "label-caps": [
+                            "14px",
+                            {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "0.15em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "headline-md": [
+                            "32px",
+                            {
+                                "lineHeight": "1.3",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "1.2",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "technical-data": [
+                            "13px",
+                            {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                            }
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .hover-accent-border:hover {
+            border-left-width: 3px;
+            border-left-color: #F97316;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body-md antialiased">
+    <!-- TopNavBar -->
+    <nav
+        class="bg-surface-white dark:bg-inverse-surface border-b border-border-subtle dark:border-outline-variant w-full z-50 sticky top-0 rounded-none">
+        <div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
+            <div
+                class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-inverse-on-surface uppercase tracking-wider">
+                Safe Build Engineering
+            </div>
+            <div class="hidden md:flex gap-gutter items-center font-label-caps text-label-caps uppercase">
+                <a class="text-primary border-b-2 border-primary pb-1" href="#">EOT Cranes</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200 pb-1"
+                    href="#">Gantry Cranes</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200 pb-1"
+                    href="#">Hoists</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200 pb-1"
+                    href="#">Engineering</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200 pb-1"
+                    href="#">Certifications</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200 pb-1"
+                    href="#">Contact</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4">
+                <span
+                    class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">search</span>
+                <button
+                    class="bg-primary-container text-surface-white font-label-caps text-label-caps px-6 py-3 uppercase tracking-wider hover:bg-[#EA6C0A] transition-colors rounded-none">
+                    Request Quote
+                </button>
+            </div>
+            <button class="md:hidden flex items-center">
+                <span class="material-symbols-outlined text-on-surface">menu</span>
+            </button>
+        </div>
+    </nav>
+    <!-- Page Hero -->
+    <section class="bg-surface-white border-b border-border-subtle w-full flex items-center min-h-[400px]">
+        <div
+            class="max-w-container-max mx-auto px-gutter w-full grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center py-section-padding md:py-0">
+            <div class="flex flex-col gap-stack-sm pr-0 md:pr-12">
+                <div
+                    class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-2">
+                    <span class="">—</span> OUR PRODUCTS
+                </div>
+                <h1
+                    class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface uppercase mt-2">
+                    Precision Cranes. Built for India.
+                </h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant mt-4 max-w-lg">
+                    Explore our full range of EOT cranes, gantry cranes, and hoists — engineered for reliability in the
+                    most demanding industrial environments.
+                </p>
+            </div>
+            <div class="h-64 md:h-[400px] w-full bg-image-placeholder relative border-l border-border-subtle">
+                <img class="w-full h-full object-cover grayscale-[20%] contrast-125"
+                    data-alt="Wide shot of a massive industrial manufacturing facility in daylight. Giant yellow overhead EOT cranes stretch across the factory ceiling. Heavy steel machinery, organized aisles, and workers in hard hats below. Professional, high-contrast industrial lighting. Clean, structural, and powerful aesthetic."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj2FlvGzfYJvklhosomGBaTFYJahWsw-1_oiT-9QNgmlfXfOKiWhODzmccTH6bwKyk2NeTaZyV5K_RT4DIOOqiIq3a4UCJuo02Q9fQYb5R3O1qTUGS84pY-kHTXgOwCb0ks7p-mJnMqxp5Br-D504H4OmnOZVAsmtxY2sIBA3fXYU6FVupGXRJSJoqxjE002lCL8vDI-3CNCsGBCzGqW3gtZt4hNhqW_PmzOMTeps0mB9Bdl0JmiRU">
+            </div>
+        </div>
+    </section>
+    <!-- Category Filter Bar -->
+    <section class="bg-[#F1F5F9] border-b border-border-subtle w-full">
+        <div class="max-w-container-max mx-auto px-gutter py-4">
+            <div class="flex flex-wrap gap-4 font-label-caps text-label-caps uppercase tracking-widest">
+                <button
+                    class="bg-primary-container text-surface-white px-6 py-3 flex items-center gap-2 border border-primary-container">
+                    All Products <span
+                        class="bg-surface-white text-primary-container px-2 py-0.5 font-technical-data text-technical-data">9</span>
+                </button>
+                <button
+                    class="bg-surface-white text-on-surface-variant px-6 py-3 flex items-center gap-2 border border-border-subtle hover:text-primary-container hover:border-primary-container transition-colors">
+                    EOT Cranes <span
+                        class="bg-[#F1F5F9] text-on-surface-variant px-2 py-0.5 font-technical-data text-technical-data">5</span>
+                </button>
+                <button
+                    class="bg-surface-white text-on-surface-variant px-6 py-3 flex items-center gap-2 border border-border-subtle hover:text-primary-container hover:border-primary-container transition-colors">
+                    Gantry Cranes <span
+                        class="bg-[#F1F5F9] text-on-surface-variant px-2 py-0.5 font-technical-data text-technical-data">2</span>
+                </button>
+                <button
+                    class="bg-surface-white text-on-surface-variant px-6 py-3 flex items-center gap-2 border border-border-subtle hover:text-primary-container hover:border-primary-container transition-colors">
+                    Hoists <span
+                        class="bg-[#F1F5F9] text-on-surface-variant px-2 py-0.5 font-technical-data text-technical-data">2</span>
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- Products Grid -->
+    <section class="bg-surface-white py-section-padding w-full">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- EOT Crane 1 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            EOT CRANE</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1Vf_foxYXa6ITe_RUdOGgvJt12SjXEhVH_2E2mhDzJqsXr8oeUaWfvLwLeZa0rAGhkP_qcN3uoG9y-jOsk28thFJEhGJa41lNui3b5u69PYvbCR1u47N8dr7pEejmg3GKzd8nKA2NERpNoBXM0J3gJ6iHaFFluSFs_uJ5sJtTy_rfc31P29RgYvx0OWDEVcNbn6RaMgv-cvTQ4PFX6akzmiGByINi8c5j75x_OFT6FJKaJ1_3CLhuliWVU"
+                            alt="Double Girder EOT Crane">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Titan Series
+                                D-Girder</h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">50
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Heavy-duty double
+                            girder design for high-capacity manufacturing and steel yards.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- EOT Crane 2 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            EOT CRANE</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1UeHP5kuwQIU9Kd5KCRF4ym8KzN6XYDx-5iUcu8dIO7mhfjJWWXgFOLMVb1Tlqr3yumjPQbBttdIGgQyiqkstlvH2gpcVh1a2tcEcCkE1UcTtB29AJMK9vO4pQePybpNfekydKf8UbkG9FkYCqJwcjCkI_ydQ0Em77trcv9Cjr_8zd7xEFFyjexAcS4dmtnn6qo3p9E0k2Wz8uhOdvuj5avqlf2OCvrSCbD7qxF8HglVM8qpmRlwbwJG_U"
+                            alt="Single Girder EOT Crane">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Atlas Series
+                                S-Girder</h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">15
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Compact single
+                            girder solution optimizing headroom in medium-scale workshops.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gantry Crane 1 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            GANTRY CRANE</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1UJb4cK4yth0PNQxVrk9K3TpEqA5gY8K7dJyPNaL9iN8ro2L28Y0rzqn22lQHRCAQ4rnuLcqKYYTUl16DSuvV_QeQsc49BxIECTat4lCMUvajA-vy1BrP9LbFF1bebHB3DKuoIcJnBhTXA2m2PjXZjXcQJFvB7JjE6B5KAJUShnAYNzxEZzM0Ef_ffBO8MRAF-5dEq7CqkF7N5or5I62AEoOx47e_v9W2Ct80LmZm3m20waF87Qsm39tw"
+                            alt="Heavy Duty Gantry Crane">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Colossus RMG</h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">100
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Rail-mounted gantry
+                            crane engineered for outdoor yards and heavy infrastructure.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hoist 1 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            HOIST</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1Uf-HHztgBDGRINkf15Z0wojJjhRHLOxvhnCIvemAtPVoRbzjGJo5uGcQw2QefZ-giLqmIZvpzF-CpoDNg6bnKvZAmF2P0EAg6zSNtW1Z3OSYA63snZC7ZmoIcxx9Ske2fW4hIuXJW6y404o8f5ya897ZpnPOBYlekn8kYkKsvmK9WZkJqgt3b8duBtnixzeiwmn7orYVfN9YaCKPaz41246SNt1WENP-L-nM_vo7jxEuGnPECSZkP9EPs"
+                            alt="Electric Wire Rope Hoist">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Vulcan Wire Rope
+                            </h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">5
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Precision electric
+                            wire rope hoist with variable frequency drive for smooth lifting.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- EOT Crane 3 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            EOT CRANE</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1Vf_foxYXa6ITe_RUdOGgvJt12SjXEhVH_2E2mhDzJqsXr8oeUaWfvLwLeZa0rAGhkP_qcN3uoG9y-jOsk28thFJEhGJa41lNui3b5u69PYvbCR1u47N8dr7pEejmg3GKzd8nKA2NERpNoBXM0J3gJ6iHaFFluSFs_uJ5sJtTy_rfc31P29RgYvx0OWDEVcNbn6RaMgv-cvTQ4PFX6akzmiGByINi8c5j75x_OFT6FJKaJ1_3CLhuliWVU"
+                            alt="Industrial EOT Crane">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Apex Double Girder
+                            </h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">30
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Optimized structural
+                            design for high-duty cycles in automotive assembly lines.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- EOT Crane 4 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            EOT CRANE</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1UeHP5kuwQIU9Kd5KCRF4ym8KzN6XYDx-5iUcu8dIO7mhfjJWWXgFOLMVb1Tlqr3yumjPQbBttdIGgQyiqkstlvH2gpcVh1a2tcEcCkE1UcTtB29AJMK9vO4pQePybpNfekydKf8UbkG9FkYCqJwcjCkI_ydQ0Em77trcv9Cjr_8zd7xEFFyjexAcS4dmtnn6qo3p9E0k2Wz8uhOdvuj5avqlf2OCvrSCbD7qxF8HglVM8qpmRlwbwJG_U"
+                            alt="Workshop EOT Crane">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Swift Single Girder
+                            </h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">10
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Lightweight and
+                            efficient crane for general purpose lifting and maintenance.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gantry Crane 2 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            GANTRY CRANE</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1UJb4cK4yth0PNQxVrk9K3TpEqA5gY8K7dJyPNaL9iN8ro2L28Y0rzqn22lQHRCAQ4rnuLcqKYYTUl16DSuvV_QeQsc49BxIECTat4lCMUvajA-vy1BrP9LbFF1bebHB3DKuoIcJnBhTXA2m2PjXZjXcQJFvB7JjE6B5KAJUShnAYNzxEZzM0Ef_ffBO8MRAF-5dEq7CqkF7N5or5I62AEoOx47e_v9W2Ct80LmZm3m20waF87Qsm39tw"
+                            alt="Outdoor Gantry Crane">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Portmaster RTG</h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">40
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Rubber-tired gantry
+                            crane for flexible container handling and yard management.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- EOT Crane 5 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            EOT CRANE</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1Vf_foxYXa6ITe_RUdOGgvJt12SjXEhVH_2E2mhDzJqsXr8oeUaWfvLwLeZa0rAGhkP_qcN3uoG9y-jOsk28thFJEhGJa41lNui3b5u69PYvbCR1u47N8dr7pEejmg3GKzd8nKA2NERpNoBXM0J3gJ6iHaFFluSFs_uJ5sJtTy_rfc31P29RgYvx0OWDEVcNbn6RaMgv-cvTQ4PFX6akzmiGByINi8c5j75x_OFT6FJKaJ1_3CLhuliWVU"
+                            alt="Heavy Duty EOT Crane">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Hercules Series</h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">80
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Our highest capacity
+                            EOT crane for heavy foundry and power plant applications.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hoist 2 -->
+                <div
+                    class="bg-surface-white border border-border-subtle hover-accent-border transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden">
+                    <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle">
+                        <div
+                            class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]">
+                            HOIST</div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1Uf-HHztgBDGRINkf15Z0wojJjhRHLOxvhnCIvemAtPVoRbzjGJo5uGcQw2QefZ-giLqmIZvpzF-CpoDNg6bnKvZAmF2P0EAg6zSNtW1Z3OSYA63snZC7ZmoIcxx9Ske2fW4hIuXJW6y404o8f5ya897ZpnPOBYlekn8kYkKsvmK9WZkJqgt3b8duBtnixzeiwmn7orYVfN9YaCKPaz41246SNt1WENP-L-nM_vo7jxEuGnPECSZkP9EPs"
+                            alt="Compact Electric Hoist">
+                    </div>
+                    <div class="p-card-padding flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase">Nova Compact</h3>
+                            <span
+                                class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">2
+                                TON</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Space-saving hoist
+                            design for low headroom environments and light assembly.</p>
+                        <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+                            <span
+                                class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A]">
+                                View Specs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- CTA Banner -->
+    <section class="bg-primary-container w-full relative overflow-hidden border-t border-border-subtle">
+        <div
+            class="max-w-container-max mx-auto px-gutter py-16 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="max-w-2xl">
+                <h2
+                    class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-surface-white uppercase mb-4">
+                    Need a Custom Lifting Solution?
+                </h2>
+                <p class="font-body-lg text-body-lg text-white/90 mb-8 max-w-xl">
+                    Tell us your load requirements and our engineers will design the right crane for your facility.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button
+                        class="bg-[#0D1117] text-surface-white font-label-caps text-label-caps px-8 py-4 uppercase tracking-widest hover:bg-black transition-colors border border-[#0D1117]">
+                        Request a Quote
+                    </button>
+                    <button
+                        class="bg-transparent text-surface-white border-2 border-surface-white font-label-caps text-label-caps px-8 py-4 uppercase tracking-widest hover:bg-surface-white hover:text-primary-container transition-colors">
+                        Contact Us
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Abstract Crane Graphic -->
+        <div class="absolute right-0 top-0 h-full w-1/3 opacity-20 pointer-events-none hidden md:block"><svg
+                class="w-full h-full fill-[#0D1117] opacity-10" viewBox="0 0 100 100"
+                preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 90h80v-5H55V20h10v-5H35v5h10v65H10v5zm45-70h25v5H55v-5zM20 15h10v5H20v-5z"></path>
+            </svg></div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-on-background dark:bg-surface-container-lowest w-full">
+        <div
+            class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg w-full px-gutter py-section-padding max-w-container-max mx-auto">
+            <div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+                <div class="font-headline-sm text-headline-sm text-surface-white uppercase tracking-wider mb-2">
+                    Safe Build Engineering
+                </div>
+                <p class="font-body-md text-body-md text-surface-variant text-sm">
+                    Precision Engineering Excellence.
+                </p>
+            </div>
+            <div class="col-span-1 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <div class="flex flex-col gap-3 font-body-md text-body-md">
+                    <a class="text-surface-variant dark:text-on-surface-variant hover:text-primary-fixed-dim transition-all hover:border-l-3 hover:border-primary-container hover:pl-2"
+                        href="#">Sitemap</a>
+                    <a class="text-surface-variant dark:text-on-surface-variant hover:text-primary-fixed-dim transition-all hover:border-l-3 hover:border-primary-container hover:pl-2"
+                        href="#">Privacy Policy</a>
+                </div>
+                <div class="flex flex-col gap-3 font-body-md text-body-md">
+                    <a class="text-surface-variant dark:text-on-surface-variant hover:text-primary-fixed-dim transition-all hover:border-l-3 hover:border-primary-container hover:pl-2"
+                        href="#">Terms of Service</a>
+                    <a class="text-surface-variant dark:text-on-surface-variant hover:text-primary-fixed-dim transition-all hover:border-l-3 hover:border-primary-container hover:pl-2"
+                        href="#">Global Certifications</a>
+                </div>
+                <div class="flex flex-col gap-3 font-body-md text-body-md">
+                    <span class="text-surface-variant dark:text-on-surface-variant">India HQ Address</span>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-surface-variant/20 px-gutter py-6 text-center">
+            <p class="font-body-md text-body-md text-surface-variant text-sm">
+                © 2024 Safe Build Engineering India. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

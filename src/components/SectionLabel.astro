@@ -1,0 +1,20 @@
+---
+// =============================================================
+// SectionLabel.astro — Safe Build Engineering
+// The "— LABEL TEXT" eyebrow span above section headings.
+// Used on every page before H1/H2 headings.
+// =============================================================
+
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className = '' } = Astro.props;
+---
+
+<span
+  class={`font-label-caps text-label-caps text-primary-container uppercase tracking-widest mb-stack-sm block ${className}`}
+>
+  — {text}
+</span>

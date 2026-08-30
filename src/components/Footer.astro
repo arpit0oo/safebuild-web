@@ -1,0 +1,106 @@
+---
+// =============================================================
+// Footer.astro — Safe Build Engineering
+// Global site footer. Used in BaseLayout.astro on every page.
+// No props — fully static content.
+// Matches prototype: bg-on-background (#171C1F), 4-col grid,
+// orange column headers, left-indent hover on links.
+// =============================================================
+
+const currentYear = new Date().getFullYear();
+
+const companyLinks = [
+  { label: 'About',   href: '/about'   },
+  { label: 'Sitemap', href: '/sitemap' },
+];
+
+const legalLinks = [
+  { label: 'Privacy Policy',   href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms'   },
+];
+---
+
+<footer class="bg-on-background w-full">
+
+  <!-- ── MAIN GRID ──────────────────────────────────────────── -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg w-full px-gutter py-section-padding max-w-container-max mx-auto">
+
+    <!-- Column 1: Brand / Tagline -->
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2">
+        <!-- Placeholder logo — matches prototype type_specimen icon -->
+        <span
+          aria-hidden="true"
+          class="material-symbols-outlined text-primary-container text-[24px] leading-none"
+        >precision_manufacturing</span>
+        <span class="font-headline-sm text-headline-sm text-surface-white tracking-tight">
+          Safe Build Engineering
+        </span>
+      </div>
+      <p class="font-body-md text-body-md text-surface-variant leading-relaxed max-w-[220px]">
+        Precision Engineering Excellence.<br />
+        Built to Lift. Built to Last.
+      </p>
+    </div>
+
+    <!-- Column 2: Company -->
+    <div class="flex flex-col gap-3">
+      <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest mb-1">
+        Company
+      </h4>
+      {companyLinks.map(link => (
+        <a
+          href={link.href}
+          class="font-body-md text-body-md text-surface-variant hover:text-primary-fixed-dim transition-all duration-150 border-l-[3px] border-transparent hover:border-primary-container hover:pl-2"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Column 3: Legal -->
+    <div class="flex flex-col gap-3">
+      <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest mb-1">
+        Legal
+      </h4>
+      {legalLinks.map(link => (
+        <a
+          href={link.href}
+          class="font-body-md text-body-md text-surface-variant hover:text-primary-fixed-dim transition-all duration-150 border-l-[3px] border-transparent hover:border-primary-container hover:pl-2"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Column 4: Contact -->
+    <div class="flex flex-col gap-3">
+      <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest mb-1">
+        Contact
+      </h4>
+      <!-- Address — replace with real data when available -->
+      <address class="not-italic font-body-md text-body-md text-surface-variant leading-relaxed">
+        India HQ<br />
+        <span class="text-surface-variant/60 text-[13px]">(Address TBD)</span>
+      </address>
+      <!-- Phone/email placeholders — uncomment when ready -->
+      <!--
+      <a href="tel:+91XXXXXXXXXX" class="font-body-md text-surface-variant hover:text-primary-fixed-dim transition-colors">
+        +91 XXXXX XXXXX
+      </a>
+      <a href="mailto:info@safebuild.in" class="font-body-md text-surface-variant hover:text-primary-fixed-dim transition-colors">
+        info@safebuild.in
+      </a>
+      -->
+    </div>
+
+  </div>
+
+  <!-- ── BOTTOM BAR ─────────────────────────────────────────── -->
+  <div class="w-full border-t border-on-surface-variant/30 py-6 text-center px-gutter">
+    <p class="font-technical-data text-technical-data text-surface-variant opacity-70">
+      © {currentYear} Safe Build Engineering India. All Rights Reserved. Precision Engineering Excellence.
+    </p>
+  </div>
+
+</footer>

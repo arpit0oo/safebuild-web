@@ -1,0 +1,66 @@
+---
+// =============================================================
+// CTABanner.astro — Safe Build Engineering
+// Full-width orange CTA band. Reused on About, Products, Homepage.
+// Background: bg-primary-container (#F97316)
+// Has a faint oversized icon silhouette on the right as decoration.
+// =============================================================
+
+interface Props {
+  heading: string;
+  subtext: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+const {
+  heading,
+  subtext,
+  primaryLabel   = 'Get a Quote',
+  primaryHref    = '/contact?type=quote',
+  secondaryLabel = 'View Our Products',
+  secondaryHref  = '/products',
+} = Astro.props;
+---
+
+<section class="w-full bg-primary-container py-section-padding relative overflow-hidden">
+
+  <!-- Decorative background silhouette (right side, 10% opacity) -->
+  <div
+    class="absolute right-0 bottom-0 h-full w-1/2 opacity-10 pointer-events-none flex justify-end items-end"
+    aria-hidden="true"
+  >
+    <span class="material-symbols-outlined text-surface-white leading-none"
+      style="font-size: 300px; transform: translate(25%, 25%);"
+    >precision_manufacturing</span>
+  </div>
+
+  <!-- Content grid -->
+  <div class="max-w-container-max mx-auto px-gutter relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+    <div class="md:col-span-7" data-aos="fade-up">
+
+      <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-surface-white mb-stack-sm">
+        {heading}
+      </h2>
+
+      <p class="font-body-lg text-body-lg text-surface-white/90 mb-stack-lg max-w-[500px]">
+        {subtext}
+      </p>
+
+      <div class="flex flex-wrap gap-4">
+        <!-- Primary: dark filled -->
+        <a href={primaryHref} class="btn-dark">
+          {primaryLabel}
+        </a>
+        <!-- Secondary: white ghost -->
+        <a href={secondaryHref} class="btn-ghost">
+          {secondaryLabel}
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,141 @@
+---
+// =============================================================
+// BaseLayout.astro — Safe Build Engineering
+// Global HTML shell used by every page.
+// Provides: fonts, global CSS, ViewTransitions, Lenis + AOS init,
+//           Navbar and Footer components.
+// =============================================================
+
+import { ViewTransitions } from 'astro:transitions';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  activePage?: string;
+}
+
+const {
+  title,
+  description = 'Safe Build Engineering — Precision-engineered EOT cranes, gantry cranes, and hoists for Indian industry. Built to Lift. Built to Last.',
+  ogImage = '/og-image.jpg',
+  activePage = '',
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://safebuild.in');
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Safe Build Engineering" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Google Fonts: Rajdhani (headlines), Inter (body), Barlow Condensed (labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500&family=Barlow+Condensed:wght@600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Material Symbols (Outlined — variable font) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Astro View Transitions — page-to-page animations -->
+    <ViewTransitions />
+  </head>
+
+  <body class="bg-surface-white text-on-surface antialiased">
+
+    <!-- Global Navbar -->
+    <Navbar activePage={activePage} />
+
+    <main>
+      <slot />
+    </main>
+
+    <!-- Global Footer -->
+    <Footer />
+
+    <!-- ==========================================================
+         LENIS — Smooth scroll initialization
+         Runs after DOM is ready; integrates with GSAP ticker.
+         ========================================================== -->
+    <script>
+      import Lenis from 'lenis';
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        smoothWheel: true,
+      });
+
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+
+      // Expose globally so page scripts can pause/resume if needed
+      (window as any).__lenis = lenis;
+    </script>
+
+    <!-- ==========================================================
+         AOS — Animate On Scroll initialization
+         ========================================================== -->
+    <script>
+      import AOS from 'aos';
+      import 'aos/dist/aos.css';
+
+      document.addEventListener('astro:page-load', () => {
+        AOS.init({
+          duration: 600,
+          easing: 'ease-out-cubic',
+          once: true,       // animate only once per element
+          offset: 60,       // trigger 60px before element enters viewport
+          delay: 0,
+        });
+      });
+
+      // Also init on first load (before any navigation)
+      AOS.init({
+        duration: 600,
+        easing: 'ease-out-cubic',
+        once: true,
+        offset: 60,
+      });
+    </script>
+
+  </body>
+</html>

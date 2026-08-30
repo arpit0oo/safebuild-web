@@ -1,0 +1,95 @@
+---
+// =============================================================
+// ProductCard.astro — Safe Build Engineering
+// Product listing card. Used on /products and homepage featured.
+// Full card is a link to /products/{slug}.
+// Spec: COMPONENTS.md §9
+// =============================================================
+
+interface Props {
+  name: string;
+  category: string;
+  shortDescription: string;
+  imageUrl: string;
+  slug: string;
+  capacity: string;       // e.g. "50 Ton"
+}
+
+const { name, category, shortDescription, imageUrl, slug, capacity } = Astro.props;
+
+// Fallback for missing image — bg-image-placeholder will show through
+const imgSrc = imageUrl || '';
+
+// Display image alt
+const imgAlt = `${name} — Safe Build Engineering`;
+---
+
+<a
+  href={`/products/${slug}`}
+  class="bg-surface-white border border-border-subtle flex flex-col group cursor-pointer relative overflow-hidden card-hover no-underline"
+  aria-label={`View specs for ${name}`}
+>
+
+  <!-- Image band — aspect-[4/3], full bleed, category badge overlay -->
+  <div class="aspect-[4/3] bg-image-placeholder relative border-b border-border-subtle overflow-hidden">
+
+    <!-- Category badge: orange pill top-left -->
+    <div
+      class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]"
+      aria-hidden="true"
+    >
+      {category}
+    </div>
+
+    <!-- Product image — scale on group-hover -->
+    {imgSrc ? (
+      <img
+        src={imgSrc}
+        alt={imgAlt}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <!-- Placeholder when no image -->
+      <div class="w-full h-full flex items-center justify-center bg-image-placeholder">
+        <span class="material-symbols-outlined text-surface-variant text-[64px]">precision_manufacturing</span>
+      </div>
+    )}
+
+  </div>
+
+  <!-- Card body -->
+  <div class="p-card-padding flex flex-col flex-grow">
+
+    <!-- Name + Capacity row -->
+    <div class="flex justify-between items-start mb-2 gap-2">
+      <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase leading-snug">
+        {name}
+      </h3>
+      <!-- Capacity badge: dark charcoal chip -->
+      {capacity && (
+        <span class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1 whitespace-nowrap shrink-0">
+          {capacity.toUpperCase()}
+        </span>
+      )}
+    </div>
+
+    <!-- Short description -->
+    <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">
+      {shortDescription}
+    </p>
+
+    <!-- Footer link — "View Specs →" -->
+    <div class="flex justify-end border-t border-border-subtle pt-4 mt-auto">
+      <span
+        class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest flex items-center gap-1 group-hover:text-[#EA6C0A] transition-colors duration-200"
+      >
+        View Specs
+        <span class="material-symbols-outlined text-[18px] leading-none">arrow_forward</span>
+      </span>
+    </div>
+
+  </div>
+
+</a>

@@ -1,0 +1,205 @@
+---
+// =============================================================
+// Navbar.astro — Safe Build Engineering
+// Global sticky navigation. Used in BaseLayout.astro on every page.
+// Props:
+//   activePage — string slug to highlight the active nav link
+//     values: 'home' | 'products' | 'about' | 'contact' | ''
+// =============================================================
+
+interface Props {
+  activePage?: string;
+}
+
+const { activePage = '' } = Astro.props;
+
+// Nav link definition — drives both desktop and mobile drawer
+const navLinks = [
+  { label: 'EOT Cranes',    href: '/products?category=eot-cranes',     key: 'eot' },
+  { label: 'Gantry Cranes', href: '/products?category=gantry-cranes',  key: 'gantry' },
+  { label: 'Hoists',        href: '/products?category=hoists',          key: 'hoists' },
+  { label: 'Engineering',   href: '/about',                             key: 'about' },
+  { label: 'Contact',       href: '/contact',                           key: 'contact' },
+];
+
+function isActive(key: string): boolean {
+  return activePage === key;
+}
+---
+
+<!-- ============================================================
+     NAVBAR HEADER
+     ============================================================ -->
+<header
+  id="site-navbar"
+  class="bg-surface-white border-b border-border-subtle sticky top-0 z-50 w-full"
+>
+  <div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
+
+    <!-- ── LOGO ───────────────────────────────────────────── -->
+    <a href="/" class="flex items-center gap-2 no-underline group" aria-label="Safe Build Engineering — Home">
+      <!-- Placeholder logo: material icon — replace with <img src="/logo.svg"> when ready -->
+      <span
+        aria-hidden="true"
+        class="material-symbols-outlined text-primary-container text-[28px] leading-none"
+      >precision_manufacturing</span>
+      <span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight whitespace-nowrap">
+        Safe Build Engineering
+      </span>
+    </a>
+
+    <!-- ── DESKTOP NAV ─────────────────────────────────────── -->
+    <nav class="hidden md:flex items-center gap-6" aria-label="Primary navigation">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class={
+            isActive(link.key)
+              ? 'font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1 transition-colors duration-200'
+              : 'font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-200'
+          }
+          aria-current={isActive(link.key) ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- ── DESKTOP CTA ─────────────────────────────────────── -->
+    <a
+      href="/contact?type=quote"
+      class="hidden md:inline-flex items-center gap-1.5 font-label-caps text-label-caps text-primary-container hover:text-surface-tint transition-colors duration-200 uppercase tracking-wider font-bold"
+    >
+      Request Quote
+      <span class="material-symbols-outlined text-[16px] leading-none">arrow_forward</span>
+    </a>
+
+    <!-- ── MOBILE HAMBURGER ────────────────────────────────── -->
+    <button
+      id="nav-hamburger"
+      class="md:hidden text-on-surface p-1 focus:outline-none"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-drawer"
+    >
+      <span class="material-symbols-outlined text-[28px] leading-none" id="hamburger-icon">menu</span>
+    </button>
+
+  </div>
+</header>
+
+<!-- ============================================================
+     MOBILE DRAWER OVERLAY
+     Slides in from the right. Closed by default.
+     ============================================================ -->
+
+<!-- Backdrop -->
+<div
+  id="nav-backdrop"
+  class="fixed inset-0 bg-on-background/50 z-40 hidden opacity-0 transition-opacity duration-300 md:hidden"
+  aria-hidden="true"
+></div>
+
+<!-- Drawer panel -->
+<aside
+  id="mobile-drawer"
+  class="fixed top-0 right-0 h-full w-72 bg-surface-white z-50 translate-x-full transition-transform duration-300 ease-in-out flex flex-col md:hidden shadow-2xl"
+  aria-label="Mobile navigation"
+  role="dialog"
+  aria-modal="true"
+>
+  <!-- Drawer header -->
+  <div class="flex items-center justify-between px-gutter h-20 border-b border-border-subtle shrink-0">
+    <span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight text-sm">
+      Safe Build
+    </span>
+    <button
+      id="nav-close"
+      class="text-on-surface p-1 focus:outline-none"
+      aria-label="Close navigation menu"
+    >
+      <span class="material-symbols-outlined text-[28px] leading-none">close</span>
+    </button>
+  </div>
+
+  <!-- Drawer nav links -->
+  <nav class="flex flex-col px-gutter py-6 gap-1 grow" aria-label="Mobile navigation links">
+    {navLinks.map(link => (
+      <a
+        href={link.href}
+        class={[
+          'font-label-caps text-label-caps uppercase tracking-wider py-3 border-b border-border-subtle transition-all duration-150',
+          isActive(link.key)
+            ? 'text-primary-container font-bold border-l-[3px] border-l-primary-container pl-3'
+            : 'text-on-surface-variant hover:text-primary-container hover:pl-2',
+        ].join(' ')}
+        aria-current={isActive(link.key) ? 'page' : undefined}
+      >
+        {link.label}
+      </a>
+    ))}
+  </nav>
+
+  <!-- Drawer CTA -->
+  <div class="px-gutter pb-8 shrink-0">
+    <a
+      href="/contact?type=quote"
+      class="btn-primary w-full justify-center"
+    >
+      Request Quote
+      <span class="material-symbols-outlined text-[16px] leading-none">arrow_forward</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ============================================================
+     MOBILE DRAWER SCRIPT
+     Pure vanilla JS — no framework dependency.
+     GSAP is not used here to keep it lightweight & SSR-safe.
+     ============================================================ -->
+<script>
+  const hamburger  = document.getElementById('nav-hamburger')!;
+  const closeBtn   = document.getElementById('nav-close')!;
+  const drawer     = document.getElementById('mobile-drawer')!;
+  const backdrop   = document.getElementById('nav-backdrop')!;
+  const hamburgerIcon = document.getElementById('hamburger-icon')!;
+
+  let isOpen = false;
+
+  function openDrawer() {
+    isOpen = true;
+    drawer.classList.remove('translate-x-full');
+    backdrop.classList.remove('hidden', 'opacity-0');
+    // Trigger backdrop fade after unhiding
+    requestAnimationFrame(() => backdrop.classList.add('opacity-100'));
+    hamburger.setAttribute('aria-expanded', 'true');
+    hamburgerIcon.textContent = 'close';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    isOpen = false;
+    drawer.classList.add('translate-x-full');
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    // Hide backdrop after transition
+    setTimeout(() => backdrop.classList.add('hidden'), 300);
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburgerIcon.textContent = 'menu';
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () => isOpen ? closeDrawer() : openDrawer());
+  closeBtn.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+
+  // Close drawer on any nav link click
+  drawer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) closeDrawer();
+  });
+</script>

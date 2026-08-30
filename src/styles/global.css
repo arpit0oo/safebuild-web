@@ -1,0 +1,274 @@
+/* =============================================================
+   global.css — Safe Build Engineering
+   Tailwind v3: standard directives
+   All custom utilities and design tokens live here.
+   ============================================================= */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------
+   DESIGN TOKENS — Custom Properties
+   (Mirrors the Tailwind config for use in plain CSS contexts)
+   ------------------------------------------------------------- */
+:root {
+  /* Brand */
+  --color-primary-container:    #F97316;
+  --color-primary:              #9D4300;
+  --color-surface-tint:         #9D4300;
+
+  /* Surfaces */
+  --color-surface-white:        #FFFFFF;
+  --color-surface:              #F6FAFE;
+  --color-background:           #F6FAFE;
+  --color-image-placeholder:    #F1F5F9;
+  --color-surface-container:    #EAEEF2;
+
+  /* On-surface (text) */
+  --color-on-surface:           #171C1F;
+  --color-on-background:        #171C1F;
+  --color-on-surface-variant:   #584237;
+  --color-inverse-on-surface:   #EDF1F5;
+
+  /* Borders */
+  --color-border-subtle:        #E5E7EB;
+  --color-outline:              #8C7164;
+
+  /* Semantic */
+  --color-error:                #BA1A1A;
+  --color-surface-variant:      #DFE3E7;
+  --color-inverse-surface:      #2C3134;
+
+  /* Spacing */
+  --spacing-stack-sm:     0.5rem;
+  --spacing-stack-md:     1rem;
+  --spacing-stack-lg:     2rem;
+  --spacing-gutter:       1.5rem;
+  --spacing-card-padding: 2rem;
+  --spacing-section:      5rem;
+  --container-max:        1200px;
+}
+
+
+
+
+/* -------------------------------------------------------------
+   HARD CONSTRAINT: Sharp edges everywhere
+   Overrides ALL border-radius to 0 (with pill exception)
+   ------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+/* Exception: pill shape when explicitly needed */
+.pill {
+  border-radius: 9999px !important;
+}
+
+/* -------------------------------------------------------------
+   BASE RESETS & BODY
+   ------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-surface-white);
+  color: var(--color-on-surface);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent layout shift from Lenis smooth scroll */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* -------------------------------------------------------------
+   CARD HOVER — left orange border + shadow on hover
+   ------------------------------------------------------------- */
+.card-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+  border-left: 3px solid #F97316 !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+}
+
+/* -------------------------------------------------------------
+   TECHNICAL OVERLAY — dot-grid SVG pattern for images
+   ------------------------------------------------------------- */
+.img-overlay-dots {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiLz48L3N2Zz4=");
+}
+
+/* -------------------------------------------------------------
+   SECTION BACKGROUNDS — alternating pattern
+   ------------------------------------------------------------- */
+.section-white  { background-color: var(--color-surface-white); }
+.section-grey   { background-color: var(--color-image-placeholder); }
+.section-orange { background-color: var(--color-primary-container); }
+.section-dark   { background-color: var(--color-on-background); }
+
+/* -------------------------------------------------------------
+   UTILITY — Container max-width helper
+   ------------------------------------------------------------- */
+.container-safe {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-gutter);
+  padding-right: var(--spacing-gutter);
+}
+
+/* -------------------------------------------------------------
+   BUTTON BASE STYLES
+   ------------------------------------------------------------- */
+
+/* Primary — orange filled */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #F97316;
+  color: #FFFFFF;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #F97316;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #EA6C0A;
+  border-color: #EA6C0A;
+}
+
+/* Secondary — outlined dark */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: #171C1F;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #171C1F;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #171C1F;
+  color: #FFFFFF;
+}
+
+/* Ghost — white outlined (for use on orange/dark bg) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #FFFFFF;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  background-color: #FFFFFF;
+  color: #F97316;
+}
+
+/* Dark ghost — on orange bg */
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #171C1F;
+  color: #FFFFFF;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #171C1F;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-dark:hover {
+  background-color: transparent;
+  color: #171C1F;
+}
+
+/* -------------------------------------------------------------
+   FORM INPUTS — sharp, orange focus ring
+   ------------------------------------------------------------- */
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-outline);
+  background-color: var(--color-surface-white);
+  color: var(--color-on-surface);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.input-field:focus {
+  border-color: var(--color-primary-container);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.15);
+}
+
+.input-field::placeholder {
+  color: var(--color-on-surface-variant);
+  opacity: 0.6;
+}
+
+/* -------------------------------------------------------------
+   LEFT BORDER ACCENT — orange left rule on cards/sections
+   ------------------------------------------------------------- */
+.border-accent-left {
+  border-left: 3px solid var(--color-primary-container);
+}
+
+/* -------------------------------------------------------------
+   AOS OVERRIDES — ensure transitions work cleanly
+   ------------------------------------------------------------- */
+[data-aos] {
+  pointer-events: none;
+}
+
+[data-aos].aos-animate {
+  pointer-events: auto;
+}
