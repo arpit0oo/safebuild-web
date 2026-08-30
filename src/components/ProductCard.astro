@@ -17,6 +17,13 @@ interface Props {
 
 const { name, category, shortDescription, imageUrl, slug, capacity } = Astro.props;
 
+// Truncate capacity to the first value only — strip everything from first "+" or "(" onward.
+// e.g. "100 TON (MAIN) + 20 TON (AUX)" → "100 TON"
+function truncateCapacity(raw: string): string {
+  return raw.replace(/\s*[+(].*/i, '').trim();
+}
+const capacityDisplay = capacity ? truncateCapacity(capacity) : '';
+
 // Map Firestore slug → display label for the badge
 const CATEGORY_LABELS: Record<string, string> = {
   'eot-cranes':    'EOT CRANE',
@@ -34,7 +41,7 @@ const imgAlt = `${name} — Safe Build Engineering`;
 
 <a
   href={`/products/${slug}`}
-  class="bg-surface-white border border-border-subtle flex flex-col group cursor-pointer relative overflow-hidden card-hover no-underline"
+  class="bg-surface-white border border-border-subtle flex flex-col h-full group cursor-pointer relative overflow-hidden card-hover no-underline"
   aria-label={`View specs for ${name}`}
 >
 
@@ -72,19 +79,19 @@ const imgAlt = `${name} — Safe Build Engineering`;
 
     <!-- Name + Capacity row -->
     <div class="flex justify-between items-start mb-2 gap-2">
-      <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase leading-snug">
+      <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase leading-snug line-clamp-2">
         {name}
       </h3>
       <!-- Capacity badge: dark charcoal chip -->
-      {capacity && (
+      {capacityDisplay && (
         <span class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1 whitespace-nowrap shrink-0">
-          {capacity.toUpperCase()}
+          {capacityDisplay.toUpperCase()}
         </span>
       )}
     </div>
 
     <!-- Short description -->
-    <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">
+    <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">
       {shortDescription}
     </p>
 

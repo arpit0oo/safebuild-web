@@ -1,0 +1,668 @@
+---
+// =============================================================
+// src/pages/products/[slug].astro — Safe Build Engineering
+// Dynamic product detail page — SSR, data from Firestore by slug.
+//
+// Sections:
+//   1. Hero         — name, category badge, capacity chip, image
+//   2. Specs Table  — "Technical Specifications" with hover orange border
+//   3. Description  — full body text split with second image
+//   4. Related      — 3 other products via ProductCard component
+//   5. Quote Form   — writes to Firestore `quotes` collection
+//
+// Design fixes vs. prototype:
+//   • H1: display-xl size, Rajdhani 700, generous vertical padding
+//   • Specs heading: "Technical Specifications", headline-md weight
+//   • Table rows: more padding (p-5), orange left border on hover
+//   • "View All Products" button → /products (replaces Download Brochure)
+//   • "Direct Inquiries" block removed entirely
+//   • Related products use <ProductCard> component (not inline HTML)
+//   • Quote form wired to Firestore; success/error states handled
+// =============================================================
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CTABanner from '../../components/CTABanner.astro';
+import { getProductBySlug, getProducts } from '../../lib/firestore';
+import type { Product } from '../../lib/types';
+
+// ── ROUTE PARAM ─────────────────────────────────────────────
+const { slug } = Astro.params as { slug: string };
+
+// ── SSR: fetch product by slug ───────────────────────────────
+let product: Product | null = null;
+let fetchError = false;
+
+try {
+  product = await getProductBySlug(slug);
+} catch (e) {
+  console.error(`[products/${slug}] Firestore fetch failed:`, e);
+  fetchError = true;
+}
+
+// 404 redirect if product not found
+if (!fetchError && !product) {
+  return Astro.redirect('/products', 302);
+}
+
+// ── RELATED PRODUCTS (same category, exclude self, max 3) ───
+let relatedProducts: Product[] = [];
+if (product) {
+  try {
+    const all = await getProducts();
+    relatedProducts = all
+      .filter(p => p.category === product!.category && p.slug !== product!.slug)
+      .slice(0, 3);
+    // If fewer than 3 in same category, pad with other categories
+    if (relatedProducts.length < 3) {
+      const others = all
+        .filter(p => p.slug !== product!.slug && !relatedProducts.find(r => r.slug === p.slug))
+        .slice(0, 3 - relatedProducts.length);
+      relatedProducts = [...relatedProducts, ...others];
+    }
+  } catch (e) {
+    console.error(`[products/${slug}] Related products fetch failed:`, e);
+  }
+}
+
+// ── CATEGORY DISPLAY LABEL ───────────────────────────────────
+const CATEGORY_LABELS: Record<string, string> = {
+  'eot-cranes':    'EOT CRANE',
+  'gantry-cranes': 'GANTRY CRANE',
+  'hoists':        'HOIST',
+};
+const categoryLabel = product
+  ? (CATEGORY_LABELS[product.category] ?? product.category.toUpperCase())
+  : '';
+
+// ── CAPACITY DISPLAY (strip aux info) ───────────────────────
+const rawCapacity = product?.specs?.capacity ?? '';
+const capacityDisplay = rawCapacity.replace(/\s*[+(].*/i, '').trim().toUpperCase();
+
+// ── SPECS TABLE ROWS (ordered display) ──────────────────────
+// Maps spec key → human label. Only renders keys that exist.
+const SPEC_LABELS: Record<string, string> = {
+  capacity:    'Capacity',
+  type:        'Type',
+  span:        'Span',
+  liftHeight:  'Lift Height',
+  driveType:   'Drive Type',
+  dutyCycle:   'Duty Cycle',
+  hoistSpeed:  'Hoist Speed',
+  ctSpeed:     'Cross Travel Speed',
+  ltSpeed:     'Long Travel Speed',
+  trolleyType: 'Trolley Type',
+  powerSupply: 'Power Supply',
+  control:     'Control',
+  standards:   'Standards',
+};
+
+const specRows = product
+  ? Object.entries(SPEC_LABELS)
+      .filter(([key]) => key in (product!.specs ?? {}))
+      .map(([key, label], i) => ({
+          label,
+          value: product!.specs[key as keyof typeof product.specs] ?? '',
+          isEven: i % 2 === 0,
+        }))
+  : [];
+
+// ── DESCRIPTION PARAGRAPHS ────────────────────────────────────
+const descParagraphs = product?.description
+  ? product.description.split('\n\n').filter(Boolean)
+  : [];
+
+// ── FORM: handle POST submission ─────────────────────────────
+// The form POSTs to this same page. We handle it server-side,
+// then redirect with ?success=1 or ?error=1 to avoid re-POST on refresh.
+let formResult: 'success' | 'error' | null = null;
+
+if (Astro.request.method === 'POST' && product) {
+  try {
+    const fd = await Astro.request.formData();
+    const name    = String(fd.get('name')    ?? '').trim();
+    const company = String(fd.get('company') ?? '').trim();
+    const email   = String(fd.get('email')   ?? '').trim();
+    const phone   = String(fd.get('phone')   ?? '').trim();
+    const capacity= String(fd.get('capacity') ?? '').trim();
+    const span    = String(fd.get('span')    ?? '').trim();
+    const notes   = String(fd.get('notes')   ?? '').trim();
+
+    if (name && email) {
+      // Import dynamically to avoid SSR bundling issues
+      const { submitQuote } = await import('../../lib/firestore');
+      await submitQuote({
+        name,
+        company,
+        email,
+        phone,
+        productInterest: product.name,
+        capacity,
+        span,
+        liftHeight: '',
+        additionalNotes: notes,
+      });
+      return Astro.redirect(`/products/${slug}?submitted=1`, 302);
+    }
+    formResult = 'error';
+  } catch (e) {
+    console.error(`[products/${slug}] Quote submit failed:`, e);
+    formResult = 'error';
+  }
+}
+
+// Check for redirect-back success flag
+const url = new URL(Astro.request.url);
+if (url.searchParams.get('submitted') === '1') {
+  formResult = 'success';
+}
+
+// ── PAGE META ─────────────────────────────────────────────────
+const pageTitle = product
+  ? `${product.name} — Safe Build Engineering`
+  : 'Product — Safe Build Engineering';
+const pageDesc = product?.shortDescription ?? '';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} activePage="products">
+
+  {/* ── ERROR STATE ── */}
+  {fetchError && (
+    <section class="py-section-padding bg-surface-white">
+      <div class="max-w-container-max mx-auto px-gutter text-center">
+        <span class="material-symbols-outlined text-[64px] text-surface-variant block mb-4">cloud_off</span>
+        <h1 class="font-headline-md text-headline-md text-on-surface mb-2">Could Not Load Product</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+          We couldn't reach our product database. Please try again in a moment.
+        </p>
+        <a href="/products" class="btn-primary">View All Products</a>
+      </div>
+    </section>
+  )}
+
+  {product && (
+    <>
+
+      {/* ===========================================================
+          SECTION 1 — HERO
+          Left 7/12: eyebrow + H1 (display-xl) + body + CTAs
+          Right 5/12: product image with placeholder fallback
+          =========================================================== */}
+      <section class="py-20 md:py-28 bg-surface-white border-b border-border-subtle relative overflow-hidden">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+
+          {/* Left: copy */}
+          <div class="md:col-span-7 flex flex-col items-start z-10 space-y-stack-md" data-aos="fade-up">
+
+            {/* Eyebrow: category + capacity chip */}
+            <div class="flex items-center gap-3 flex-wrap">
+              <SectionLabel text={`— ${categoryLabel}`} />
+              {capacityDisplay && (
+                <span class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-3 py-1 whitespace-nowrap">
+                  {capacityDisplay}
+                </span>
+              )}
+            </div>
+
+            {/* H1 — display-xl, Rajdhani 700, large breathing room */}
+            <h1 class="font-display-xl text-display-xl text-on-surface uppercase leading-none mt-2">
+              {product.name}
+            </h1>
+
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mt-2">
+              {product.shortDescription}
+            </p>
+
+            {/* CTAs */}
+            <div class="flex flex-col sm:flex-row gap-4 pt-stack-sm w-full sm:w-auto">
+              <a
+                href="#quote"
+                class="btn-primary"
+                id="hero-quote-cta"
+              >
+                Request a Quote
+                <span class="material-symbols-outlined text-[18px] leading-none">arrow_downward</span>
+              </a>
+              <a
+                href="/products"
+                class="btn-secondary"
+                id="hero-all-products"
+              >
+                View All Products
+                <span class="material-symbols-outlined text-[18px] leading-none">grid_view</span>
+              </a>
+            </div>
+
+          </div>
+
+          {/* Right: image */}
+          <div
+            class="md:col-span-5 relative mt-8 md:mt-0 h-[360px] md:h-[560px] w-full"
+            data-aos="fade-left"
+            data-aos-delay="100"
+          >
+            <div class="absolute inset-0 bg-image-placeholder border border-border-subtle flex items-center justify-center">
+              <span class="material-symbols-outlined text-surface-variant text-[64px]">precision_manufacturing</span>
+            </div>
+            {product.imageUrl && (
+              <img
+                src={product.imageUrl}
+                alt={`${product.name} — Safe Build Engineering`}
+                class="absolute inset-0 w-full h-full object-cover border border-border-subtle shadow-[0_2px_24px_rgba(0,0,0,0.08)]"
+                loading="eager"
+                fetchpriority="high"
+              />
+            )}
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ===========================================================
+          SECTION 2 — TECHNICAL SPECIFICATIONS
+          Left sticky: heading + intro copy
+          Right: spec table with hover orange left border per row
+          =========================================================== */}
+      <section class="py-section-padding bg-image-placeholder border-b border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+          {/* Left: sticky label + heading */}
+          <div class="lg:col-span-4" data-aos="fade-up">
+            <div class="sticky top-28">
+              <SectionLabel text="— SPECIFICATIONS" />
+              <h2 class="font-headline-lg text-headline-lg text-on-surface mt-4 mb-6 uppercase">
+                Technical<br />Specifications
+              </h2>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Our equipment is engineered to meet the most rigorous industrial
+                standards — ensuring maximum safety, efficiency, and longevity in
+                high-demand environments.
+              </p>
+            </div>
+          </div>
+
+          {/* Right: spec table */}
+          <div class="lg:col-span-8" data-aos="fade-up" data-aos-delay="80">
+            <div class="border border-border-subtle bg-surface-white overflow-hidden">
+
+              {/* Table header */}
+              <div class="grid grid-cols-2 border-b border-border-subtle bg-[#0D1117] px-6 py-4">
+                <div class="font-label-caps text-label-caps text-surface-white uppercase tracking-widest">Parameter</div>
+                <div class="font-label-caps text-label-caps text-surface-white uppercase tracking-widest">Value</div>
+              </div>
+
+              {/* Spec rows */}
+              {specRows.map(row => (
+                <div
+                  class={[
+                    'grid grid-cols-2 border-b border-border-subtle px-6 py-5 items-center',
+                    'transition-all duration-150',
+                    'border-l-[3px] border-l-transparent hover:border-l-primary-container',
+                    'hover:bg-surface-white hover:shadow-[0_2px_16px_rgba(0,0,0,0.06)]',
+                    row.isEven ? 'bg-surface-white' : 'bg-image-placeholder',
+                  ].join(' ')}
+                >
+                  <div class="font-technical-data text-technical-data text-on-surface-variant uppercase tracking-wide">
+                    {row.label}
+                  </div>
+                  <div class="font-body-md text-body-md text-on-surface font-medium">
+                    {row.value}
+                  </div>
+                </div>
+              ))}
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ===========================================================
+          SECTION 3 — DESCRIPTION / SYSTEM OVERVIEW
+          Text left + image right (reversed on mobile)
+          =========================================================== */}
+      <section class="py-section-padding bg-surface-white border-b border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+          {/* Left: text */}
+          <div class="order-2 md:order-1 space-y-6" data-aos="fade-up">
+            <SectionLabel text="— SYSTEM OVERVIEW" />
+            <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase mt-4">
+              Engineered for<br />Continuous Operation
+            </h2>
+            <div class="font-body-md text-body-md text-on-surface-variant space-y-4">
+              {descParagraphs.length > 0
+                ? descParagraphs.map(para => <p>{para}</p>)
+                : <p>{product.shortDescription}</p>
+              }
+            </div>
+
+            {/* Feature bullet list */}
+            <ul class="list-none space-y-3 border-t border-border-subtle pt-5">
+              {[
+                'Integrated overload protection and limit switches',
+                'Variable frequency drive for stepless speed control',
+                'Load-tested at 125% rated capacity before dispatch',
+                'IS:807 / IS:3177 / IS:3938 compliant construction',
+              ].map(item => (
+                <li class="flex items-start gap-3">
+                  <span
+                    class="material-symbols-outlined text-primary-container text-[20px] leading-none mt-0.5 shrink-0"
+                    style="font-variation-settings: 'FILL' 1;"
+                  >
+                    check_circle
+                  </span>
+                  <span class="font-body-md text-body-md text-on-surface-variant">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Right: second image (gallery[1] or same imageUrl) */}
+          <div
+            class="order-1 md:order-2 h-[360px] md:h-[500px] w-full relative"
+            data-aos="fade-left"
+            data-aos-delay="100"
+          >
+            <div class="absolute inset-0 bg-image-placeholder border border-border-subtle flex items-center justify-center">
+              <span class="material-symbols-outlined text-surface-variant text-[64px]">engineering</span>
+            </div>
+            {(product.galleryUrls?.[1] ?? product.imageUrl) && (
+              <img
+                src={product.galleryUrls?.[1] ?? product.imageUrl}
+                alt={`${product.name} detail — Safe Build Engineering`}
+                class="absolute inset-0 w-full h-full object-cover border border-border-subtle shadow-[0_2px_24px_rgba(0,0,0,0.08)]"
+                loading="lazy"
+              />
+            )}
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ===========================================================
+          SECTION 4 — RELATED PRODUCTS
+          Uses <ProductCard> to match listing page exactly
+          =========================================================== */}
+      {relatedProducts.length > 0 && (
+        <section class="py-section-padding bg-image-placeholder border-b border-border-subtle">
+          <div class="max-w-container-max mx-auto px-gutter">
+
+            <div class="mb-12" data-aos="fade-up">
+              <SectionLabel text="— RELATED SYSTEMS" />
+              <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase mt-4">
+                You May Also Need
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+              {relatedProducts.map((p, i) => (
+                <div class="flex flex-col" data-aos="fade-up" data-aos-delay={String(i * 80)}>
+                  <ProductCard
+                    name={p.name}
+                    category={p.category}
+                    shortDescription={p.shortDescription}
+                    imageUrl={p.imageUrl}
+                    slug={p.slug}
+                    capacity={p.specs?.capacity ?? ''}
+                  />
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+      )}
+
+
+      {/* ===========================================================
+          SECTION 5 — QUOTE FORM
+          Left: heading + intro (no fake contact block)
+          Right: form fields — wired to Firestore quotes collection
+          Success/error states handled via GET redirect flag
+          =========================================================== */}
+      <section class="py-section-padding bg-surface-white" id="quote">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+          {/* Left: context copy */}
+          <div class="lg:col-span-5" data-aos="fade-up">
+            <SectionLabel text="— PROCUREMENT" />
+            <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase mt-4 mb-4">
+              Request a Quote<br />for This Product
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-8">
+              Provide your technical requirements below and our engineering sales
+              team will respond with a preliminary proposal within 24 hours.
+            </p>
+
+            {/* Product being quoted — visual confirmation */}
+            <div class="bg-image-placeholder border border-border-subtle p-5">
+              <p class="font-technical-data text-technical-data text-on-surface-variant mb-1 uppercase tracking-wider">
+                Enquiring About
+              </p>
+              <p class="font-headline-sm text-headline-sm text-on-surface uppercase">
+                {product.name}
+              </p>
+              {capacityDisplay && (
+                <span class="inline-block mt-2 bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1">
+                  {capacityDisplay}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Right: form */}
+          <div class="lg:col-span-7" data-aos="fade-up" data-aos-delay="80">
+
+            {/* ── SUCCESS STATE ── */}
+            {formResult === 'success' && (
+              <div
+                class="border border-border-subtle bg-image-placeholder p-8 text-center"
+                id="quote-success"
+                role="alert"
+              >
+                <span
+                  class="material-symbols-outlined text-primary-container text-[56px] block mb-4"
+                  style="font-variation-settings: 'FILL' 1;"
+                >
+                  check_circle
+                </span>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase mb-2">
+                  Enquiry Received
+                </h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                  Thank you — our team will review your requirements and respond
+                  within 24 hours.
+                </p>
+                <a href="/products" class="btn-secondary">
+                  View All Products
+                </a>
+              </div>
+            )}
+
+            {/* ── ERROR STATE ── */}
+            {formResult === 'error' && (
+              <div
+                class="border border-error bg-[#ffdad6] p-4 mb-6 flex items-start gap-3"
+                role="alert"
+              >
+                <span class="material-symbols-outlined text-error text-[20px] mt-0.5 shrink-0">error</span>
+                <p class="font-body-md text-body-md text-error">
+                  Something went wrong. Please check all required fields and try again.
+                </p>
+              </div>
+            )}
+
+            {/* ── FORM (hidden on success) ── */}
+            {formResult !== 'success' && (
+              <form
+                method="POST"
+                action={`/products/${slug}#quote`}
+                class="space-y-6"
+                id="quote-form"
+                novalidate
+              >
+                {/* Row 1: Name + Company */}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label
+                      for="quote-name"
+                      class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider"
+                    >
+                      Full Name <span class="text-primary-container">*</span>
+                    </label>
+                    <input
+                      id="quote-name"
+                      name="name"
+                      type="text"
+                      required
+                      autocomplete="name"
+                      class="input-field"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      for="quote-company"
+                      class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider"
+                    >
+                      Company <span class="text-primary-container">*</span>
+                    </label>
+                    <input
+                      id="quote-company"
+                      name="company"
+                      type="text"
+                      required
+                      autocomplete="organization"
+                      class="input-field"
+                      placeholder="Your company name"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 2: Email + Phone */}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label
+                      for="quote-email"
+                      class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider"
+                    >
+                      Email <span class="text-primary-container">*</span>
+                    </label>
+                    <input
+                      id="quote-email"
+                      name="email"
+                      type="email"
+                      required
+                      autocomplete="email"
+                      class="input-field"
+                      placeholder="you@company.com"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      for="quote-phone"
+                      class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider"
+                    >
+                      Phone
+                    </label>
+                    <input
+                      id="quote-phone"
+                      name="phone"
+                      type="tel"
+                      autocomplete="tel"
+                      class="input-field"
+                      placeholder="+91 98765 43210"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 3: Capacity + Span */}
+                <div class="border-t border-border-subtle pt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label
+                      for="quote-capacity"
+                      class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider"
+                    >
+                      Required Capacity
+                    </label>
+                    <input
+                      id="quote-capacity"
+                      name="capacity"
+                      type="text"
+                      class="input-field"
+                      placeholder={`e.g. ${rawCapacity || '10 Ton'}`}
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      for="quote-span"
+                      class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider"
+                    >
+                      Required Span
+                    </label>
+                    <input
+                      id="quote-span"
+                      name="span"
+                      type="text"
+                      class="input-field"
+                      placeholder="e.g. 20m"
+                    />
+                  </div>
+                </div>
+
+                {/* Notes */}
+                <div class="space-y-2">
+                  <label
+                    for="quote-notes"
+                    class="block font-technical-data text-technical-data text-on-surface uppercase tracking-wider"
+                  >
+                    Additional Notes / Specifications
+                  </label>
+                  <textarea
+                    id="quote-notes"
+                    name="notes"
+                    rows={4}
+                    class="input-field resize-none"
+                    placeholder="Describe any special requirements, site conditions, or custom specifications…"
+                  />
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  id="quote-submit"
+                  class="btn-primary w-full sm:w-auto"
+                >
+                  Send Enquiry
+                  <span class="material-symbols-outlined text-[18px] leading-none">send</span>
+                </button>
+
+              </form>
+            )}
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* ===========================================================
+          CTA BANNER
+          =========================================================== */}
+      <CTABanner
+        heading="Need a Custom Lifting Solution?"
+        subtext="Tell us your load requirements and our engineers will design the right crane for your facility."
+        primaryLabel="Request a Quote"
+        primaryHref={`/products/${slug}#quote`}
+        secondaryLabel="View All Products"
+        secondaryHref="/products"
+      />
+
+    </>
+  )}
+
+</BaseLayout>

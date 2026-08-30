@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>10-Ton EOT Crane - TITAN INDUSTRIAL</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&amp;family=Inter:wght@400;500&amp;family=Rajdhani:wght@600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#8c7164",
+                        "tertiary-fixed": "#d9e3f4",
+                        "on-secondary-fixed": "#181c22",
+                        "background": "#f6fafe",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#919bab",
+                        "on-tertiary-fixed": "#121c28",
+                        "outline-variant": "#e0c0b1",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d6dade",
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "on-tertiary-fixed-variant": "#3e4755",
+                        "image-placeholder": "#F1F5F9",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-primary-container": "#582200",
+                        "surface-container-highest": "#dfe3e7",
+                        "primary": "#9d4300",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eaeef2",
+                        "surface-container-low": "#f0f4f8",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#dfe3e7",
+                        "on-primary-fixed-variant": "#783200",
+                        "surface": "#f6fafe",
+                        "surface-white": "#FFFFFF",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb690",
+                        "tertiary": "#555f6d",
+                        "secondary-container": "#dfe2eb",
+                        "on-secondary-container": "#61646c",
+                        "on-primary-fixed": "#341100",
+                        "on-surface-variant": "#584237",
+                        "on-background": "#171c1f",
+                        "secondary-fixed": "#dfe2eb",
+                        "primary-fixed": "#ffdbca",
+                        "surface-bright": "#f6fafe",
+                        "on-surface": "#171c1f",
+                        "surface-container-high": "#e4e9ed",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#9d4300",
+                        "tertiary-fixed-dim": "#bdc7d8",
+                        "primary-container": "#f97316",
+                        "on-tertiary-container": "#293340",
+                        "error": "#ba1a1a",
+                        "secondary": "#5b5e66",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "inverse-surface": "#2c3134",
+                        "on-secondary": "#ffffff",
+                        "border-subtle": "#E5E7EB",
+                        "inverse-on-surface": "#edf1f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "section-padding": "5rem",
+                        "container-max": "1200px",
+                        "card-padding": "2rem",
+                        "stack-lg": "2rem",
+                        "stack-md": "1rem",
+                        "gutter": "1.5rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Rajdhani"],
+                        "display-xl": ["Rajdhani"],
+                        "headline-sm": ["Rajdhani"],
+                        "technical-data": ["Inter"],
+                        "label-caps": ["Barlow Condensed"],
+                        "headline-md": ["Rajdhani"],
+                        "headline-lg": ["Rajdhani"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-xl": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "technical-data": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-caps": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Base styles enforcing sharp edges */
+        * {
+            border-radius: 0 !important;
+        }
+
+        .tech-table-row {
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+        }
+
+        .tech-table-row:hover {
+            border-left: 3px solid #f97316;
+            /* primary-container */
+            background-color: #ffffff;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        }
+
+        .product-card {
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+        }
+
+        .product-card:hover {
+            border-left: 3px solid #f97316;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        }
+
+        .input-field {
+            transition: border-color 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: #f97316 !important;
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-white">
+    <!-- Section 1: Hero -->
+    <section class="py-section-padding bg-surface-white border-b border-border-subtle relative overflow-hidden">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+            <!-- Left: Content (60%) -->
+            <div class="md:col-span-7 flex flex-col items-start z-10 space-y-stack-md">
+                <div class="flex items-center space-x-2">
+                    <span class="font-label-caps text-label-caps text-primary-container">— EOT CRANE</span>
+                    <span
+                        class="bg-on-secondary-fixed text-on-error font-technical-data text-technical-data px-3 py-1">10
+                        TON</span>
+                </div>
+                <h1 class="font-display-xl text-display-xl text-on-surface">10-Ton EOT Crane</h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                    Double-girder EOT crane built for medium-duty continuous operation in manufacturing facilities.
+                    Precision engineered for structural integrity and high-performance lifting.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 pt-stack-sm w-full sm:w-auto">
+                    <button
+                        class="bg-primary-container hover:bg-[#EA6C0A] text-on-error font-label-caps text-label-caps px-8 py-4 transition-colors">
+                        REQUEST A QUOTE
+                    </button>
+                    <button
+                        class="border-2 border-on-secondary-fixed text-on-secondary-fixed hover:bg-on-secondary-fixed hover:text-on-error font-label-caps text-label-caps px-8 py-4 transition-colors">
+                        DOWNLOAD BROCHURE
+                    </button>
+                </div>
+            </div>
+            <!-- Right: Image (40%) -->
+            <div class="md:col-span-5 relative mt-8 md:mt-0 h-[400px] md:h-[600px] w-full">
+                <!-- Using a placeholder pattern as fallback before image loads -->
+                <div
+                    class="absolute inset-0 bg-image-placeholder border border-border-subtle flex items-center justify-center -z-10">
+                    <span class="material-symbols-outlined text-border-subtle text-6xl">precision_manufacturing</span>
+                </div>
+                <img alt="10-Ton EOT Crane"
+                    class="w-full h-full object-cover border border-border-subtle shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTzKzG3eA5KDtIgEeGBFhOT0iz9PvmCKY0HZkPuiCn0j4j-LDvtxSiFEf-Kg4_aX4b5r8a0qiPAtk0_17dHZDlEvLuHwSBjgJhhIzIrfzAhrII7FwCp4OYawCjJriaj_uzXz_4MYPQEx_bQTSc2_DIfEgGvB--bVTLKfpZcSeeIuImLtqrzLXaNMOighCbKR15A5C_Z0h6u4ZDuGpimJI09hTdzRRg4oqLALDLGC23XMR9HgYYmFU6">
+            </div>
+        </div>
+    </section>
+    <!-- Section 2: Specs Table -->
+    <section class="py-section-padding bg-image-placeholder border-b border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left Column: Heading & Intro -->
+            <div class="lg:col-span-4">
+                <div class="sticky top-8">
+                    <span class="font-label-caps text-label-caps text-primary-container mb-4 block">—
+                        SPECIFICATIONS</span>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">Technical Specification</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Our equipment is engineered to meet the most rigorous industrial standards, ensuring maximum
+                        safety, efficiency, and longevity in high-demand environments.
+                    </p>
+                </div>
+            </div>
+            <!-- Right Column: Modern Data Grid -->
+            <div class="lg:col-span-8">
+                <div class="border border-border-subtle bg-surface-white">
+                    <!-- Header -->
+                    <div class="grid grid-cols-2 border-b border-border-subtle bg-on-secondary-fixed p-6">
+                        <div class="font-label-caps text-label-caps text-on-error">PARAMETER</div>
+                        <div class="font-label-caps text-label-caps text-on-error">VALUE</div>
+                    </div>
+                    <!-- Rows -->
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-surface-white">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Capacity</div>
+                        <div class="font-body-md text-body-md text-on-surface font-medium">10 Ton</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-image-placeholder">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Type</div>
+                        <div class="font-body-md text-body-md text-on-surface">Double Girder</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-surface-white">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Span</div>
+                        <div class="font-body-md text-body-md text-on-surface">Up to 30m</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-image-placeholder">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Lift Height</div>
+                        <div class="font-body-md text-body-md text-on-surface">12m</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-surface-white">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Drive Type</div>
+                        <div class="font-body-md text-body-md text-on-surface">Dual Drive</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-image-placeholder">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Duty Cycle</div>
+                        <div class="font-body-md text-body-md text-on-surface">M5 (Class 2)</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-surface-white">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">End Carriage Speed
+                        </div>
+                        <div class="font-body-md text-body-md text-on-surface">20 m/min</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-image-placeholder">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Cross Travel Speed
+                        </div>
+                        <div class="font-body-md text-body-md text-on-surface">15 m/min</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-surface-white">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Hoist Speed</div>
+                        <div class="font-body-md text-body-md text-on-surface">5 m/min</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-image-placeholder">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Power Supply</div>
+                        <div class="font-body-md text-body-md text-on-surface">415V/50Hz/3P</div>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 border-b border-border-subtle p-6 tech-table-row items-center bg-surface-white">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Control</div>
+                        <div class="font-body-md text-body-md text-on-surface">Pendant/Radio</div>
+                    </div>
+                    <div class="grid grid-cols-2 p-6 tech-table-row items-center bg-image-placeholder">
+                        <div class="font-technical-data text-technical-data text-on-surface-variant">Standards</div>
+                        <div class="font-body-md text-body-md text-on-surface">IS 807 / IS 3177</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section 3: Full Description (Text / Image Split) -->
+    <section class="py-section-padding bg-surface-white border-b border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <!-- Left: Text -->
+            <div class="order-2 md:order-1 space-y-6">
+                <span class="font-label-caps text-label-caps text-primary-container block">— SYSTEM OVERVIEW</span>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface">Engineered for Continuous Operation</h2>
+                <div class="font-body-md text-body-md text-on-surface-variant space-y-4">
+                    <p class="">
+                        The 10-Ton Double Girder EOT Crane is designed to provide robust lifting capabilities in
+                        demanding manufacturing environments. Featuring dual drive technology and a high-strength
+                        structural frame, it ensures stability and precision during critical material handling tasks.
+                    </p>
+                    <p class="">
+                        Equipped with advanced end carriage assemblies, the system offers smooth acceleration and
+                        deceleration, minimizing load sway. The M5 duty cycle rating guarantees reliability under
+                        continuous operational stress, making it the ideal choice for heavy assembly lines and steel
+                        fabrication workshops.
+                    </p>
+                    <ul class="list-none space-y-2 mt-4 border-t border-border-subtle pt-4">
+                        <li class="flex items-start">
+                            <span class="material-symbols-outlined text-primary-container mr-2 text-sm mt-1"
+                                style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            <span class="font-technical-data text-technical-data leading-relaxed">Integrated overload
+                                protection systems.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="material-symbols-outlined text-primary-container mr-2 text-sm mt-1"
+                                style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            <span class="font-technical-data text-technical-data leading-relaxed">VFD control for
+                                stepless speed adjustment.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="material-symbols-outlined text-primary-container mr-2 text-sm mt-1"
+                                style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            <span class="font-technical-data text-technical-data leading-relaxed">Low maintenance
+                                modular design.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Right: Image -->
+            <div class="order-1 md:order-2 h-full w-full min-h-[400px] relative">
+                <div
+                    class="absolute inset-0 bg-image-placeholder border border-border-subtle flex items-center justify-center -z-10">
+                    <span class="material-symbols-outlined text-border-subtle text-6xl">engineering</span>
+                </div>
+                <img alt="EOT Crane Details"
+                    class="w-full h-full object-cover border border-border-subtle shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxt1Ehxc7jLnfkvxBDTffN6c6BIoj2vh5JS6KwaqBRntdU2B0TgClJvC38-WlKBMUZhF3EEDDold0JcQ7oi331NYVAzUXEDT08_83fITW3hE5lr1ZjLKL52HGJqotXMLygCemhv8bCC0VS2UomA5XVOXB_4vhD6xuGJJLbeCj43gP2O730pL9DQPaR6gfEPDwMu5Mw8G_wIdeOXyOd_kT1Y1ck-g7w9Jk7EAUM28niu8J7kt9M15hu">
+            </div>
+        </div>
+    </section>
+    <!-- Section 4: Related Products -->
+    <section class="py-section-padding bg-image-placeholder border-b border-border-subtle">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="mb-12">
+                <span class="font-label-caps text-label-caps text-primary-container block mb-2">— RELATED SYSTEMS</span>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface">You May Also Need</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div
+                    class="product-card bg-surface-white border border-border-subtle flex flex-col group cursor-pointer">
+                    <div
+                        class="h-48 bg-surface-container-low border-b border-border-subtle flex items-center justify-center relative overflow-hidden">
+                        <span class="material-symbols-outlined text-border-subtle text-4xl">forklift</span>
+                        <!-- Minimal overlay on hover -->
+                        <div
+                            class="absolute inset-0 bg-on-secondary-fixed opacity-0 group-hover:opacity-5 transition-opacity">
+                        </div>
+                    </div>
+                    <div class="p-card-padding flex-grow flex flex-col">
+                        <span class="font-technical-data text-technical-data text-primary-container mb-2 block">SINGLE
+                            GIRDER</span>
+                        <h3
+                            class="font-headline-sm text-headline-sm text-on-surface mb-2 group-hover:text-primary-container transition-colors">
+                            5-Ton EOT Crane</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant flex-grow text-sm">Light to medium
+                            duty crane for smaller workshops.</p>
+                        <div class="mt-4 pt-4 border-t border-border-subtle flex justify-between items-center">
+                            <span class="font-label-caps text-label-caps text-on-surface">VIEW DETAILS</span>
+                            <span
+                                class="material-symbols-outlined text-on-surface group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div
+                    class="product-card bg-surface-white border border-border-subtle flex flex-col group cursor-pointer">
+                    <div
+                        class="h-48 bg-surface-container-low border-b border-border-subtle flex items-center justify-center relative overflow-hidden">
+                        <span class="material-symbols-outlined text-border-subtle text-4xl">conveyor_belt</span>
+                        <div
+                            class="absolute inset-0 bg-on-secondary-fixed opacity-0 group-hover:opacity-5 transition-opacity">
+                        </div>
+                    </div>
+                    <div class="p-card-padding flex-grow flex flex-col">
+                        <span class="font-technical-data text-technical-data text-primary-container mb-2 block">HEAVY
+                            DUTY</span>
+                        <h3
+                            class="font-headline-sm text-headline-sm text-on-surface mb-2 group-hover:text-primary-container transition-colors">
+                            25-Ton EOT Crane</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant flex-grow text-sm">High-capacity
+                            lifting solution for heavy fabrication.</p>
+                        <div class="mt-4 pt-4 border-t border-border-subtle flex justify-between items-center">
+                            <span class="font-label-caps text-label-caps text-on-surface">VIEW DETAILS</span>
+                            <span
+                                class="material-symbols-outlined text-on-surface group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div
+                    class="product-card bg-surface-white border border-border-subtle flex flex-col group cursor-pointer">
+                    <div
+                        class="h-48 bg-surface-container-low border-b border-border-subtle flex items-center justify-center relative overflow-hidden">
+                        <span
+                            class="material-symbols-outlined text-border-subtle text-4xl">precision_manufacturing</span>
+                        <div
+                            class="absolute inset-0 bg-on-secondary-fixed opacity-0 group-hover:opacity-5 transition-opacity">
+                        </div>
+                    </div>
+                    <div class="p-card-padding flex-grow flex flex-col">
+                        <span
+                            class="font-technical-data text-technical-data text-primary-container mb-2 block">ACCESSORY</span>
+                        <h3
+                            class="font-headline-sm text-headline-sm text-on-surface mb-2 group-hover:text-primary-container transition-colors">
+                            Electric Wire Rope Hoist</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant flex-grow text-sm">Modular hoist
+                            units for existing crane structures.</p>
+                        <div class="mt-4 pt-4 border-t border-border-subtle flex justify-between items-center">
+                            <span class="font-label-caps text-label-caps text-on-surface">VIEW DETAILS</span>
+                            <span
+                                class="material-symbols-outlined text-on-surface group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section 5: Quote Form -->
+    <section class="py-section-padding bg-surface-white">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-5">
+                <span class="font-label-caps text-label-caps text-primary-container block mb-2">— PROCUREMENT</span>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Request a Quote for This Product</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-8">
+                    Provide your technical requirements below, and our engineering sales team will respond with a
+                    preliminary proposal within 24 hours.
+                </p>
+                <div class="bg-image-placeholder p-6 border border-border-subtle">
+                    <h4 class="font-label-caps text-label-caps text-on-surface mb-4">DIRECT INQUIRIES</h4>
+                    <div class="flex items-center mb-3">
+                        <span class="material-symbols-outlined text-primary-container mr-3">call</span>
+                        <span class="font-technical-data text-technical-data">+1 (800) 555-CRANE</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="material-symbols-outlined text-primary-container mr-3">mail</span>
+                        <span class="font-technical-data text-technical-data">sales@titanindustrial.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-7">
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block font-technical-data text-technical-data text-on-surface">FULL NAME
+                                *</label>
+                            <input
+                                class="input-field w-full border border-border-subtle bg-surface-white p-3 font-body-md text-on-surface"
+                                required="" type="text">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block font-technical-data text-technical-data text-on-surface">COMPANY
+                                *</label>
+                            <input
+                                class="input-field w-full border border-border-subtle bg-surface-white p-3 font-body-md text-on-surface"
+                                required="" type="text">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block font-technical-data text-technical-data text-on-surface">EMAIL *</label>
+                            <input
+                                class="input-field w-full border border-border-subtle bg-surface-white p-3 font-body-md text-on-surface"
+                                required="" type="email">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block font-technical-data text-technical-data text-on-surface">PHONE</label>
+                            <input
+                                class="input-field w-full border border-border-subtle bg-surface-white p-3 font-body-md text-on-surface"
+                                type="tel">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-border-subtle">
+                        <div class="space-y-2">
+                            <label class="block font-technical-data text-technical-data text-on-surface">REQUIRED
+                                CAPACITY</label>
+                            <select
+                                class="input-field w-full border border-border-subtle bg-surface-white p-3 font-body-md text-on-surface">
+                                <option>10 Ton (Standard)</option>
+                                <option>Custom (Specify below)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block font-technical-data text-technical-data text-on-surface">REQUIRED
+                                SPAN</label>
+                            <input
+                                class="input-field w-full border border-border-subtle bg-surface-white p-3 font-body-md text-on-surface"
+                                placeholder="e.g. 20m" type="text">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block font-technical-data text-technical-data text-on-surface">ADDITIONAL NOTES /
+                            SPECIFICATIONS</label>
+                        <textarea
+                            class="input-field w-full border border-border-subtle bg-surface-white p-3 font-body-md text-on-surface"
+                            rows="4"></textarea>
+                    </div>
+                    <button
+                        class="w-full md:w-auto bg-primary-container hover:bg-[#EA6C0A] text-on-error font-label-caps text-label-caps px-8 py-4 transition-colors flex items-center justify-center"
+                        type="submit">
+                        SEND ENQUIRY
+                        <span class="material-symbols-outlined ml-2 text-sm">send</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+
+
+</body>
+
+</html>

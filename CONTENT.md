@@ -146,9 +146,13 @@ Full Description:
 - **H1:** Contact Safe Build Engineering
 - **Lead:** Reach our engineering team to discuss your lifting requirements, request a site assessment, or inquire about our product range.
 - **Enquiry form heading:** Send an Enquiry
-- **Phone placeholder:** +91 XXXXX XXXXX (TBD)
-- **Email placeholder:** info@safebuild.in (TBD)
-- **Address placeholder:** India HQ — [City, State] (TBD)
+- **Owner / Primary Contact:** Divakar Mishra
+- **Phone:** +91 99351 05322
+- **Email:** safebuildengineering26@gmail.com
+- **WhatsApp:** https://wa.me/919935105322
+- **Address:**
+  891, Murlipur Goyala, Near RSB Transmission Ltd.,
+  Behind Tata Telco, Deva Road, Lucknow — 226028
 
 ---
 
@@ -181,10 +185,27 @@ Full Description:
 
 ## 9. Footer Link Map
 
-| Column | Link Label | Route |
+| Column | Link Label | Route / Value |
 |---|---|---|
 | Company | About | `/about` |
 | Company | Sitemap | `/sitemap.xml` |
 | Legal | Privacy Policy | `/privacy` |
 | Legal | Terms of Service | `/terms` |
-| Contact | India HQ Address | (plain text, no link) |
+| Contact | Address | 891, Murlipur Goyala, Near RSB Transmission Ltd., Behind Tata Telco, Deva Road, Lucknow — 226028 |
+| Contact | Phone | `tel:+919935105322` → +91 99351 05322 |
+| Contact | Email | `mailto:safebuildengineering26@gmail.com` |
+| Contact | WhatsApp | `https://wa.me/919935105322` |
+
+---
+
+## 10. Company Details (Master Reference)
+
+| Field | Value |
+|---|---|
+| **Company Name** | Safe Build Engineering |
+| **Owner** | Divakar Mishra |
+| **Phone** | +91 99351 05322 |
+| **Email** | safebuildengineering26@gmail.com |
+| **WhatsApp** | https://wa.me/919935105322 |
+| **Address** | 891, Murlipur Goyala, Near RSB Transmission Ltd., Behind Tata Telco, Deva Road, Lucknow — 226028 |
+| **PIN** | 226028 |
