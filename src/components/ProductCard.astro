@@ -17,6 +17,14 @@ interface Props {
 
 const { name, category, shortDescription, imageUrl, slug, capacity } = Astro.props;
 
+// Map Firestore slug → display label for the badge
+const CATEGORY_LABELS: Record<string, string> = {
+  'eot-cranes':    'EOT CRANE',
+  'gantry-cranes': 'GANTRY CRANE',
+  'hoists':        'HOIST',
+};
+const categoryLabel = CATEGORY_LABELS[category] ?? category.toUpperCase();
+
 // Fallback for missing image — bg-image-placeholder will show through
 const imgSrc = imageUrl || '';
 
@@ -38,7 +46,7 @@ const imgAlt = `${name} — Safe Build Engineering`;
       class="absolute top-4 left-4 bg-primary-container text-surface-white font-label-caps text-label-caps px-3 py-1 uppercase z-10 border border-[#EA6C0A]"
       aria-hidden="true"
     >
-      {category}
+      {categoryLabel}
     </div>
 
     <!-- Product image — scale on group-hover -->

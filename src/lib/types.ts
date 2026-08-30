@@ -34,7 +34,7 @@ export interface Product {
   updatedAt: Timestamp;
 }
 
-export type ProductCategory = 'EOT Cranes' | 'Gantry Cranes' | 'Hoists';
+export type ProductCategory = 'eot-cranes' | 'gantry-cranes' | 'hoists';
 
 // -------------------------------------------------------------
 // BLOG POST

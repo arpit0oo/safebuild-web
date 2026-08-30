@@ -1,0 +1,267 @@
+---
+// =============================================================
+// src/pages/products/index.astro — Safe Build Engineering
+// Phase 4: Products Listing Page
+//
+// SSR: fetches all products from Firestore at request time.
+// URL category filter: ?category=eot-cranes | gantry-cranes | hoists
+// Empty state handled gracefully.
+// Navbar/Footer come from BaseLayout — NOT duplicated here.
+// =============================================================
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CTABanner from '../../components/CTABanner.astro';
+import { getProducts } from '../../lib/firestore';
+import type { Product, ProductCategory } from '../../lib/types';
+
+// ── URL QUERY PARAM PARSING ─────────────────────────────────
+// ?category=eot-cranes | gantry-cranes | hoists | (none = all)
+const url = new URL(Astro.request.url);
+const rawCategory = url.searchParams.get('category') ?? '';
+
+// Valid category slugs map to Firestore enum values
+const CATEGORY_MAP: Record<string, ProductCategory> = {
+  'eot-cranes':    'eot-cranes',
+  'gantry-cranes': 'gantry-cranes',
+  'hoists':        'hoists',
+};
+
+const activeCategory: ProductCategory | null = CATEGORY_MAP[rawCategory] ?? null;
+
+// ── FIRESTORE FETCH (SSR) ────────────────────────────────────
+// getProducts() returns all products sorted by `order` asc.
+// If activeCategory is set, Firestore filters server-side.
+let products: Product[] = [];
+let fetchError = false;
+
+try {
+  products = await getProducts(activeCategory ?? undefined);
+} catch (e) {
+  console.error('[products/index] Firestore fetch failed:', e);
+  fetchError = true;
+}
+
+// ── CATEGORY COUNTS (computed from full dataset for filter bar)
+// We always need total counts → fetch all products once and compute
+let allProducts: Product[] = [];
+try {
+  allProducts = activeCategory ? await getProducts() : products;
+} catch {
+  allProducts = products;
+}
+
+const counts = {
+  all:     allProducts.length,
+  'eot-cranes':    allProducts.filter(p => p.category === 'eot-cranes').length,
+  'gantry-cranes': allProducts.filter(p => p.category === 'gantry-cranes').length,
+  'hoists':        allProducts.filter(p => p.category === 'hoists').length,
+};
+
+// ── PAGE META ────────────────────────────────────────────────
+const categoryLabels: Record<string, string> = {
+  'eot-cranes':    'EOT Cranes',
+  'gantry-cranes': 'Gantry Cranes',
+  'hoists':        'Hoists',
+};
+const activeLabel = activeCategory ? categoryLabels[activeCategory] : null;
+const pageTitle = activeLabel
+  ? `${activeLabel} — Products | Safe Build Engineering`
+  : 'Products — Industrial Cranes & Hoists | Safe Build Engineering';
+
+const pageDesc = 'Explore Safe Build Engineering\'s full range of EOT cranes, gantry cranes, and hoists — precision-engineered for Indian industry.';
+
+// ── FILTER BAR CONFIG ─────────────────────────────────────────
+const filterTabs = [
+  { label: 'All Products',  slug: '',               count: counts.all             },
+  { label: 'EOT Cranes',    slug: 'eot-cranes',     count: counts['eot-cranes']    },
+  { label: 'Gantry Cranes', slug: 'gantry-cranes',  count: counts['gantry-cranes'] },
+  { label: 'Hoists',        slug: 'hoists',          count: counts['hoists']        },
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} activePage="products">
+
+  <!-- ============================================================
+       SECTION 1 — PAGE HERO
+       2-col: left = headline + lead | right = industrial image
+       ============================================================ -->
+  <section class="bg-surface-white border-b border-border-subtle w-full flex items-center min-h-[400px]">
+    <div class="max-w-container-max mx-auto px-gutter w-full grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center py-section-padding md:py-0">
+
+      <!-- Left: copy -->
+      <div class="flex flex-col gap-stack-sm pr-0 md:pr-12">
+        <SectionLabel text="OUR PRODUCTS" />
+        <h1
+          class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface uppercase mt-2"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          Precision Cranes.<br />Built for India.
+        </h1>
+        <p
+          class="font-body-lg text-body-lg text-on-surface-variant mt-4 max-w-lg"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          Explore our full range of EOT cranes, gantry cranes, and hoists —
+          engineered for reliability in the most demanding industrial environments.
+        </p>
+      </div>
+
+      <!-- Right: hero image -->
+      <div class="h-64 md:h-[400px] w-full bg-image-placeholder relative border-l border-border-subtle overflow-hidden">
+        <img
+          class="w-full h-full object-cover grayscale-[20%] contrast-125"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj2FlvGzfYJvklhosomGBaTFYJahWsw-1_oiT-9QNgmlfXfOKiWhODzmccTH6bwKyk2NeTaZyV5K_RT4DIOOqiIq3a4UCJuo02Q9fQYb5R3O1qTUGS84pY-kHTXgOwCb0ks7p-mJnMqxp5Br-D504H4OmnOZVAsmtxY2sIBA3fXYU6FVupGXRJSJoqxjE002lCL8vDI-3CNCsGBCzGqW3gtZt4hNhqW_PmzOMTeps0mB9Bdl0JmiRU"
+          alt="Wide-shot of an industrial manufacturing facility with overhead EOT cranes — Safe Build Engineering"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 2 — CATEGORY FILTER BAR
+       Each tab is an <a> link that sets ?category= — pure SSR,
+       no JS required. Active tab is highlighted orange.
+       ============================================================ -->
+  <section class="bg-image-placeholder border-b border-border-subtle w-full sticky top-20 z-40">
+    <div class="max-w-container-max mx-auto px-gutter py-4">
+      <nav
+        class="flex flex-wrap gap-3 font-label-caps text-label-caps uppercase tracking-widest"
+        aria-label="Filter products by category"
+      >
+        {filterTabs.map(tab => {
+          const isActive = rawCategory === tab.slug;
+          const href = tab.slug ? `/products?category=${tab.slug}` : '/products';
+          return (
+            <a
+              href={href}
+              class={[
+                'flex items-center gap-2 px-6 py-3 border transition-colors duration-150',
+                isActive
+                  ? 'bg-primary-container text-surface-white border-primary-container'
+                  : 'bg-surface-white text-on-surface-variant border-border-subtle hover:text-primary-container hover:border-primary-container',
+              ].join(' ')}
+              aria-current={isActive ? 'true' : undefined}
+            >
+              {tab.label}
+              <span
+                class={[
+                  'font-technical-data text-technical-data px-2 py-0.5',
+                  isActive
+                    ? 'bg-surface-white text-primary-container'
+                    : 'bg-image-placeholder text-on-surface-variant',
+                ].join(' ')}
+              >
+                {tab.count}
+              </span>
+            </a>
+          );
+        })}
+      </nav>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 3 — PRODUCTS GRID
+       3-col on desktop, 2 on tablet, 1 on mobile.
+       Each card is a <ProductCard> component.
+       Shows: empty state, error state, or product grid.
+       ============================================================ -->
+  <section class="bg-surface-white py-section-padding w-full">
+    <div class="max-w-container-max mx-auto px-gutter">
+
+      {/* ── SECTION HEADER with active filter label ── */}
+      {activeLabel && (
+        <div class="mb-10 pb-6 border-b border-border-subtle flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <SectionLabel text={activeLabel} class="mb-1" />
+            <h2 class="font-headline-md text-headline-md text-on-surface">
+              {counts[activeCategory!]} {activeLabel} Available
+            </h2>
+          </div>
+          <a
+            href="/products"
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-container transition-colors flex items-center gap-1 uppercase tracking-wider"
+          >
+            <span class="material-symbols-outlined text-[16px] leading-none">arrow_back</span>
+            All Products
+          </a>
+        </div>
+      )}
+
+      {/* ── ERROR STATE ── */}
+      {fetchError && (
+        <div class="py-20 text-center">
+          <span class="material-symbols-outlined text-[64px] text-surface-variant block mb-4">cloud_off</span>
+          <h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Could Not Load Products</h2>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mb-6">
+            We couldn't reach our product database. Please try again in a moment.
+          </p>
+          <a href="/products" class="btn-primary">
+            Retry
+          </a>
+        </div>
+      )}
+
+      {/* ── EMPTY STATE (Firestore empty or no match) ── */}
+      {!fetchError && products.length === 0 && (
+        <div class="py-20 text-center">
+          <span class="material-symbols-outlined text-[64px] text-surface-variant block mb-4">inventory_2</span>
+          <h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">
+            {activeLabel ? `No ${activeLabel} Listed Yet` : 'No Products Listed Yet'}
+          </h2>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mb-6">
+            Our catalogue is being updated. Contact us directly for available models.
+          </p>
+          <div class="flex gap-4 justify-center flex-wrap">
+            {activeLabel && (
+              <a href="/products" class="btn-secondary">View All Products</a>
+            )}
+            <a href="/contact?type=quote" class="btn-primary">Request a Quote</a>
+          </div>
+        </div>
+      )}
+
+      {/* ── PRODUCT GRID ── */}
+      {!fetchError && products.length > 0 && (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((product, i) => (
+            <div data-aos="fade-up" data-aos-delay={String((i % 3) * 80)}>
+              <ProductCard
+                name={product.name}
+                category={product.category}
+                shortDescription={product.shortDescription}
+                imageUrl={product.imageUrl}
+                slug={product.slug}
+                capacity={product.specs?.capacity ?? ''}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 4 — CTA BANNER
+       ============================================================ -->
+  <CTABanner
+    heading="Need a Custom Lifting Solution?"
+    subtext="Tell us your load requirements and our engineers will design the right crane for your facility."
+    primaryLabel="Request a Quote"
+    primaryHref="/contact?type=quote"
+    secondaryLabel="Contact Us"
+    secondaryHref="/contact"
+  />
+
+</BaseLayout>
