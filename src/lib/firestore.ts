@@ -17,7 +17,7 @@ import {
   limit,
   serverTimestamp,
   type QueryConstraint,
-} from 'firebase/firestore';
+} from 'firebase/firestore/lite';
 import { db } from './firebase';
 import type { Product, BlogPost, Enquiry, Quote, ProductCategory } from './types';
 
@@ -26,7 +26,7 @@ import type { Product, BlogPost, Enquiry, Quote, ProductCategory } from './types
 // ---------------------------------------------------------------
 
 /** Attaches the Firestore doc ID to a typed data object */
-function withId<T>(doc: import('firebase/firestore').DocumentSnapshot): T | null {
+function withId<T>(doc: import('firebase/firestore/lite').DocumentSnapshot): T | null {
   if (!doc.exists()) return null;
   return { id: doc.id, ...doc.data() } as T;
 }

@@ -3,7 +3,7 @@
 // Canonical TypeScript interfaces for all Firestore collections.
 // =============================================================
 
-import type { Timestamp } from 'firebase/firestore';
+import type { Timestamp } from 'firebase/firestore/lite';
 
 // -------------------------------------------------------------
 // PRODUCT
