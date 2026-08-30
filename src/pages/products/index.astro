@@ -31,29 +31,28 @@ const CATEGORY_MAP: Record<string, ProductCategory> = {
 const activeCategory: ProductCategory | null = CATEGORY_MAP[rawCategory] ?? null;
 
 // ── FIRESTORE FETCH (SSR) ────────────────────────────────────
-// getProducts() returns all products sorted by `order` asc.
-// If activeCategory is set, Firestore filters server-side.
-let products: Product[] = [];
+// ONE call — fetch ALL products, no Firestore where() filter.
+// Filtering by category happens in JS below — avoids composite
+// index requirement entirely (where + orderBy = index needed).
+let allProducts: Product[] = [];
 let fetchError = false;
 
 try {
-  products = await getProducts(activeCategory ?? undefined);
+  allProducts = await getProducts(); // no arg = all products, sorted by order asc
 } catch (e) {
   console.error('[products/index] Firestore fetch failed:', e);
   fetchError = true;
 }
 
-// ── CATEGORY COUNTS (computed from full dataset for filter bar)
-// We always need total counts → fetch all products once and compute
-let allProducts: Product[] = [];
-try {
-  allProducts = activeCategory ? await getProducts() : products;
-} catch {
-  allProducts = products;
-}
+// ── JS-SIDE CATEGORY FILTER ──────────────────────────────────
+// Apply category filter in memory — zero Firestore index needed.
+const products: Product[] = activeCategory
+  ? allProducts.filter(p => p.category === activeCategory)
+  : allProducts;
 
+// ── CATEGORY COUNTS (from the single full fetch) ──────────────
 const counts = {
-  all:     allProducts.length,
+  all:             allProducts.length,
   'eot-cranes':    allProducts.filter(p => p.category === 'eot-cranes').length,
   'gantry-cranes': allProducts.filter(p => p.category === 'gantry-cranes').length,
   'hoists':        allProducts.filter(p => p.category === 'hoists').length,
