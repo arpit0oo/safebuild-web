@@ -1,0 +1,24 @@
+{
+  "name": "Electric Chain Hoist",
+  "slug": "electric-chain-hoist",
+  "category": "chain-hoist",
+  "categoryName": "Chain Hoist",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/electric-chain-hoist.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Chain_Hoists.jpg",
+  "isFeatured": false,
+  "tagline": "High strength electric chain hoist for precise industrial lifting",
+  "description": "Safe Build Engineering's Electric Chain Hoist is extensively used for elevating purposes across cement, automobile and metal industries. Known for high strength, low power consumption and torsional stiffness, it is manufactured to set international standards by skilled professionals.",
+  "features": [
+    "High strength with low power consumption",
+    "Excellent torsional stiffness",
+    "Excellent lifting capacity",
+    "Easy operations",
+    "Precision loading and unloading",
+    "Variable lifting speed"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

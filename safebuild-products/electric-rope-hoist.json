@@ -1,0 +1,24 @@
+{
+  "name": "Electric Rope Hoist",
+  "slug": "electric-rope-hoist",
+  "category": "rope-hoists",
+  "categoryName": "Rope Hoists",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Electric-Rope-Hoists.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Electrically operated rope hoist for precise and efficient industrial lifting",
+  "description": "Safe Build Engineering's Electric Rope Hoist offers precise and efficient lifting for industrial environments. ISO manufacturing standards with electric operation for accurate load control, long working life and reliable performance across heavy duty applications.",
+  "features": [
+    "Excellent lifting capacity",
+    "Easy operations",
+    "Precision loading and unloading",
+    "Variable lifting speed",
+    "Electric operation for precise control",
+    "Long working life"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

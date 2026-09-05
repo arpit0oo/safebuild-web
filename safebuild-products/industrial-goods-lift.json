@@ -1,0 +1,24 @@
+{
+  "name": "Industrial Goods Lift",
+  "slug": "industrial-goods-lift",
+  "category": "goods-lift",
+  "categoryName": "Goods Lift",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Goods-Lift.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Heavy duty industrial goods lift for warehouse and manufacturing units",
+  "description": "Safe Build Engineering's Industrial Goods Lift is widely in demand across warehouses, godowns and manufacturing units. Made with stainless steel construction for high tensile strength and durability, it reduces labor cost and delivers high efficiency with minimal maintenance.",
+  "features": [
+    "Low thermal conductivity",
+    "Admirable tensile strength",
+    "Tough and robust structure",
+    "Quiet and fluent operations",
+    "Saves labor cost",
+    "Corrosion proof and low maintenance"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

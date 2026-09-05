@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — Safe Build Engineering
 
-> Last updated: 2026-08-30 | Status: Planning / In Progress
+> Last updated: 2026-09-05 | Status: In Progress (Phases 4–5 active)
 
 ---
 
@@ -53,11 +53,11 @@ safebuild-web/                          # Root of Astro project
 │   │
 │   ├── pages/
 │   │   ├── index.astro                 # Homepage (built last)
-│   │   ├── about.astro                 # About page (in progress — first conversion)
+│   │   ├── about.astro                 # About page (complete)
 │   │   ├── contact.astro               # Contact page
 │   │   ├── products/
-│   │   │   ├── index.astro             # Products listing page
-│   │   │   └── [slug].astro            # Dynamic product detail page
+│   │   │   ├── index.astro             # Products listing page (SSR, category filter)
+│   │   │   └── [slug].astro            # Dynamic product detail page (SSR)
 │   │   └── blog/
 │   │       ├── index.astro             # Blog listing page
 │   │       └── [slug].astro            # Dynamic blog detail page
@@ -89,43 +89,69 @@ safebuild-web/                          # Root of Astro project
 | Route | File | Data Source | Notes |
 |---|---|---|---|
 | `/` | `index.astro` | Firestore (featured products) | Built last |
-| `/about` | `about.astro` | Static | First conversion |
-| `/products` | `products/index.astro` | Firestore `products` collection | SSR |
-| `/products/[slug]` | `products/[slug].astro` | Firestore `products` doc by slug | SSR dynamic |
+| `/about` | `about.astro` | Static | Complete |
+| `/products` | `products/index.astro` | Firestore `products` collection | SSR — category filter via `?category=` |
+| `/products/[slug]` | `products/[slug].astro` | Firestore `products` doc by slug | SSR dynamic — `prerender = true` pending |
 | `/blog` | `blog/index.astro` | Firestore `blogs` collection | SSR |
 | `/blog/[slug]` | `blog/[slug].astro` | Firestore `blogs` doc by slug | SSR dynamic |
 | `/contact` | `contact.astro` | Static form → writes to Firestore | SSR |
-| `/quote` | Redirect → `/contact` with `?type=quote` | Writes to `quotes` collection | |
+| `/quote` | Redirect → `/contact?type=quote` | Writes to `quotes` collection | |
 
 ---
 
 ## 4. Firebase Firestore Collections
 
 ### `products`
+
 ```
 products/
   {docId}/
-    slug: string              // URL slug, e.g. "eot-crane-5-ton"
-    name: string              // "5-Ton EOT Crane"
-    category: string          // "EOT Cranes" | "Gantry Cranes" | "Hoists"
+    slug: string              // URL slug, e.g. "goliath-crane"
+    name: string              // "Goliath Crane"
+    category: string          // "eot-cranes" | "gantry-cranes" | "hoists"
+                              // NOTE: 18 product categories planned in content inventory.
+                              //       ProductCategory type in types.ts currently has 3 values.
+                              //       Will be expanded as seeding progresses.
+    categoryName?: string     // Human-readable label, e.g. "Gantry Cranes"
     shortDescription: string  // ~80 chars, for listing cards
-    description: string       // Full markdown or HTML body for detail page
-    specs: {                  // Key technical specs
-      capacity: string        // "5 Ton"
-      span: string            // "Up to 30m"
-      liftHeight: string      // "Up to 12m"
-      driveType: string       // "FRD / CRD"
-      dutyCycle: string       // "M3 / M4 / M5"
-    }
+    tagline?: string          // Short marketing tagline shown in hero (falls back to shortDescription)
+    description: string       // Full body text for detail page (split on \n\n for paragraphs)
+    specs: Record<string, string>
+                              // Open-ended key/value map — keys are whatever the CMS stores.
+                              // e.g. { "Safe Working Load": "1000 kg to 60,000 kg", "Span": "5 m to 50 m" }
+                              // NOT fixed keys. specRows are rendered directly from Object.entries(specs).
+    features?: string[]       // Bullet-point feature list (Section 3 of detail page)
+    sections?: Array<{        // Structured detail-page content sections (Batch 5 — pending renderer)
+      title: string
+      type: 'bullets' | 'table' | 'text'
+      content: string[] | Record<string, string> | string
+    }>
     imageUrl: string          // Primary product image (Firebase Storage or CDN URL)
+                              // NOTE: Currently empty string ("") for all seeded products — placeholder shown
     galleryUrls: string[]     // Additional images
-    isFeatured: boolean       // Show on homepage
-    order: number             // Manual sort order for listing
+    isFeatured: boolean       // Show on homepage featured section
+    order: number             // Manual sort order for listing page
     createdAt: Timestamp
     updatedAt: Timestamp
 ```
 
+#### Note on `specs`
+
+The `specs` field changed from a fixed-key interface (`ProductSpecs`) to `Record<string, string>`.
+- Firestore documents store human-readable key names (e.g. `"Safe Working Load"`, `"Height of Lift"`)
+- The detail page renders them via `Object.entries(product.specs)` directly
+- `SPEC_LABELS` map in `[slug].astro` is **no longer used for rendering** — it remains in the file but is bypassed
+
+#### Note on `capacity` in `ProductCard`
+
+`ProductCard` still reads `product.specs?.capacity ?? ''` to display the capacity badge chip.
+If the Firestore doc stores capacity under a different key (e.g. `"Safe Working Load"`), the chip will be empty.
+This is a known issue — **Batch 4 fix: use `categoryName` field + capacity key normalisation**.
+
+---
+
 ### `blogs`
+
 ```
 blogs/
   {docId}/
@@ -143,6 +169,7 @@ blogs/
 ```
 
 ### `enquiries`
+
 ```
 enquiries/
   {docId}/
@@ -158,6 +185,7 @@ enquiries/
 ```
 
 ### `quotes`
+
 ```
 quotes/
   {docId}/
@@ -178,26 +206,40 @@ quotes/
 
 ## 5. SSR Data Fetching Pattern
 
-All pages that require Firestore data use **server-side rendering** at request time. No static generation for data-driven pages.
+All pages that require Firestore data use **server-side rendering** at request time.
 
 ```astro
 ---
 // src/pages/products/[slug].astro
-import { getProductBySlug } from '../../lib/firestore';
+import { getProductBySlug, getProducts } from '../../lib/firestore';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const { slug } = Astro.params;
-const product = await getProductBySlug(slug);
+const { slug } = Astro.params as { slug: string };
+
+let product = null;
+try {
+  product = await getProductBySlug(slug);
+} catch (e) {
+  // fetchError = true
+}
 
 if (!product) {
   return Astro.redirect('/products', 302);
 }
 ---
-
-<BaseLayout title={`${product.name} — Safe Build Engineering`}>
-  <!-- page content -->
-</BaseLayout>
 ```
+
+### Pending: SSG for Product Detail Pages
+
+Product detail pages (`[slug].astro`) are currently **SSR** (rendered on every request).
+A future batch will add `export const prerender = true` + `getStaticPaths()` to convert them
+to **static generation** at build time. This requires seeding all 41 products first.
+
+### `getProducts` — Category Filtering Strategy
+
+`products/index.astro` fetches **all products** in one Firestore call (no `where()` filter),
+then filters in JavaScript. This avoids requiring a composite Firestore index for
+`where('category') + orderBy('order')`.
 
 ---
 

@@ -1,0 +1,24 @@
+{
+  "name": "Wire Hoist",
+  "slug": "wire-hoist",
+  "category": "industrial-hoist",
+  "categoryName": "Industrial Hoist",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Wire-Hoist.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Reliable wire hoist for safe industrial lifting with maximum efficiency",
+  "description": "Safe Build Engineering's Wire Hoist is designed for both safety and performance across construction, shipping and industrial applications. ISO 9001:2008 certified manufacturing ensures high functional efficiency, low noise and maximum lifting height for reliable long-term operation.",
+  "features": [
+    "Full safety during use",
+    "Optimum lifting capacity",
+    "High operational efficiency",
+    "Variable speed optional",
+    "Easy control",
+    "Low noise and maximum lifting height"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

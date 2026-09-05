@@ -1,0 +1,33 @@
+{
+  "name": "Hot Crane",
+  "slug": "hot-crane",
+  "category": "hot-crane",
+  "categoryName": "Hot Crane",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/HOT-Crane.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Hot-Crane.jpg",
+  "isFeatured": false,
+  "tagline": "Robust HOT crane for medium to heavy duty lifting up to 50 tonnes",
+  "description": "Safe Build Engineering's HOT Cranes are manufactured with advanced technology and premium quality raw materials. Available in single and double girder with load capacities from 12 to 50 tonnes, operated by radio control or cable pendant with anti-corrosive finish and minimal maintenance.",
+  "features": [
+    "Robust construction with anti-corrosive finish",
+    "Lifts medium and heavy goods up to 50 tonnes",
+    "One floor mounted and one structurally mounted rail",
+    "Available in single and double girder",
+    "Radio control or cable connected pendant operation",
+    "Trouble free operation with less maintenance"
+  ],
+  "specs": {
+    "Safe Working Load": "1000 kg to 60,000 kg",
+    "Span": "5 m to 50 m",
+    "Height of Lift": "As per customer specifications",
+    "Class of Duty": "M5, M7, M8 as per IS 3177 / IS 807",
+    "Crane Control": "Pendant push buttons / Radio remote / Cabin with master control",
+    "Drive System": "Twin drive squirrel cage induction geared motors with fail safe brakes",
+    "Motor Insulation Class": "B/F",
+    "Power Supply": "Trailing cables / drag chain / shrouded bus bars / cable reeling drum"
+  },
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

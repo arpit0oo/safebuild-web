@@ -1,0 +1,24 @@
+{
+  "name": "Electric Overhead Travelling Crane",
+  "slug": "electric-overhead-travelling-crane",
+  "category": "double-girder-cranes",
+  "categoryName": "Double Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Electric-Wire-Rope-Hoist-Crane.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Electric overhead travelling crane for wide span industrial material handling",
+  "description": "Safe Build Engineering's Electric Overhead Travelling Crane offers wide span industrial material handling with high efficiency electric drive systems. Robust structure with long working life and easy control for continuous industrial operation.",
+  "features": [
+    "Optimum hoisting capacity",
+    "High efficiency",
+    "Long working life",
+    "Robust structure",
+    "Less maintenance required",
+    "Wide span electric drive system"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

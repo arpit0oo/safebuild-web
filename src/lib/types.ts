@@ -25,11 +25,19 @@ export interface Product {
   category: ProductCategory;
   shortDescription: string;  // ~80 chars for listing cards
   description: string;       // Full HTML/Markdown for detail page
-  specs: ProductSpecs;
+  specs: Record<string, string>;
   imageUrl: string;          // Primary image
   galleryUrls: string[];     // Additional images
   isFeatured: boolean;       // Show on homepage featured section
   order: number;             // Manual sort order
+  tagline?: string;           // Short marketing tagline
+  categoryName?: string;       // Human-readable category label
+  features?: string[];         // Bullet-point feature list
+  sections?: Array<{           // Structured detail-page sections
+    title: string;
+    type: 'bullets' | 'table' | 'text';
+    content: string[] | Record<string, string> | string;
+  }>;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

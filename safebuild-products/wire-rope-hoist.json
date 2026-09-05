@@ -1,0 +1,24 @@
+{
+  "name": "Wire Rope Hoist",
+  "slug": "wire-rope-hoist",
+  "category": "rope-hoists",
+  "categoryName": "Rope Hoists",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Wire-Rope-Hoist.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "ISO compliant wire rope hoist for factories, docks and storage houses",
+  "description": "Safe Build Engineering's Wire Rope Hoist is widely used in factories, docks, ports, mines, storage houses and workshops. ISO compliant manufacturing ensures high performance and reliability with excellent lifting capacity and variable lifting speed.",
+  "features": [
+    "Excellent lifting capacity",
+    "Easy operations",
+    "Precision loading and unloading",
+    "Variable lifting speed",
+    "ISO compliant manufacturing",
+    "Wide industrial applications"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

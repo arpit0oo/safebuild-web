@@ -1,0 +1,24 @@
+{
+  "name": "Goods Elevator",
+  "slug": "goods-elevator",
+  "category": "goods-lift",
+  "categoryName": "Goods Lift",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Goods-Lift.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Stainless steel goods elevator for multi-floor material transport",
+  "description": "Safe Build Engineering's Goods Elevator is constructed with stainless steel for durable and robust performance. Designed for carrying heavy goods floor to floor in warehouses and godowns, it saves labor cost with high tensile strength and minimal maintenance.",
+  "features": [
+    "Low thermal conductivity",
+    "Admirable tensile strength",
+    "Tough and robust stainless steel structure",
+    "Quiet and fluent operations",
+    "Corrosion proof construction",
+    "Low maintenance"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

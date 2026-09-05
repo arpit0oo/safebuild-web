@@ -1,0 +1,24 @@
+{
+  "name": "Industrial EOT Crane",
+  "slug": "industrial-eot-crane",
+  "category": "industrial-eot-crane",
+  "categoryName": "Industrial EOT Crane",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Material-Handling-System.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Heavy-Duty-Girder-Crane.jpg",
+  "isFeatured": false,
+  "tagline": "Optimum quality industrial EOT crane for heavy load transfer",
+  "description": "Safe Build Engineering's Industrial EOT Crane is manufactured using quality components and innovative techniques by skilled professionals. Highly demanded across industries for handling heavy loads with quick installation, easy operations and durable anti-corrosive finish.",
+  "features": [
+    "Hassle free operation and less maintenance",
+    "Longer service life with modular and innovative design",
+    "Handles light, medium and heavy weight goods",
+    "Easy to install, maintain and operate",
+    "Anti-corrosive paint finish to protect from rust",
+    "Wide span for fast material handling"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

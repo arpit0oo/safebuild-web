@@ -1,0 +1,330 @@
+[
+  {
+    "name": "Electric Chain Hoist",
+    "slug": "electric-chain-hoist",
+    "category": "chain-hoist",
+    "categoryName": "Chain Hoist",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Heavy Duty Chain Hoist",
+    "slug": "heavy-duty-chain-hoist",
+    "category": "chain-hoist",
+    "categoryName": "Chain Hoist",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Chain Pulley Block",
+    "slug": "chain-pulley-block",
+    "category": "chain-pulley-block",
+    "categoryName": "Chain Pulley Block",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Electric Double Girder Crane",
+    "slug": "electric-double-girder-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Heavy Duty Girder Crane",
+    "slug": "heavy-duty-girder-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": true,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Material Handling System",
+    "slug": "material-handling-system",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Overhead EOT Crane",
+    "slug": "overhead-eot-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Double Beam EOT Crane",
+    "slug": "double-beam-eot-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Flame Proof EOT Crane",
+    "slug": "flame-proof-eot-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Double Girder EOT Crane",
+    "slug": "double-girder-eot-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Heavy Duty EOT Crane",
+    "slug": "heavy-duty-eot-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Electric Overhead Travelling Crane",
+    "slug": "electric-overhead-travelling-crane",
+    "category": "double-girder-cranes",
+    "categoryName": "Double Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Flame Proof Crane & Hoist",
+    "slug": "flame-proof-crane-hoist",
+    "category": "flame-proof-crane-hoist",
+    "categoryName": "Flame Proof Crane & Hoist",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Flame Proof Cage Hoist",
+    "slug": "flame-proof-cage-hoist",
+    "category": "flame-proof-cage-hoist",
+    "categoryName": "Flame Proof Cage Hoist",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Goods Elevator",
+    "slug": "goods-elevator",
+    "category": "goods-lift",
+    "categoryName": "Goods Lift",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Industrial Goods Lift",
+    "slug": "industrial-goods-lift",
+    "category": "goods-lift",
+    "categoryName": "Goods Lift",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Hydraulic Goods Lift",
+    "slug": "hydraulic-goods-lift",
+    "category": "goods-lift",
+    "categoryName": "Goods Lift",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Goliath Crane",
+    "slug": "goliath-crane",
+    "category": "goliath-crane",
+    "categoryName": "Goliath Crane",
+    "isFeatured": true,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Heavy Duty Crane",
+    "slug": "heavy-duty-crane",
+    "category": "heavy-duty-crane",
+    "categoryName": "Heavy Duty Crane",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Heavy Duty Gantry Crane",
+    "slug": "heavy-duty-gantry-crane",
+    "category": "heavy-duty-gantry-crane",
+    "categoryName": "Heavy Duty Gantry Crane",
+    "isFeatured": true,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Hot Crane",
+    "slug": "hot-crane",
+    "category": "hot-crane",
+    "categoryName": "Hot Crane",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Industrial EOT Crane",
+    "slug": "industrial-eot-crane",
+    "category": "industrial-eot-crane",
+    "categoryName": "Industrial EOT Crane",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Wire Hoist",
+    "slug": "wire-hoist",
+    "category": "industrial-hoist",
+    "categoryName": "Industrial Hoist",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Flame Proof Hoist",
+    "slug": "flame-proof-hoist",
+    "category": "industrial-hoist",
+    "categoryName": "Industrial Hoist",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Wall Travelling Jib Crane",
+    "slug": "wall-travelling-jib-crane",
+    "category": "jib-cranes",
+    "categoryName": "Jib Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Pillar Mounted Jib Crane",
+    "slug": "pillar-mounted-jib-crane",
+    "category": "jib-cranes",
+    "categoryName": "Jib Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Portable Jib Crane",
+    "slug": "portable-jib-crane",
+    "category": "jib-cranes",
+    "categoryName": "Jib Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Overhead Trolley",
+    "slug": "overhead-trolley",
+    "category": "overhead-trolley",
+    "categoryName": "Overhead Trolley",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Wire Rope Hoist",
+    "slug": "wire-rope-hoist",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Electric Rope Hoist",
+    "slug": "electric-rope-hoist",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "FLP Goods Cum Passenger Lift",
+    "slug": "flp-goods-cum-passenger-lift",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Electrically Operated Wire Rope Hoist",
+    "slug": "electrically-operated-wire-rope-hoist",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Electric Wire Rope Hoist Crane",
+    "slug": "electric-wire-rope-hoist-crane",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Flame Proof EOT Crane (Rope)",
+    "slug": "flame-proof-eot-crane-rope",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Double Girder EOT Crane (Rope)",
+    "slug": "double-girder-eot-crane-rope",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Heavy Duty EOT Crane (Rope)",
+    "slug": "heavy-duty-eot-crane-rope",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Electric Overhead Travelling Crane (Rope)",
+    "slug": "electric-overhead-travelling-crane-rope",
+    "category": "rope-hoists",
+    "categoryName": "Rope Hoists",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Flame Proof Single Girder EOT Crane",
+    "slug": "flame-proof-single-girder-eot-crane",
+    "category": "single-girder-cranes",
+    "categoryName": "Single Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Single Beam EOT Crane",
+    "slug": "single-beam-eot-crane",
+    "category": "single-girder-cranes",
+    "categoryName": "Single Girder Cranes",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Single Girder EOT Crane",
+    "slug": "single-girder-eot-crane",
+    "category": "single-girder-cranes",
+    "categoryName": "Single Girder Cranes",
+    "isFeatured": true,
+    "contentStatus": "Draft"
+  },
+  {
+    "name": "Underslung Crane",
+    "slug": "underslung-crane",
+    "category": "underslung-crane",
+    "categoryName": "Underslung Crane",
+    "isFeatured": false,
+    "contentStatus": "Draft"
+  }
+]

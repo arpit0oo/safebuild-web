@@ -1,0 +1,26 @@
+{
+  "name": "Chain Pulley Block",
+  "slug": "chain-pulley-block",
+  "category": "chain-pulley-block",
+  "categoryName": "Chain Pulley Block",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/chain-pulley-block.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/chain-pulley-block.jpg",
+  "isFeatured": false,
+  "tagline": "Industrial chain pulley block for heavy equipment handling",
+  "description": "Safe Build Engineering's Industrial Chain Pulley Block is used across industries for handling heavy equipment. Developed by skilled professionals using best grade inputs in compliance with international quality standards. Widely appreciated for high flexibility, sturdy construction and longer service life.",
+  "features": [
+    "Low headroom design",
+    "Positive transmission with bearing supporter",
+    "Available in spark-proof and non-spark proof construction",
+    "Totally enclosed gear case packed with grease",
+    "Test certification provided for every unit",
+    "High flexibility and sturdy construction"
+  ],
+  "specs": {
+    "Capacity": "500 kg to 12,000 kg"
+  },
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

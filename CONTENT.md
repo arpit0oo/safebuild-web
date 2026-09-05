@@ -1,6 +1,8 @@
 # CONTENT.md — Safe Build Engineering
 
-> All copy, product slugs, descriptions, and placeholder content for the site. This is the content inventory — update with real specs as they become available.
+> All copy, product slugs, descriptions, and placeholder content for the site.
+> Updated to reflect 18 product categories and 41 products (seeding target).
+> Slugs that are already seeded in Firestore are marked ✅.
 
 ---
 
@@ -66,66 +68,220 @@
 
 ---
 
-## 3. Products — Slugs, Names, and Placeholder Descriptions
+## 3. Products — Categories and Slugs (Full Inventory)
 
-### Category: EOT Cranes (Electric Overhead Travelling)
-
-| Slug | Name | Capacity | Short Description |
-|---|---|---|---|
-| `eot-crane-5-ton` | 5-Ton EOT Crane | 5 Ton | Single-girder electric overhead crane for light-to-medium industrial applications. |
-| `eot-crane-10-ton` | 10-Ton EOT Crane | 10 Ton | Double-girder EOT crane built for medium-duty continuous operation in manufacturing facilities. |
-| `eot-crane-20-ton` | 20-Ton EOT Crane | 20 Ton | Heavy-duty double-girder crane engineered for steel plants and fabrication yards. |
-| `eot-crane-50-ton` | 50-Ton EOT Crane | 50 Ton | Industrial-grade high-capacity crane for shipbuilding, port, and heavy infrastructure. |
-| `eot-crane-100-ton` | 100-Ton EOT Crane | 100 Ton | Maximum-duty crane system for steel mills and power plant construction. |
-
-### Category: Gantry Cranes
-
-| Slug | Name | Capacity | Short Description |
-|---|---|---|---|
-| `gantry-crane-10-ton` | 10-Ton Gantry Crane | 10 Ton | Full-gantry ground-running crane for open yards and outdoor fabrication areas. |
-| `gantry-crane-25-ton` | 25-Ton Gantry Crane | 25 Ton | Heavy-duty gantry with adjustable spans for port and logistics applications. |
-| `semi-gantry-crane-10-ton` | 10-Ton Semi-Gantry Crane | 10 Ton | Wall-supported semi-gantry for facilities with limited ground space. |
-
-### Category: Hoists
-
-| Slug | Name | Capacity | Short Description |
-|---|---|---|---|
-| `wire-rope-hoist-1-ton` | 1-Ton Wire Rope Hoist | 1 Ton | Compact, high-speed wire rope hoist for maintenance bays and light lifting. |
-| `wire-rope-hoist-5-ton` | 5-Ton Wire Rope Hoist | 5 Ton | Industrial wire rope hoist with FRD/CRD drive options for production lines. |
-| `chain-hoist-500kg` | 500 KG Chain Hoist | 500 KG | Portable electric chain hoist for workshop and maintenance operations. |
-| `chain-hoist-2-ton` | 2-Ton Chain Hoist | 2 Ton | Medium-duty electric chain hoist with motorized trolley option. |
+> Target: 18 categories, 41 products total.
+> `imageUrl` is currently `""` (empty string) for all products — placeholder shown in UI.
+> Specs are stored as `Record<string, string>` with human-readable key names.
 
 ---
 
-## 4. Placeholder Product Specs (EOT Crane 10-Ton — Reference)
+### Category 1: EOT Cranes (Electric Overhead Travelling)
+**Firestore `category` value:** `eot-cranes`
+
+| Slug | Name | Notes |
+|---|---|---|
+| `eot-crane-5-ton` | 5-Ton EOT Crane | |
+| `eot-crane-10-ton` | 10-Ton EOT Crane | |
+| `eot-crane-20-ton` | 20-Ton EOT Crane | |
+| `eot-crane-50-ton` | 50-Ton EOT Crane | |
+| `eot-crane-100-ton` | 100-Ton EOT Crane | |
+
+---
+
+### Category 2: Gantry Cranes
+**Firestore `category` value:** `gantry-cranes`
+
+| Slug | Name | Notes |
+|---|---|---|
+| `gantry-crane-10-ton` | 10-Ton Gantry Crane | |
+| `gantry-crane-25-ton` | 25-Ton Gantry Crane | |
+| `semi-gantry-crane-10-ton` | 10-Ton Semi-Gantry Crane | |
+
+---
+
+### Category 3: Goliath Cranes
+**Firestore `category` value:** `gantry-cranes` (or dedicated slug pending)
+
+| Slug | Name | Notes |
+|---|---|---|
+| `goliath-crane` | Goliath Crane | ✅ Seeded — verified in dev |
+
+---
+
+### Category 4: Jib Cranes
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `jib-crane-wall-mounted` | Wall-Mounted Jib Crane |
+| `jib-crane-pillar-mounted` | Pillar-Mounted Jib Crane |
+| `jib-crane-articulated` | Articulated Jib Crane |
+
+---
+
+### Category 5: Monorail Systems
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `monorail-hoist-system` | Monorail Hoist System |
+| `curved-monorail-system` | Curved Monorail System |
+
+---
+
+### Category 6: Underslung Cranes
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `underslung-crane-5-ton` | 5-Ton Underslung Crane |
+| `underslung-crane-10-ton` | 10-Ton Underslung Crane |
+
+---
+
+### Category 7: Wire Rope Hoists
+**Firestore `category` value:** `hoists`
+
+| Slug | Name |
+|---|---|
+| `wire-rope-hoist-1-ton` | 1-Ton Wire Rope Hoist |
+| `wire-rope-hoist-5-ton` | 5-Ton Wire Rope Hoist |
+| `wire-rope-hoist-10-ton` | 10-Ton Wire Rope Hoist |
+
+---
+
+### Category 8: Chain Hoists
+**Firestore `category` value:** `hoists`
+
+| Slug | Name |
+|---|---|
+| `chain-hoist-500kg` | 500 KG Chain Hoist |
+| `chain-hoist-2-ton` | 2-Ton Chain Hoist |
+| `chain-hoist-5-ton` | 5-Ton Chain Hoist |
+
+---
+
+### Category 9: Overhead Crane Kits
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `overhead-crane-kit-5-ton` | 5-Ton Overhead Crane Kit |
+
+---
+
+### Category 10: Material Handling Systems
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `automated-material-handling` | Automated Material Handling System |
+| `manual-material-handling` | Manual Material Handling System |
+
+---
+
+### Category 11: Davit Cranes
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `davit-crane-500kg` | 500 KG Davit Crane |
+| `davit-crane-2-ton` | 2-Ton Davit Crane |
+
+---
+
+### Category 12: Stackers & Transfer Cars
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `transfer-car-10-ton` | 10-Ton Transfer Car |
+| `coil-transfer-car` | Coil Transfer Car |
+
+---
+
+### Category 13: Grab Buckets & Special Attachments
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `grab-bucket-clamshell` | Clamshell Grab Bucket |
+| `electromagnet-lifting` | Electromagnet Lifting Attachment |
+
+---
+
+### Category 14: Crane Components & Spares
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `end-carriage-assembly` | End Carriage Assembly |
+| `drum-and-gearbox-unit` | Drum and Gearbox Unit |
+
+---
+
+### Category 15: Hoisting Winches
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `electric-winch-2-ton` | 2-Ton Electric Winch |
+| `electric-winch-10-ton` | 10-Ton Electric Winch |
+
+---
+
+### Category 16: Port & Shipyard Cranes
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `port-mobile-crane` | Port Mobile Crane |
+| `shipyard-gantry-crane` | Shipyard Gantry Crane |
+
+---
+
+### Category 17: Foundry & Steel Plant Cranes
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `foundry-ladle-crane` | Foundry Ladle Crane |
+| `coil-handling-crane` | Coil Handling Crane |
+
+---
+
+### Category 18: Custom Engineering Solutions
+**Firestore `category` value:** TBD
+
+| Slug | Name |
+|---|---|
+| `custom-crane-solution` | Custom Crane Solution |
+
+---
+
+## 4. Spec Format Reference (Actual Firestore Key Names)
+
+Specs are stored as `Record<string, string>` with **human-readable keys**.
+The detail page renders them directly — no key mapping applied.
 
 ```
-Name: 10-Ton EOT Crane
-Slug: eot-crane-10-ton
-Category: EOT Cranes
-
-Specs:
-  Capacity: 10 Ton
-  Type: Double Girder
-  Span: Up to 28m
-  Lift Height: Up to 10m
-  Drive Type: FRD / CRD
-  Duty Cycle: M4 / M5
-  End Carriage Speed: 20 m/min
-  Cross Travel Speed: 10 m/min
-  Hoist Speed: 5 m/min (FLD) / 0.5 m/min (CRD)
-  Power Supply: 415V / 50Hz / 3-Phase
-  Control: Pendant / Radio Remote
-  Standards: IS:807 / IS:3177 / IS:3938
-
-Short Description:
-  Double-girder EOT crane built for medium-duty continuous operation in manufacturing facilities.
-
-Full Description:
-  The Safe Build 10-Ton EOT Crane is engineered for continuous operation in demanding industrial environments. The double-girder configuration delivers exceptional span capability and headroom, while precision-machined components ensure smooth, reliable lifting cycles shift after shift.
-
-  Manufactured in compliance with IS:807 and IS:3177, this crane undergoes full load testing at 125% rated capacity before dispatch. Custom span configurations and specialized hook types are available on request.
+// Example: Goliath Crane (seeded, verified)
+specs: {
+  "Safe Working Load":  "1000 kg to 60,000 kg",
+  "Span":               "5 m to 50 m",
+  "Height of Lift":     "As per customer specifications",
+  "Class of Duty":      "M5, M7, M8 as per IS 3177 / IS 807",
+  "Crane Control":      "Pendant push buttons / Radio remote / Cabin with master control",
+  "Drive System":       "Twin drive squirrel cage induction geared motors with fail safe brakes",
+  "Motor Insulation Class": "B/F",
+  "Power Supply":       "Trailing cables / drag chain / shrouded bus bars / cable reeling drum"
+}
 ```
+
+> **Note:** `ProductCard` reads `product.specs?.capacity` to show the capacity chip.
+> Products using `"Safe Working Load"` as the key will show an empty chip.
+> Batch 4 fix: normalise or use a dedicated top-level `capacity` field.
 
 ---
 

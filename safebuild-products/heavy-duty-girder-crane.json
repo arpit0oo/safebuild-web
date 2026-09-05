@@ -1,0 +1,24 @@
+{
+  "name": "Heavy Duty Girder Crane",
+  "slug": "heavy-duty-girder-crane",
+  "category": "double-girder-cranes",
+  "categoryName": "Double Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Heavy Duty Girder Crane.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Heavy-Duty-Girder-Crane.jpg",
+  "isFeatured": true,
+  "tagline": "Heavy duty girder crane for demanding warehouse and plant operations",
+  "description": "Safe Build Engineering's Heavy Duty Girder Crane is manufactured for the most demanding industrial applications. Built with advanced girder, end beam, trolley and electric components, it is widely used in warehouses and plants to lift goods and materials with maximum efficiency.",
+  "features": [
+    "Optimum hoisting capacity",
+    "High efficiency",
+    "Long working life",
+    "Robust structure",
+    "Less maintenance required",
+    "Easy assembling and control"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

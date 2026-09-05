@@ -1,0 +1,24 @@
+{
+  "name": "Heavy Duty Crane",
+  "slug": "heavy-duty-crane",
+  "category": "heavy-duty-crane",
+  "categoryName": "Heavy Duty Crane",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Container-Handling-Crane.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Container-Handling-Crane.jpg",
+  "isFeatured": false,
+  "tagline": "Ship-to-shore container handling crane for port and terminal operations",
+  "description": "Safe Build Engineering's Heavy Duty Crane is a large dockside gantry crane for container terminal operations. Used for unloading and loading inter-modal containers from ships using a twist lock spreader mechanism. Engineered to carry two to four containers simultaneously depending on requirements.",
+  "features": [
+    "Reduces operational and manpower costs",
+    "Improved safety with up-to-date technology",
+    "Indispensable logistics for modern material traffic",
+    "Ideal for shifting all types of cargo",
+    "Can carry 2 to 4 containers simultaneously",
+    "Spreader with twist lock mechanism"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

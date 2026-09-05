@@ -1,0 +1,24 @@
+{
+  "name": "Hydraulic Goods Lift",
+  "slug": "hydraulic-goods-lift",
+  "category": "goods-lift",
+  "categoryName": "Goods Lift",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Goods-Lift.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Smooth hydraulic goods lift for heavy industrial vertical transport",
+  "description": "Safe Build Engineering's Hydraulic Goods Lift delivers smooth and efficient vertical material transport using hydraulic operation. Robust stainless steel structure designed for heavy industrial applications with minimal maintenance requirements and corrosion proof finish.",
+  "features": [
+    "Low thermal conductivity",
+    "Admirable tensile strength",
+    "Tough and robust structure",
+    "Quiet and fluent hydraulic operation",
+    "Smooth lift mechanism",
+    "Corrosion proof and low maintenance"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

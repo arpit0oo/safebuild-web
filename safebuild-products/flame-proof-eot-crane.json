@@ -1,0 +1,24 @@
+{
+  "name": "Flame Proof EOT Crane",
+  "slug": "flame-proof-eot-crane",
+  "category": "double-girder-cranes",
+  "categoryName": "Double Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Flame-Proof-EOT-Crane.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Flame proof EOT crane for hazardous industrial environments",
+  "description": "Safe Build Engineering's Flame Proof EOT Crane is designed for hazardous industrial environments requiring explosion-proof overhead crane systems. Features electromagnetic braking, heavy duty rope guides and worm gear drives for safe and reliable operation.",
+  "features": [
+    "Flameproof and robust construction",
+    "Electromagnetic brake to prevent accidents",
+    "Heavy duty cast iron rope band and guide",
+    "Worm gear drives for quiet smooth operation",
+    "Available in single, twin or multiple hook models",
+    "Double speed motors for hoisting and CT motion"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

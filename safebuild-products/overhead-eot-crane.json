@@ -1,0 +1,24 @@
+{
+  "name": "Overhead EOT Crane",
+  "slug": "overhead-eot-crane",
+  "category": "double-girder-cranes",
+  "categoryName": "Double Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Overhead-EOT-Crane.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Overhead EOT crane for wide span industrial material handling",
+  "description": "Safe Build Engineering's Overhead EOT Crane is engineered for wide span industrial overhead lifting with optimum hoisting capacity. Built with robust structure and core technologies for high efficiency and long working life across demanding industrial environments.",
+  "features": [
+    "Optimum hoisting capacity",
+    "High efficiency",
+    "Long working life",
+    "Robust structure",
+    "Less maintenance required",
+    "Wide span overhead operation"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

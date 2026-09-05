@@ -1,0 +1,24 @@
+{
+  "name": "Double Beam EOT Crane",
+  "slug": "double-beam-eot-crane",
+  "category": "double-girder-cranes",
+  "categoryName": "Double Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Double-Beam-EOT-Crane.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Double beam EOT crane for heavy continuous duty industrial lifting",
+  "description": "Safe Build Engineering's Double Beam EOT Crane features advanced double beam construction for maximum load capacity and stability. Engineered for continuous duty industrial applications with robust structure and less maintenance requirements.",
+  "features": [
+    "Optimum hoisting capacity",
+    "High efficiency",
+    "Long working life",
+    "Robust structure",
+    "Less maintenance required",
+    "Double beam stability"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

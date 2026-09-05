@@ -1,0 +1,24 @@
+{
+  "name": "Material Handling System",
+  "slug": "material-handling-system",
+  "category": "double-girder-cranes",
+  "categoryName": "Double Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Material-Handling-System.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Heavy-Duty-Girder-Crane.jpg",
+  "isFeatured": false,
+  "tagline": "Complete material handling system for heavy load transfer across industries",
+  "description": "Safe Build Engineering's Material Handling System is manufactured using quality components and innovative techniques by skilled professionals. Highly demanded in various industries for handling heavy loads, it is applauded for quick installation, easy operations and high durability.",
+  "features": [
+    "Hassle free operation and less maintenance",
+    "Longer service life with modular and innovative design",
+    "Handles light, medium and heavy weight goods",
+    "Easy to install, maintain and operate",
+    "Anti-corrosive paint finish to protect from rust",
+    "Wide span over the area for fast material handling"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

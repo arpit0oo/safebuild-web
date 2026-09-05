@@ -1,0 +1,24 @@
+{
+  "name": "Single Girder EOT Crane",
+  "slug": "single-girder-eot-crane",
+  "category": "single-girder-cranes",
+  "categoryName": "Single Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Single-Girder-Cranes.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": true,
+  "tagline": "Result-oriented single girder EOT crane for all industrial lifting needs",
+  "description": "Safe Build Engineering's Single Girder EOT Crane caters to material lifting and handling requirements across various industries. ISO compliant with modern technology ensuring high efficiency, optimum hoisting capacity and long working life with minimal maintenance.",
+  "features": [
+    "Convenient and low noise operations",
+    "Robust structure with flexible usage",
+    "Variable frequency drive",
+    "Advanced safety devices",
+    "Low maintenance and long working life",
+    "Optimum hoisting capacity"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Single Beam EOT Crane",
+  "slug": "single-beam-eot-crane",
+  "category": "single-girder-cranes",
+  "categoryName": "Single Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Single-Girder-Cranes.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Single beam EOT crane for light to medium duty industrial lifting",
+  "description": "Safe Build Engineering's Single Beam EOT Crane is manufactured with modern and core technologies for high efficiency in functionality and working capacity. ISO compliant with maximum lifting capacity, excellent performance and easy control and braking.",
+  "features": [
+    "Convenient and low noise operations",
+    "Robust structure with flexible usage",
+    "Variable frequency drive",
+    "Advanced safety devices",
+    "Low maintenance and long working life",
+    "Easy control and braking"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

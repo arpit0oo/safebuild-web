@@ -1,0 +1,26 @@
+{
+  "name": "Overhead Trolley",
+  "slug": "overhead-trolley",
+  "category": "overhead-trolley",
+  "categoryName": "Overhead Trolley",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Monorail-Trolley.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Monorail-Trolley.jpg",
+  "isFeatured": false,
+  "tagline": "Heavy duty monorail trolley for smooth I-beam material transport",
+  "description": "Safe Build Engineering's Overhead Trolley is manufactured using superior quality raw materials for high durability and long lasting finish. Ideal for transporting heavy workloads through assembly operations with compact rugged design and heavy duty caster wheels.",
+  "features": [
+    "Ideal for transporting heavy workloads through assembly",
+    "Compact size with rugged design and fine finish",
+    "Moves goods along I-Beam axis without hassle",
+    "Heavy duty caster wheel for fast movement",
+    "All wheels share equal load",
+    "Available in various sizes"
+  ],
+  "specs": {
+    "Capacity": "500 kg to 20,000 kg"
+  },
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

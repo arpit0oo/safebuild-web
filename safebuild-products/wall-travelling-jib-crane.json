@@ -1,0 +1,24 @@
+{
+  "name": "Wall Travelling Jib Crane",
+  "slug": "wall-travelling-jib-crane",
+  "category": "jib-cranes",
+  "categoryName": "Jib Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Jib-Cranes.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Wall mounted jib crane for precision material handling along factory walls",
+  "description": "Safe Build Engineering's Wall Travelling Jib Crane is ideal for workshops and assembly lines requiring precise material handling along factory walls. ISO compliant manufacturing with excellent lifting capacity and variable speed for efficient, space-saving operation.",
+  "features": [
+    "Excellent lifting capacity",
+    "Easy operations",
+    "Precision loading and unloading",
+    "Variable lifting speed",
+    "Wall mounted for space efficiency",
+    "Ideal for workshops and assembly lines"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

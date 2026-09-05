@@ -1,0 +1,24 @@
+{
+  "name": "Heavy Duty EOT Crane",
+  "slug": "heavy-duty-eot-crane",
+  "category": "double-girder-cranes",
+  "categoryName": "Double Girder Cranes",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Heavy-Duty-EOT-Crane.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Heavy duty EOT crane built for continuous operation in demanding environments",
+  "description": "Safe Build Engineering's Heavy Duty EOT Crane is built for maximum capacity industrial lifting in the most demanding environments. Engineered for continuous operation with robust structure, optimum hoisting capacity and minimal maintenance requirements.",
+  "features": [
+    "Optimum hoisting capacity",
+    "High efficiency",
+    "Long working life",
+    "Robust structure",
+    "Less maintenance required",
+    "Built for continuous operation"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

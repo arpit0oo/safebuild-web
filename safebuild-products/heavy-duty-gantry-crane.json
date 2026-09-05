@@ -1,0 +1,33 @@
+{
+  "name": "Heavy Duty Gantry Crane",
+  "slug": "heavy-duty-gantry-crane",
+  "category": "heavy-duty-gantry-crane",
+  "categoryName": "Heavy Duty Gantry Crane",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Gantry-Crane.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Gantry-Crane.jpg",
+  "isFeatured": true,
+  "tagline": "Superior quality industrial gantry crane for heavy material handling",
+  "description": "Safe Build Engineering's Heavy Duty Gantry Crane is manufactured using optimum quality components and sophisticated technology per industry norms. Available in various capacities with cantilever and non-cantilever options, ideal for lifting medium and heavy weight goods up to 100 tonnes.",
+  "features": [
+    "Perfect corrosion-resistant finish",
+    "Available in cantilever and non-cantilever option",
+    "Lifts medium and heavy goods up to 100 tonnes",
+    "High performance, energy efficiency and robust structure",
+    "Less maintenance for long working life",
+    "Wide span for fast material handling"
+  ],
+  "specs": {
+    "Safe Working Load": "1000 kg to 60,000 kg",
+    "Span": "5 m to 50 m",
+    "Height of Lift": "As per customer specifications",
+    "Class of Duty": "M5, M7, M8 as per IS 3177 / IS 807",
+    "Crane Control": "Pendant push buttons / Radio remote / Cabin with master control",
+    "Drive System": "Twin drive squirrel cage induction geared motors with fail safe brakes",
+    "Motor Insulation Class": "B/F",
+    "Power Supply": "Trailing cables / drag chain / shrouded bus bars / cable reeling drum"
+  },
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

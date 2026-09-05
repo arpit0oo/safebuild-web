@@ -1,0 +1,110 @@
+{
+  "name": "Rail Mounted Gantry Crane (RMGC)",
+  "slug": "rail-mounted-gantry-crane-rmgc",
+  "category": "rail-mounted-gantry-crane",
+  "categoryName": "Rail Mounted Gantry Crane",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Rail-Mounted-Gantry-Crane(RMGC).html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Rail-Mounted-Gantry-Crane(RMGC).jpg",
+  "isFeatured": true,
+  "tagline": "Built for port and rail terminal yard stacking with full automation capability",
+  "description": "Safe Build Engineering's Rail Mounted Gantry Crane (RMGC) is a high performance crane engineered for port and rail terminal yard stacking operations. Featuring an anti-sway system with eight rope reeving, regenerative operation, electricity driven steering and full automation capability, it delivers maximum throughput with minimum energy consumption and maintenance cost.",
+  "features": [
+    "High performance and energy efficiency",
+    "Rail span up to 50 m and lifting height up to 25 m",
+    "Available in both cantilever and non-cantilever option",
+    "Anti-corrosive paint finish to protect from rust",
+    "High hoisting and trolley speed for fast operation",
+    "Anti-Sway System with Eight Rope Reeving"
+  ],
+  "specs": {
+    "Gantry Span": "22–42 m",
+    "Lifting Height": "From 12.5 m (1 over 2) to 20 m (1 over 8)",
+    "Cantilever": "0–10 m",
+    "Wheel Spacing": "1–2 m (dependent on wheel loads)",
+    "Wheels per Leg": "8",
+    "SWL": "35 ton"
+  },
+  "sections": [
+    {
+      "title": "Advantages for Yard Stacking",
+      "type": "bullets",
+      "content": [
+        "Perfect material handling option for rail terminals as well as for port",
+        "Can be operated in different yard space areas — useful for increasing storage space",
+        "Ensures low emission rate and noise level during operation",
+        "Low maintenance cost with long service intervals",
+        "Low energy consumption keeps operation cost minimal",
+        "Anti-Sway System with Eight Rope Reeving for stable lifts"
+      ]
+    },
+    {
+      "title": "Advantages by Design",
+      "type": "bullets",
+      "content": [
+        "Low spreader setting time for faster cycle rates",
+        "Maintains firmness of hoist and trolley position with fixed travel direction",
+        "Ensures steadiness of crane throughout operation",
+        "Eliminates the necessity of using extra machinery or ropes",
+        "Prevents head block and lowers unnecessary load from rope or empty container",
+        "Energy efficient mechanism throughout all drive systems",
+        "Electricity operated spreaders require minimal maintenance",
+        "Raises production rate in comparison with other existing designs"
+      ]
+    },
+    {
+      "title": "Motors & Speed Control",
+      "type": "text",
+      "content": "All drives are specially designed to ensure high rotational speed and high power requirements for increasing working life. All key parts have been procured from trustworthy European manufacturers. The speed control system features rigid construction, trouble free functioning and adjustable design — developed keeping the operational requirements of container cranes in mind. The plug-in interchangeable design ensures easy accessibility and its advanced mechanism helps reduce running cost by lowering the necessity of employing highly skilled operators."
+    },
+    {
+      "title": "RMGC Design Highlights",
+      "type": "bullets",
+      "content": [
+        "Unique reeving system design prevents oscillation",
+        "Regenerative operation for reduction of load and working speed ensuring low energy consumption",
+        "Electricity driven steering for precise control",
+        "Well built structure suitable for automation applications",
+        "Optional DGPS auto steering and container positioning system available",
+        "Travel system directly controlled by its gearbox",
+        "Separate drives for trolley, hoist and travel sections eliminating side shift on spreader",
+        "Large service network all over India with on-location training support"
+      ]
+    },
+    {
+      "title": "Typical Design Parameters",
+      "type": "table",
+      "content": {
+        "Classification (F.E.M.)": "U7-Q2-A7 (Single lift)",
+        "In-service Wind Speed": "72 km/h (20 m/s)",
+        "Out-of-service Wind Speed": "130 km/h",
+        "Ambient Temperature Range": "-10°C to +36°C"
+      }
+    },
+    {
+      "title": "Working Speeds",
+      "type": "table",
+      "content": {
+        "Hoisting (no load)": "20 m/min",
+        "Hoisting (rated load)": "10 m/min",
+        "Trolley Travel (with and without load)": "20 m/min",
+        "Gantry Travel (without load)": "30 m/min",
+        "Slewing +190° (optional)": "1.2 RPM"
+      }
+    },
+    {
+      "title": "Available Options",
+      "type": "bullets",
+      "content": [
+        "Communication point with Terminal Operating System (TOS)",
+        "Festoon / energy chain system",
+        "Anti impact system",
+        "Container pathway and full automation of RMG",
+        "Container fixing arrangement",
+        "Facility for remote operation"
+      ]
+    }
+  ],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

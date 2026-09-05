@@ -1,0 +1,24 @@
+{
+  "name": "Flame Proof EOT Crane (Rope)",
+  "slug": "flame-proof-eot-crane-rope",
+  "category": "rope-hoists",
+  "categoryName": "Rope Hoists",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Flame-Proof-EOT-Crane.html",
+  "skyhawkImageUrl": "",
+  "isFeatured": false,
+  "tagline": "Flame proof overhead crane with wire rope hoist for hazardous operations",
+  "description": "Safe Build Engineering's Flame Proof EOT Crane with rope hoist is engineered for hazardous industrial environments requiring explosion-proof overhead lifting. Robust flameproof construction with electromagnetic braking and worm gear drives for safe reliable operation.",
+  "features": [
+    "Flameproof and robust construction",
+    "Electromagnetic brake to prevent accidents",
+    "Heavy duty cast iron rope guide",
+    "Worm gear drives for smooth operation",
+    "Available in single, twin or multiple hook models",
+    "Double speed motors for hoisting and CT motion"
+  ],
+  "specs": {},
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

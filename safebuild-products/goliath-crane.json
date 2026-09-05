@@ -1,0 +1,33 @@
+{
+  "name": "Goliath Crane",
+  "slug": "goliath-crane",
+  "category": "goliath-crane",
+  "categoryName": "Goliath Crane",
+  "image": "",
+  "skyhawkUrl": "http://www.skyhawksindustries.com/Goliath-Crane.html",
+  "skyhawkImageUrl": "http://www.skyhawksindustries.com/img/Goliath-Crane.jpg",
+  "isFeatured": true,
+  "tagline": "IS:3177 and IS:807 certified goliath crane for open yard heavy operations",
+  "description": "Safe Build Engineering's Goliath Cranes are designed and manufactured in accordance with IS:3177 and IS:4137, with structural parts per IS:807. Applicable in construction, industry, yards, roadsides and other open areas, they are load tested to 125% and certified before dispatch.",
+  "features": [
+    "High quality structural assembly per IS:4301",
+    "Minimum maintenance and emergency interlude",
+    "Easily adjustable limit-switches",
+    "Load tested to 125% and certified",
+    "Squirrel cage induction motors with fail safe brakes",
+    "Built-in brakes for hoisting, cross travel and long travel"
+  ],
+  "specs": {
+    "Safe Working Load": "1000 kg to 60,000 kg",
+    "Span": "5 m to 50 m",
+    "Height of Lift": "As per customer specifications",
+    "Class of Duty": "M5, M7, M8 as per IS 3177 / IS 807",
+    "Crane Control": "Pendant push buttons / Radio remote / Cabin with master control",
+    "Drive System": "Twin drive squirrel cage induction geared motors with fail safe brakes",
+    "Motor Insulation Class": "B/F",
+    "Power Supply": "Trailing cables / drag chain / shrouded bus bars / cable reeling drum"
+  },
+  "sections": [],
+  "contentStatus": "Draft",
+  "imageStatus": "Client to Provide"
+}

@@ -1,6 +1,7 @@
 # COMPONENTS.md — Safe Build Engineering
 
-> Specs for all global and reusable Astro components. These are extracted from the `about-raw.html` prototype and generalized for reuse across all pages.
+> Specs for all global and reusable Astro components.
+> Updated to reflect actual built component state as of 2026-09-05.
 
 ---
 
@@ -22,15 +23,15 @@
 
     <!-- Desktop Nav -->
     <nav class="hidden md:flex">
-      <a href="/products">EOT Cranes</a>      label-caps, hover text-primary
-      <a href="/products">Gantry Cranes</a>
-      <a href="/products">Hoists</a>
+      <a href="/products?category=eot-cranes">EOT Cranes</a>      label-caps, hover text-primary
+      <a href="/products?category=gantry-cranes">Gantry Cranes</a>
+      <a href="/products?category=hoists">Hoists</a>
       <a href="/about">Engineering</a>        active = text-primary + border-b-2
       <a href="/contact">Contact</a>
     </nav>
 
     <!-- Desktop CTA -->
-    <a href="/quote">Request Quote →</a>     label-caps, text-primary-container, bold
+    <a href="/contact?type=quote">Request Quote →</a>     label-caps, text-primary-container, bold
 
     <!-- Mobile Hamburger -->
     <button class="md:hidden">
@@ -63,6 +64,7 @@
 - Hamburger shown on mobile (`md:hidden`)
 - Mobile drawer: slides in from right, full-height overlay, same link styles
 - Close on nav click
+- ARIA-compliant: escape key + click-outside close
 
 ---
 
@@ -101,7 +103,9 @@
     <!-- Column 4: Contact -->
     <div>
       <h4>CONTACT</h4>                              label-caps, text-primary-container
-      <a>India HQ Address</a>                       (will be replaced with real address)
+      <a>891, Murlipur Goyala...</a>
+      <a href="tel:+919935105322">+91 99351 05322</a>
+      <a href="mailto:...">safebuildengineering26@gmail.com</a>
     </div>
 
   </div>
@@ -206,7 +210,7 @@ The "— ABOUT US" or "— THE SAFE BUILD ADVANTAGE" text above section headings
 
 **Location:** `src/components/CTABanner.astro`
 
-Reused on About, Products listing, and Homepage.
+Reused on About, Products listing, Product detail, and Homepage.
 
 ### Props
 
@@ -332,23 +336,36 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 
 **Location:** `src/components/ProductCard.astro`
 
-### Props
+### Props (actual interface)
 
 | Prop | Type | Notes |
 |---|---|---|
 | `name` | `string` | Product name |
-| `category` | `string` | e.g. "EOT Cranes" |
+| `category` | `string` | Firestore category slug, e.g. `"eot-cranes"` |
 | `shortDescription` | `string` | ~80 char summary |
-| `imageUrl` | `string` | Product image |
+| `imageUrl` | `string` | Product image URL. **Currently always `""` (empty string) for all seeded products.** Falls back to `precision_manufacturing` icon placeholder. |
 | `slug` | `string` | URL slug for detail link |
-| `capacity` | `string` | e.g. "5 Ton" — displayed as spec badge |
+| `capacity` | `string` | Read from `product.specs?.capacity ?? ''`. Empty if spec key is not `"capacity"` (e.g. Goliath Crane uses `"Safe Working Load"`). |
+
+### Internal Logic
+
+- **Category badge:** Mapped via `CATEGORY_LABELS` record (`eot-cranes` → `"EOT CRANE"`, `gantry-cranes` → `"GANTRY CRANE"`, `hoists` → `"HOIST"`). Unknown slugs fall back to `.toUpperCase()`.
+- **Capacity display:** `truncateCapacity()` strips everything from the first `+` or `(` — e.g. `"100 TON (MAIN) + 20 TON (AUX)"` → `"100 TON"`.
+- **Image fallback:** `imgSrc = imageUrl || ''`. When falsy, renders a `<div>` placeholder with `precision_manufacturing` icon.
 
 ### Design
 
-- Full-bleed top image with `object-cover aspect-[4/3]`
+- Full-bleed top image with `aspect-[4/3]`, `object-cover`
+- Orange category pill badge, top-left over image
+- Dark charcoal capacity chip, top-right of card body
 - Left orange border accent on hover (`.card-hover`)
-- Category shown as `label-caps` eyebrow
-- Link wraps entire card to `/products/{slug}`
+- Category shown as `label-caps` eyebrow inside badge (not in card body)
+- Footer: "View Specs →" with `arrow_forward` icon
+- Entire card wrapped in `<a href="/products/{slug}">`, no nested links
+
+### Known Issues (Pending Fix)
+
+- `capacity` prop is empty for products where Firestore uses `"Safe Working Load"` instead of `"capacity"` as the spec key — chip renders nothing. **Batch 4: normalise capacity field.**
 
 ---
 
@@ -387,9 +404,10 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 
 ### Behavior
 
-- Client-side Firestore write (`addDoc` to `quotes` collection)
-- Success: show inline confirmation message
-- Error: show error state
+- Server-side POST on `[slug].astro` — form submits to same page URL
+- Firestore write via `submitQuote()` helper in `firestore.ts`
+- Success: redirect with `?success=1` — avoids re-POST on refresh
+- Error: redirect with `?error=1`
 - All inputs: `sharp-edges`, `border border-outline`, `focus:border-primary-container`
 
 ---
@@ -400,11 +418,11 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 |---|---|---|---|---|---|---|---|
 | `Navbar` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | `Footer` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `SectionLabel` | ✓ | ✓ | — | ✓ | — | ✓ | ✓ |
+| `SectionLabel` | ✓ | ✓ | ✓ | ✓ | — | ✓ | ✓ |
 | `CTABanner` | ✓ | ✓ | ✓ | — | — | — | ✓ |
 | `FeatureCard` | ✓ | — | ✓ | — | — | — | ✓ |
 | `VisionMissionCard` | ✓ | — | — | — | — | — | — |
 | `CoreValueBar` | ✓ | — | — | — | — | — | ✓ |
-| `ProductCard` | — | ✓ | — | — | — | — | ✓ |
+| `ProductCard` | — | ✓ | ✓ (related) | — | — | — | ✓ |
 | `BlogCard` | — | — | — | ✓ | — | — | — |
 | `QuoteForm` | — | — | ✓ | — | — | ✓ | — |
