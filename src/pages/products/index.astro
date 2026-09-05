@@ -4,7 +4,7 @@
 // Phase 4: Products Listing Page
 //
 // SSR: fetches all products from Firestore at request time.
-// URL category filter: ?category=eot-cranes | gantry-cranes | hoists
+// URL category filter: ?category=<any-category-slug>
 // Empty state handled gracefully.
 // Navbar/Footer come from BaseLayout — NOT duplicated here.
 // =============================================================
@@ -14,21 +14,14 @@ import SectionLabel from '../../components/SectionLabel.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import CTABanner from '../../components/CTABanner.astro';
 import { getProducts } from '../../lib/firestore';
-import type { Product, ProductCategory } from '../../lib/types';
+import type { Product } from '../../lib/types';
 
 // ── URL QUERY PARAM PARSING ─────────────────────────────────
 // ?category=eot-cranes | gantry-cranes | hoists | (none = all)
 const url = new URL(Astro.request.url);
 const rawCategory = url.searchParams.get('category') ?? '';
 
-// Valid category slugs map to Firestore enum values
-const CATEGORY_MAP: Record<string, ProductCategory> = {
-  'eot-cranes':    'eot-cranes',
-  'gantry-cranes': 'gantry-cranes',
-  'hoists':        'hoists',
-};
-
-const activeCategory: ProductCategory | null = CATEGORY_MAP[rawCategory] ?? null;
+const activeCategory = rawCategory || null;
 
 // ── FIRESTORE FETCH (SSR) ────────────────────────────────────
 // ONE call — fetch ALL products, no Firestore where() filter.
@@ -59,17 +52,17 @@ const counts = {
 };
 
 // ── PAGE META ────────────────────────────────────────────────
-const categoryLabels: Record<string, string> = {
-  'eot-cranes':    'EOT Cranes',
-  'gantry-cranes': 'Gantry Cranes',
-  'hoists':        'Hoists',
-};
-const activeLabel = activeCategory ? categoryLabels[activeCategory] : null;
+// Convert active category slug to human label dynamically —
+// no hardcoded map needed; works for all 18+ categories.
+function slugToLabel(slug: string): string {
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+const activeLabel = activeCategory ? slugToLabel(activeCategory) : null;
 const pageTitle = activeLabel
   ? `${activeLabel} — Products | Safe Build Engineering`
   : 'Products — Industrial Cranes & Hoists | Safe Build Engineering';
 
-const pageDesc = 'Explore Safe Build Engineering\'s full range of EOT cranes, gantry cranes, and hoists — precision-engineered for Indian industry.';
+const pageDesc = 'Explore Safe Build Engineering\'s full range of cranes, hoists, and lifting solutions — precision-engineered for Indian industry.';
 
 // ── FILTER BAR CONFIG ─────────────────────────────────────────
 const filterTabs = [
@@ -237,10 +230,10 @@ const filterTabs = [
               <ProductCard
                 name={product.name}
                 category={product.category}
+                categoryName={product.categoryName}
                 shortDescription={product.shortDescription}
                 imageUrl={product.imageUrl}
                 slug={product.slug}
-                capacity={product.specs?.capacity ?? ''}
               />
             </div>
           ))}

@@ -9,28 +9,18 @@
 interface Props {
   name: string;
   category: string;
+  categoryName?: string;  // Human-readable label from Firestore (e.g. "Gantry Cranes")
   shortDescription: string;
   imageUrl: string;
   slug: string;
-  capacity: string;       // e.g. "50 Ton"
 }
 
-const { name, category, shortDescription, imageUrl, slug, capacity } = Astro.props;
+const { name, category, categoryName, shortDescription, imageUrl, slug } = Astro.props;
 
-// Truncate capacity to the first value only — strip everything from first "+" or "(" onward.
-// e.g. "100 TON (MAIN) + 20 TON (AUX)" → "100 TON"
-function truncateCapacity(raw: string): string {
-  return raw.replace(/\s*[+(].*/i, '').trim();
-}
-const capacityDisplay = capacity ? truncateCapacity(capacity) : '';
-
-// Map Firestore slug → display label for the badge
-const CATEGORY_LABELS: Record<string, string> = {
-  'eot-cranes':    'EOT CRANE',
-  'gantry-cranes': 'GANTRY CRANE',
-  'hoists':        'HOIST',
-};
-const categoryLabel = CATEGORY_LABELS[category] ?? category.toUpperCase();
+// Prefer categoryName from Firestore; fall back to slug → human label conversion
+const categoryLabel = categoryName
+  ? categoryName.toUpperCase()
+  : category.replace(/-/g, ' ').toUpperCase();
 
 // Fallback for missing image — bg-image-placeholder will show through
 const imgSrc = imageUrl || '';
@@ -77,18 +67,10 @@ const imgAlt = `${name} — Safe Build Engineering`;
   <!-- Card body -->
   <div class="p-card-padding flex flex-col flex-grow">
 
-    <!-- Name + Capacity row -->
-    <div class="flex justify-between items-start mb-2 gap-2">
-      <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase leading-snug line-clamp-2">
-        {name}
-      </h3>
-      <!-- Capacity badge: dark charcoal chip -->
-      {capacityDisplay && (
-        <span class="bg-[#0D1117] text-surface-white font-technical-data text-technical-data px-2 py-1 whitespace-nowrap shrink-0">
-          {capacityDisplay.toUpperCase()}
-        </span>
-      )}
-    </div>
+    <!-- Name -->
+    <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase leading-snug line-clamp-2 mb-2">
+      {name}
+    </h3>
 
     <!-- Short description -->
     <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">
