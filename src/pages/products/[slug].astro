@@ -73,14 +73,9 @@ if (product) {
 }
 
 // ── CATEGORY DISPLAY LABEL ───────────────────────────────────
-const CATEGORY_LABELS: Record<string, string> = {
-  "eot-cranes": "EOT CRANE",
-  "gantry-cranes": "GANTRY CRANE",
-  hoists: "HOIST",
-};
 const categoryLabel = product
-  ? (CATEGORY_LABELS[product.category] ?? product.category.toUpperCase())
-  : "";
+  ? (product.categoryName ?? product.category.replace(/-/g, ' ')).toUpperCase()
+  : '';
 
 // ── CAPACITY DISPLAY (strip aux info) ───────────────────────
 const rawCapacity = product?.specs?.capacity ?? "";
@@ -335,6 +330,84 @@ const pageDesc = product?.shortDescription ?? "";
             </div>
           </div>
         </section>
+
+        {/* ===========================================================
+          DYNAMIC SECTIONS — renders product.sections[] if present
+          Supports type: "bullets" | "table" | "text"
+          =========================================================== */}
+        {product.sections && product.sections.length > 0 && (
+          product.sections.map((section, si) => (
+            <section class={[
+              'py-section-padding border-b border-border-subtle',
+              si % 2 === 0 ? 'bg-image-placeholder' : 'bg-surface-white',
+            ].join(' ')}>
+              <div class="max-w-container-max mx-auto px-gutter">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+                  {/* Left: section title */}
+                  <div class="lg:col-span-4" data-aos="fade-up">
+                    <div class="sticky top-28">
+                      <SectionLabel text={`— ${section.title.toUpperCase()}`} />
+                      <h2 class="font-headline-lg text-headline-lg text-on-surface mt-4 uppercase">
+                        {section.title}
+                      </h2>
+                    </div>
+                  </div>
+
+                  {/* Right: section content */}
+                  <div class="lg:col-span-8" data-aos="fade-up" data-aos-delay="80">
+
+                    {/* BULLETS */}
+                    {section.type === 'bullets' && Array.isArray(section.content) && (
+                      <ul class="list-none space-y-3">
+                        {(section.content as string[]).map(item => (
+                          <li class="flex items-start gap-3 border-b border-border-subtle pb-3">
+                            <span
+                              class="material-symbols-outlined text-primary-container text-[20px] leading-none mt-0.5 shrink-0"
+                              style="font-variation-settings: 'FILL' 1;"
+                            >
+                              check_circle
+                            </span>
+                            <span class="font-body-md text-body-md text-on-surface-variant">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* TABLE */}
+                    {section.type === 'table' && !Array.isArray(section.content) && typeof section.content === 'object' && (
+                      <div class="border border-border-subtle bg-surface-white overflow-hidden">
+                        <div class="grid grid-cols-2 border-b border-border-subtle bg-[#0D1117] px-6 py-4">
+                          <div class="font-label-caps text-label-caps text-surface-white uppercase tracking-widest">Parameter</div>
+                          <div class="font-label-caps text-label-caps text-surface-white uppercase tracking-widest">Value</div>
+                        </div>
+                        {Object.entries(section.content).map(([key, val], i) => (
+                          <div class={[
+                            'grid grid-cols-2 border-b border-border-subtle px-6 py-5 items-center',
+                            'transition-all duration-150',
+                            'border-l-[3px] border-l-transparent hover:border-l-primary-container',
+                            i % 2 === 0 ? 'bg-surface-white' : 'bg-image-placeholder',
+                          ].join(' ')}>
+                            <div class="font-technical-data text-technical-data text-on-surface-variant uppercase tracking-wide">{key}</div>
+                            <div class="font-body-md text-body-md text-on-surface font-medium">{String(val)}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* TEXT */}
+                    {section.type === 'text' && typeof section.content === 'string' && (
+                      <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        {section.content}
+                      </p>
+                    )}
+
+                  </div>
+                </div>
+              </div>
+            </section>
+          ))
+        )}
 
         {/* ===========================================================
           SECTION 3 — DESCRIPTION / SYSTEM OVERVIEW
