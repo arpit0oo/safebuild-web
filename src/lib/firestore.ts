@@ -16,10 +16,9 @@ import {
   orderBy,
   limit,
   serverTimestamp,
-  type QueryConstraint,
 } from 'firebase/firestore/lite';
 import { db } from './firebase';
-import type { Product, BlogPost, Enquiry, Quote, ProductCategory } from './types';
+import type { Product, BlogPost, Enquiry, Quote } from './types';
 
 // ---------------------------------------------------------------
 // HELPERS
@@ -36,19 +35,19 @@ function withId<T>(doc: import('firebase/firestore/lite').DocumentSnapshot): T |
 // ---------------------------------------------------------------
 
 /**
- * Fetch all products, optionally filtered by category, sorted by `order` asc.
+ * Fetch all products from Firestore.
+ * No orderBy — avoids Firestore index requirement.
+ * Callers are responsible for JS-side filtering and sorting.
  */
-export async function getProducts(category?: ProductCategory): Promise<Product[]> {
-  const constraints: QueryConstraint[] = [orderBy('order', 'asc')];
-
-  if (category) {
-    constraints.unshift(where('category', '==', category));
+export async function getProducts(): Promise<Product[]> {
+  try {
+    const q = query(collection(db, 'products'));
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() } as Product));
+  } catch (e) {
+    console.error('[getProducts] Firestore fetch failed:', e);
+    return [];
   }
-
-  const q = query(collection(db, 'products'), ...constraints);
-  const snap = await getDocs(q);
-
-  return snap.docs.map(d => ({ id: d.id, ...d.data() } as Product));
 }
 
 /**

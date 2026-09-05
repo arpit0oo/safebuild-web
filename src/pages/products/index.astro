@@ -43,34 +43,43 @@ const products: Product[] = activeCategory
   ? allProducts.filter(p => p.category === activeCategory)
   : allProducts;
 
-// ── CATEGORY COUNTS (from the single full fetch) ──────────────
-const counts = {
-  all:             allProducts.length,
-  'eot-cranes':    allProducts.filter(p => p.category === 'eot-cranes').length,
-  'gantry-cranes': allProducts.filter(p => p.category === 'gantry-cranes').length,
-  'hoists':        allProducts.filter(p => p.category === 'hoists').length,
-};
 
-// ── PAGE META ────────────────────────────────────────────────
-// Convert active category slug to human label dynamically —
-// no hardcoded map needed; works for all 18+ categories.
+// Converts a category slug to a human-readable label.
+// e.g. "gantry-cranes" → "Gantry Cranes"
 function slugToLabel(slug: string): string {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
+
+// ── DYNAMIC CATEGORY COUNTS & FILTER TABS ─────────────────────────
+// Derived entirely from fetched products — works for any number
+// of categories without hardcoding. New Firestore categories
+// automatically appear in the filter bar.
+const categoryCounts = new Map<string, number>();
+for (const p of allProducts) {
+  categoryCounts.set(p.category, (categoryCounts.get(p.category) ?? 0) + 1);
+}
+
+// Build one tab per unique category, sorted alphabetically by slug
+const categoryTabs = Array.from(categoryCounts.entries())
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([slug, count]) => ({
+    label: slugToLabel(slug),
+    slug,
+    count,
+  }));
+
+const filterTabs = [
+  { label: 'All Products', slug: '', count: allProducts.length },
+  ...categoryTabs,
+];
+
+// ── PAGE META ────────────────────────────────────────────────
 const activeLabel = activeCategory ? slugToLabel(activeCategory) : null;
 const pageTitle = activeLabel
   ? `${activeLabel} — Products | Safe Build Engineering`
   : 'Products — Industrial Cranes & Hoists | Safe Build Engineering';
 
 const pageDesc = 'Explore Safe Build Engineering\'s full range of cranes, hoists, and lifting solutions — precision-engineered for Indian industry.';
-
-// ── FILTER BAR CONFIG ─────────────────────────────────────────
-const filterTabs = [
-  { label: 'All Products',  slug: '',               count: counts.all             },
-  { label: 'EOT Cranes',    slug: 'eot-cranes',     count: counts['eot-cranes']    },
-  { label: 'Gantry Cranes', slug: 'gantry-cranes',  count: counts['gantry-cranes'] },
-  { label: 'Hoists',        slug: 'hoists',          count: counts['hoists']        },
-];
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} activePage="products">
@@ -176,7 +185,7 @@ const filterTabs = [
           <div>
             <SectionLabel text={activeLabel} class="mb-1" />
             <h2 class="font-headline-md text-headline-md text-on-surface">
-              {counts[activeCategory!]} {activeLabel} Available
+              {products.length} {activeLabel} Available
             </h2>
           </div>
           <a
