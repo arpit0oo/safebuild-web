@@ -1,0 +1,15 @@
+{
+  "name": "Goliath Crane",
+  "slug": "goliath-crane",
+  "image": "",
+  "description": "Safe Build Engineering manufactures Goliath Cranes designed and manufactured in accordance with IS:3177 and IS:4137, with structural parts per IS:807. Applicable in construction, industry, yards, roadsides and other open areas, they are load tested to 125% and certified before dispatch ensuring maximum safety and reliability.",
+  "features": [
+    "High quality structural assembly per IS:4301",
+    "Minimum maintenance and emergency interlude",
+    "Easily adjustable limit-switches",
+    "Load tested to 125% and certified",
+    "Squirrel cage induction motors with fail safe brakes",
+    "Built-in brakes for hoisting, cross travel and long travel"
+  ],
+  "productCount": 1
+}
