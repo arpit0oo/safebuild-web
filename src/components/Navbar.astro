@@ -6,8 +6,7 @@
 //   activePage — string slug to highlight the active nav link
 //     values: 'home' | 'products' | 'about' | 'contact' | ''
 //
-// Desktop: Products has hover dropdown with category sub-links
-// Mobile:  Products expands inline accordion showing all sub-links
+// Desktop + Mobile: Products is a plain link to /products
 // =============================================================
 
 interface Props {
@@ -16,11 +15,7 @@ interface Props {
 
 const { activePage = '' } = Astro.props;
 
-const productLinks = [
-  { label: 'EOT Cranes',    href: '/products?category=eot-cranes'    },
-  { label: 'Gantry Cranes', href: '/products?category=gantry-cranes' },
-  { label: 'Hoists',        href: '/products?category=hoists'         },
-];
+
 
 const topLinks = [
   { label: 'About',   href: '/about',   key: 'about'   },
@@ -51,52 +46,18 @@ const topLinks = [
     <!-- ── DESKTOP NAV ────────────────────────────────────────── -->
     <nav class="hidden md:flex items-center gap-7" aria-label="Primary navigation">
 
-      <!-- Products dropdown trigger -->
-      <div class="relative group" id="products-dropdown-wrapper">
-        <button
-          id="products-trigger"
-          class="flex items-center gap-1 font-label-caps text-label-caps font-semibold text-on-surface hover:text-primary-container transition-colors duration-200 uppercase tracking-wider cursor-pointer focus:outline-none"
-          aria-haspopup="true"
-          aria-expanded="false"
-          aria-controls="products-dropdown"
-        >
-          Products
-          <span class="material-symbols-outlined text-[16px] leading-none transition-transform duration-200 group-hover:rotate-180">
-            keyboard_arrow_down
-          </span>
-        </button>
-
-        <!-- Dropdown panel -->
-        <div
-          id="products-dropdown"
-          class="absolute top-full left-0 mt-2 w-56 bg-surface-white border border-border-subtle shadow-[0_4px_24px_rgba(0,0,0,0.10)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
-          role="menu"
-        >
-          <!-- Category links -->
-          {productLinks.map(link => (
-            <a
-              href={link.href}
-              class="block px-4 py-3 font-label-caps text-label-caps text-on-surface hover:text-primary-container border-l-[3px] border-transparent hover:border-primary-container hover:pl-5 transition-all duration-150 uppercase tracking-wider"
-              role="menuitem"
-            >
-              {link.label}
-            </a>
-          ))}
-
-          <!-- Divider -->
-          <div class="border-t border-border-subtle mx-3 my-1"></div>
-
-          <!-- View all -->
-          <a
-            href="/products"
-            class="flex items-center gap-1.5 px-4 py-3 font-label-caps text-label-caps text-primary-container hover:text-on-surface font-semibold border-l-[3px] border-transparent hover:border-primary-container hover:pl-5 transition-all duration-150 uppercase tracking-wider"
-            role="menuitem"
-          >
-            View All Products
-            <span class="material-symbols-outlined text-[14px] leading-none">arrow_forward</span>
-          </a>
-        </div>
-      </div>
+      <!-- Products link -->
+      <a
+        href="/products"
+        class={
+          activePage === 'products'
+            ? 'font-label-caps text-label-caps font-semibold text-primary-container border-b-2 border-primary-container pb-0.5 transition-colors duration-200 uppercase tracking-wider'
+            : 'font-label-caps text-label-caps font-semibold text-on-surface hover:text-primary-container transition-colors duration-200 uppercase tracking-wider'
+        }
+        aria-current={activePage === 'products' ? 'page' : undefined}
+      >
+        Products
+      </a>
 
       <!-- About + Contact -->
       {topLinks.map(link => (
@@ -175,40 +136,19 @@ const topLinks = [
   <!-- Drawer nav links -->
   <nav class="flex flex-col px-gutter py-4 gap-0 grow overflow-y-auto" aria-label="Mobile navigation links">
 
-    <!-- Products accordion -->
-    <div>
-      <button
-        id="mobile-products-toggle"
-        class="w-full flex items-center justify-between font-label-caps text-label-caps font-semibold uppercase tracking-wider py-3.5 border-b border-border-subtle text-on-surface text-left transition-colors duration-150"
-        aria-expanded="false"
-        aria-controls="mobile-products-submenu"
-      >
-        Products
-        <span class="material-symbols-outlined text-[18px] leading-none transition-transform duration-200" id="mobile-products-icon">
-          keyboard_arrow_down
-        </span>
-      </button>
-
-      <!-- Submenu — hidden by default -->
-      <div id="mobile-products-submenu" class="hidden flex-col bg-image-placeholder border-b border-border-subtle">
-        {productLinks.map(link => (
-          <a
-            href={link.href}
-            class="block px-4 py-3 font-label-caps text-label-caps text-on-surface-variant hover:text-primary-container border-l-[3px] border-transparent hover:border-primary-container hover:pl-6 transition-all duration-150 uppercase tracking-wider text-[12px]"
-          >
-            {link.label}
-          </a>
-        ))}
-        <div class="border-t border-border-subtle mx-3 my-1"></div>
-        <a
-          href="/products"
-          class="flex items-center gap-1.5 px-4 py-3 font-label-caps text-label-caps text-primary-container font-semibold border-l-[3px] border-transparent hover:border-primary-container hover:pl-6 transition-all duration-150 uppercase tracking-wider text-[12px]"
-        >
-          View All Products
-          <span class="material-symbols-outlined text-[13px] leading-none">arrow_forward</span>
-        </a>
-      </div>
-    </div>
+    <!-- Products link -->
+    <a
+      href="/products"
+      class={[
+        'font-label-caps text-label-caps font-semibold uppercase tracking-wider py-3.5 border-b border-border-subtle transition-all duration-150',
+        activePage === 'products'
+          ? 'text-primary-container border-l-[3px] border-l-primary-container pl-3'
+          : 'text-on-surface hover:text-primary-container hover:pl-2',
+      ].join(' ')}
+      aria-current={activePage === 'products' ? 'page' : undefined}
+    >
+      Products
+    </a>
 
     <!-- About + Contact -->
     {topLinks.map(link => (
@@ -239,21 +179,10 @@ const topLinks = [
 
 <!-- ============================================================
      SCRIPTS
-     Desktop: hover handled by Tailwind group-hover
-     Mobile:  hamburger + Products accordion JS
+     Mobile: hamburger open/close drawer
      ============================================================ -->
 <script>
-  // ── Desktop: keyboard accessibility for dropdown ──────────────
-  const trigger = document.getElementById('products-trigger') as HTMLButtonElement | null;
-  const dropdown = document.getElementById('products-dropdown') as HTMLElement | null;
 
-  trigger?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      const expanded = trigger.getAttribute('aria-expanded') === 'true';
-      trigger.setAttribute('aria-expanded', String(!expanded));
-    }
-  });
 
   // ── Mobile drawer ─────────────────────────────────────────────
   const hamburger     = document.getElementById('nav-hamburger')!;
@@ -291,24 +220,5 @@ const topLinks = [
   drawer.querySelectorAll('a').forEach(link => link.addEventListener('click', closeDrawer));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen) closeDrawer(); });
 
-  // ── Mobile Products accordion ─────────────────────────────────
-  const mobileProductsToggle  = document.getElementById('mobile-products-toggle') as HTMLButtonElement | null;
-  const mobileProductsSubmenu = document.getElementById('mobile-products-submenu') as HTMLElement | null;
-  const mobileProductsIcon    = document.getElementById('mobile-products-icon') as HTMLElement | null;
 
-  mobileProductsToggle?.addEventListener('click', () => {
-    const isExpanded = mobileProductsToggle.getAttribute('aria-expanded') === 'true';
-
-    if (isExpanded) {
-      mobileProductsSubmenu?.classList.remove('flex');
-      mobileProductsSubmenu?.classList.add('hidden');
-      mobileProductsIcon?.classList.remove('rotate-180');
-      mobileProductsToggle.setAttribute('aria-expanded', 'false');
-    } else {
-      mobileProductsSubmenu?.classList.remove('hidden');
-      mobileProductsSubmenu?.classList.add('flex');
-      mobileProductsIcon?.classList.add('rotate-180');
-      mobileProductsToggle.setAttribute('aria-expanded', 'true');
-    }
-  });
 </script>
