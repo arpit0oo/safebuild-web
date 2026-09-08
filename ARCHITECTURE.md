@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — Safe Build Engineering
 
-> Last updated: 2026-09-05 | Status: In Progress (Phases 4–5 active)
+> Last updated: 2026-09-07 | Status: Phases 4–5 complete; Phase 6–7 (Blog) next
 
 ---
 
@@ -88,13 +88,13 @@ safebuild-web/                          # Root of Astro project
 
 | Route | File | Data Source | Notes |
 |---|---|---|---|
-| `/` | `index.astro` | Firestore (featured products) | Built last |
-| `/about` | `about.astro` | Static | Complete |
-| `/products` | `products/index.astro` | Firestore `products` collection | SSR — category filter via `?category=` |
-| `/products/[slug]` | `products/[slug].astro` | Firestore `products` doc by slug | SSR dynamic — `prerender = true` pending |
-| `/blog` | `blog/index.astro` | Firestore `blogs` collection | SSR |
-| `/blog/[slug]` | `blog/[slug].astro` | Firestore `blogs` doc by slug | SSR dynamic |
-| `/contact` | `contact.astro` | Static form → writes to Firestore | SSR |
+| `/` | `index.astro` | Firestore (featured products) | ✅ Built (21 KB) — QA pending |
+| `/about` | `about.astro` | Static | ✅ Complete |
+| `/products` | `products/index.astro` | Firestore `products` collection | ✅ SSR — dynamic category tabs from live data |
+| `/products/[slug]` | `products/[slug].astro` | Firestore `products` doc by slug | ✅ SSR — 5-section layout, sections[] renderer, quote form |
+| `/blog` | `blog/index.astro` | Firestore `blogs` collection | ⬜ Not started — `blog/` dir empty |
+| `/blog/[slug]` | `blog/[slug].astro` | Firestore `blogs` doc by slug | ⬜ Not started |
+| `/contact` | `contact.astro` | Static form → writes to Firestore | ✅ Built (23 KB) — QA pending |
 | `/quote` | Redirect → `/contact?type=quote` | Writes to `quotes` collection | |
 
 ---
@@ -108,20 +108,19 @@ products/
   {docId}/
     slug: string              // URL slug, e.g. "goliath-crane"
     name: string              // "Goliath Crane"
-    category: string          // "eot-cranes" | "gantry-cranes" | "hoists"
-                              // NOTE: 18 product categories planned in content inventory.
-                              //       ProductCategory type in types.ts currently has 3 values.
-                              //       Will be expanded as seeding progresses.
-    categoryName?: string     // Human-readable label, e.g. "Gantry Cranes"
+    category: string          // Any category slug, e.g. "eot-cranes", "gantry-cranes", "hoists"
+                              // NOTE: 18 categories and 42 products are now seeded in Firestore.
+                              //       ProductCategory type in types.ts still has only 3 values — needs update.
+    categoryName?: string     // Human-readable label, e.g. "Gantry Cranes" — preferred over slug in UI
     shortDescription: string  // ~80 chars, for listing cards
     tagline?: string          // Short marketing tagline shown in hero (falls back to shortDescription)
     description: string       // Full body text for detail page (split on \n\n for paragraphs)
     specs: Record<string, string>
-                              // Open-ended key/value map — keys are whatever the CMS stores.
+                              // Human-readable key/value map — keys are whatever the CMS stores.
                               // e.g. { "Safe Working Load": "1000 kg to 60,000 kg", "Span": "5 m to 50 m" }
-                              // NOT fixed keys. specRows are rendered directly from Object.entries(specs).
-    features?: string[]       // Bullet-point feature list (Section 3 of detail page)
-    sections?: Array<{        // Structured detail-page content sections (Batch 5 — pending renderer)
+                              // Rendered via Object.entries(specs) directly on detail page.
+    features?: string[]       // Bullet-point feature list (rendered in Section 3 of detail page)
+    sections?: Array<{        // Structured detail-page content sections — renderer is LIVE
       title: string
       type: 'bullets' | 'table' | 'text'
       content: string[] | Record<string, string> | string
@@ -137,16 +136,23 @@ products/
 
 #### Note on `specs`
 
-The `specs` field changed from a fixed-key interface (`ProductSpecs`) to `Record<string, string>`.
-- Firestore documents store human-readable key names (e.g. `"Safe Working Load"`, `"Height of Lift"`)
-- The detail page renders them via `Object.entries(product.specs)` directly
-- `SPEC_LABELS` map in `[slug].astro` is **no longer used for rendering** — it remains in the file but is bypassed
+The `specs` field is `Record<string, string>` with human-readable key names (e.g. `"Safe Working Load"`, `"Height of Lift"`).
+- Firestore documents store these keys directly from the CMS
+- The detail page renders them via `Object.entries(product.specs)` — no key mapping
+- `SPEC_LABELS` map in `[slug].astro` is present but **bypassed** — kept for reference only
+- The specs `<section>` is now guarded: only renders when `specRows.length > 0`
 
-#### Note on `capacity` in `ProductCard`
+#### Note on `sections[]`
 
-`ProductCard` still reads `product.specs?.capacity ?? ''` to display the capacity badge chip.
-If the Firestore doc stores capacity under a different key (e.g. `"Safe Working Load"`), the chip will be empty.
-This is a known issue — **Batch 4 fix: use `categoryName` field + capacity key normalisation**.
+The `sections[]` renderer is **live** on `[slug].astro`. It renders between the Specs section and the Description/Overview section. Supports three content types:
+- `bullets` — rendered as a `check_circle` icon list
+- `table` — rendered as a parameter/value table matching the specs table style
+- `text` — rendered as a body paragraph
+
+#### Note on `ProductCategory` type
+
+`types.ts` still defines `ProductCategory = 'eot-cranes' | 'gantry-cranes' | 'hoists'`.
+18 categories are now in Firestore. The type needs expanding to match. This is not a runtime blocker (Firestore does not enforce it) but causes TypeScript errors for new category slugs.
 
 ---
 
@@ -226,14 +232,36 @@ try {
 if (!product) {
   return Astro.redirect('/products', 302);
 }
+
+// POST handler: server-side quote form submission
+if (Astro.request.method === 'POST' && product) {
+  // ... parse formData, call submitQuote(), redirect with ?submitted=1
+}
 ---
 ```
+
+### Dynamic Category Tabs on Products Listing
+
+`products/index.astro` derives category tabs dynamically from live Firestore data:
+
+```ts
+// Build one tab per unique category from all fetched products
+const categoryCounts = new Map<string, number>();
+for (const p of allProducts) {
+  categoryCounts.set(p.category, (categoryCounts.get(p.category) ?? 0) + 1);
+}
+const categoryTabs = Array.from(categoryCounts.entries())
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([slug, count]) => ({ label: slugToLabel(slug), slug, count }));
+```
+
+New Firestore categories automatically appear in the filter bar without any code change.
 
 ### Pending: SSG for Product Detail Pages
 
 Product detail pages (`[slug].astro`) are currently **SSR** (rendered on every request).
-A future batch will add `export const prerender = true` + `getStaticPaths()` to convert them
-to **static generation** at build time. This requires seeding all 41 products first.
+A future batch may add `export const prerender = true` + `getStaticPaths()` to convert them
+to **static generation** at build time. All 42 products are now seeded, so this is unblocked.
 
 ### `getProducts` — Category Filtering Strategy
 
@@ -308,3 +336,4 @@ export default defineConfig({
 4. **Orange accent `#F97316` is the only action/brand color** — used for CTAs, active nav states, left border accents, and icon tints
 5. **All forms save directly to Firestore** — no email-only or serverless middleman
 6. **Dark backgrounds use `#171C1F` (`on-background`)** — footer, CTA banner dark variant
+7. **`FeatureCard`, `VisionMissionCard`, `CoreValueBar`, `BlogCard` are NOT standalone files** — they are currently inlined in their respective pages (`about.astro`, `index.astro`). Only `Navbar`, `Footer`, `SectionLabel`, `CTABanner`, and `ProductCard` exist as separate component files.

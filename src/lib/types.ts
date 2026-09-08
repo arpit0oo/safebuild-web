@@ -20,20 +20,25 @@ export interface ProductSpecs {
 
 export interface Product {
   id: string;                // Firestore document ID
-  slug: string;              // URL slug, e.g. "eot-crane-10-ton"
-  name: string;              // "10-Ton EOT Crane"
-  category: ProductCategory;
+  slug: string;              // URL slug, e.g. "goliath-crane"
+  name: string;              // "Goliath Crane"
+  category: string;          // Category slug — matches Firestore `category` field exactly
+                             // e.g. 'double-girder-cranes', 'goliath-crane', 'chain-hoist'
+                             // NOTE: ProductCategory union type removed — 18+ categories exist
   shortDescription: string;  // ~80 chars for listing cards
-  description: string;       // Full HTML/Markdown for detail page
-  specs: Record<string, string>;
-  imageUrl: string;          // Primary image
-  galleryUrls: string[];     // Additional images
+  description: string;       // Full body text for detail page
+  specs: Record<string, string>; // Human-readable key/value pairs from CMS
+  image: string;             // Primary image path, e.g. "/images/categories/chain-hoist.png"
+                             // Empty string ("") if no image assigned yet
+                             // NOTE: Firestore field is "image", NOT "imageUrl"
+  galleryUrls?: string[];    // Additional images (optional)
   isFeatured: boolean;       // Show on homepage featured section
+  isPublished: boolean;      // Controls visibility — false = hidden from all public pages
   order: number;             // Manual sort order
-  tagline?: string;           // Short marketing tagline
-  categoryName?: string;       // Human-readable category label
-  features?: string[];         // Bullet-point feature list
-  sections?: Array<{           // Structured detail-page sections
+  tagline?: string;          // Short marketing tagline (falls back to shortDescription)
+  categoryName?: string;     // Human-readable category label from Firestore
+  features?: string[];       // Bullet-point feature list (rendered in Section 3)
+  sections?: Array<{         // Structured detail-page sections — renderer is LIVE
     title: string;
     type: 'bullets' | 'table' | 'text';
     content: string[] | Record<string, string> | string;
@@ -42,7 +47,10 @@ export interface Product {
   updatedAt: Timestamp;
 }
 
-export type ProductCategory = 'eot-cranes' | 'gantry-cranes' | 'hoists';
+// ProductCategory union type removed — 18+ categories now live in Firestore.
+// The `category` field on Product is now typed as `string`.
+// See CONTENT.md for the full list of category slugs.
+export type ProductCategory = string; // kept as alias for backward compat, do not use for narrowing
 
 // -------------------------------------------------------------
 // BLOG POST

@@ -11,19 +11,19 @@ interface Props {
   category: string;
   categoryName?: string;  // Human-readable label from Firestore (e.g. "Gantry Cranes")
   shortDescription: string;
-  imageUrl: string;
+  image: string;
   slug: string;
 }
 
-const { name, category, categoryName, shortDescription, imageUrl, slug } = Astro.props;
+const { name, category, categoryName, shortDescription, image, slug } = Astro.props;
 
 // Prefer categoryName from Firestore; fall back to slug → human label conversion
 const categoryLabel = categoryName
   ? categoryName.toUpperCase()
   : category.replace(/-/g, ' ').toUpperCase();
 
-// Fallback for missing image — bg-image-placeholder will show through
-const imgSrc = imageUrl || '';
+// Fallback for missing image
+const imgSrc = image || '';
 
 // Display image alt
 const imgAlt = `${name} — Safe Build Engineering`;

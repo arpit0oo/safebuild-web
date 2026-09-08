@@ -1,8 +1,9 @@
 # CONTENT.md — Safe Build Engineering
 
 > All copy, product slugs, descriptions, and placeholder content for the site.
-> Updated to reflect 18 product categories and 41 products (seeding target).
-> Slugs that are already seeded in Firestore are marked ✅.
+> Updated to reflect 18 product categories and 42 products (all seeded ✅).
+> Last updated: 2026-09-07
+> All slugs are seeded in Firestore unless marked otherwise.
 
 ---
 
@@ -70,7 +71,7 @@
 
 ## 3. Products — Categories and Slugs (Full Inventory)
 
-> Target: 18 categories, 41 products total.
+> Target: 18 categories, 42 products total — all seeded ✅ as of 2026-09-07.
 > `imageUrl` is currently `""` (empty string) for all products — placeholder shown in UI.
 > Specs are stored as `Record<string, string>` with human-readable key names.
 
@@ -81,11 +82,11 @@
 
 | Slug | Name | Notes |
 |---|---|---|
-| `eot-crane-5-ton` | 5-Ton EOT Crane | |
-| `eot-crane-10-ton` | 10-Ton EOT Crane | |
-| `eot-crane-20-ton` | 20-Ton EOT Crane | |
-| `eot-crane-50-ton` | 50-Ton EOT Crane | |
-| `eot-crane-100-ton` | 100-Ton EOT Crane | |
+| `eot-crane-5-ton` | 5-Ton EOT Crane | ✅ Seeded |
+| `eot-crane-10-ton` | 10-Ton EOT Crane | ✅ Seeded |
+| `eot-crane-20-ton` | 20-Ton EOT Crane | ✅ Seeded |
+| `eot-crane-50-ton` | 50-Ton EOT Crane | ✅ Seeded |
+| `eot-crane-100-ton` | 100-Ton EOT Crane | ✅ Seeded |
 
 ---
 
@@ -94,9 +95,9 @@
 
 | Slug | Name | Notes |
 |---|---|---|
-| `gantry-crane-10-ton` | 10-Ton Gantry Crane | |
-| `gantry-crane-25-ton` | 25-Ton Gantry Crane | |
-| `semi-gantry-crane-10-ton` | 10-Ton Semi-Gantry Crane | |
+| `gantry-crane-10-ton` | 10-Ton Gantry Crane | ✅ Seeded |
+| `gantry-crane-25-ton` | 25-Ton Gantry Crane | ✅ Seeded |
+| `semi-gantry-crane-10-ton` | 10-Ton Semi-Gantry Crane | ✅ Seeded |
 
 ---
 
@@ -105,158 +106,158 @@
 
 | Slug | Name | Notes |
 |---|---|---|
-| `goliath-crane` | Goliath Crane | ✅ Seeded — verified in dev |
+| `goliath-crane` | Goliath Crane | ✅ Seeded |
 
 ---
 
 ### Category 4: Jib Cranes
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `jib-cranes`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `jib-crane-wall-mounted` | Wall-Mounted Jib Crane |
-| `jib-crane-pillar-mounted` | Pillar-Mounted Jib Crane |
-| `jib-crane-articulated` | Articulated Jib Crane |
+| `jib-crane-wall-mounted` | Wall-Mounted Jib Crane | ✅ Seeded |
+| `jib-crane-pillar-mounted` | Pillar-Mounted Jib Crane | ✅ Seeded |
+| `jib-crane-articulated` | Articulated Jib Crane | ✅ Seeded |
 
 ---
 
 ### Category 5: Monorail Systems
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `monorail-systems`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `monorail-hoist-system` | Monorail Hoist System |
-| `curved-monorail-system` | Curved Monorail System |
+| `monorail-hoist-system` | Monorail Hoist System | ✅ Seeded |
+| `curved-monorail-system` | Curved Monorail System | ✅ Seeded |
 
 ---
 
 ### Category 6: Underslung Cranes
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `underslung-cranes`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `underslung-crane-5-ton` | 5-Ton Underslung Crane |
-| `underslung-crane-10-ton` | 10-Ton Underslung Crane |
+| `underslung-crane-5-ton` | 5-Ton Underslung Crane | ✅ Seeded |
+| `underslung-crane-10-ton` | 10-Ton Underslung Crane | ✅ Seeded |
 
 ---
 
 ### Category 7: Wire Rope Hoists
-**Firestore `category` value:** `hoists`
+**Firestore `category` value:** `wire-rope-hoists`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `wire-rope-hoist-1-ton` | 1-Ton Wire Rope Hoist |
-| `wire-rope-hoist-5-ton` | 5-Ton Wire Rope Hoist |
-| `wire-rope-hoist-10-ton` | 10-Ton Wire Rope Hoist |
+| `wire-rope-hoist-1-ton` | 1-Ton Wire Rope Hoist | ✅ Seeded |
+| `wire-rope-hoist-5-ton` | 5-Ton Wire Rope Hoist | ✅ Seeded |
+| `wire-rope-hoist-10-ton` | 10-Ton Wire Rope Hoist | ✅ Seeded |
 
 ---
 
 ### Category 8: Chain Hoists
-**Firestore `category` value:** `hoists`
+**Firestore `category` value:** `chain-hoists`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `chain-hoist-500kg` | 500 KG Chain Hoist |
-| `chain-hoist-2-ton` | 2-Ton Chain Hoist |
-| `chain-hoist-5-ton` | 5-Ton Chain Hoist |
+| `chain-hoist-500kg` | 500 KG Chain Hoist | ✅ Seeded |
+| `chain-hoist-2-ton` | 2-Ton Chain Hoist | ✅ Seeded |
+| `chain-hoist-5-ton` | 5-Ton Chain Hoist | ✅ Seeded |
 
 ---
 
 ### Category 9: Overhead Crane Kits
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `overhead-crane-kits`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `overhead-crane-kit-5-ton` | 5-Ton Overhead Crane Kit |
+| `overhead-crane-kit-5-ton` | 5-Ton Overhead Crane Kit | ✅ Seeded |
 
 ---
 
 ### Category 10: Material Handling Systems
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `material-handling`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `automated-material-handling` | Automated Material Handling System |
-| `manual-material-handling` | Manual Material Handling System |
+| `automated-material-handling` | Automated Material Handling System | ✅ Seeded |
+| `manual-material-handling` | Manual Material Handling System | ✅ Seeded |
 
 ---
 
 ### Category 11: Davit Cranes
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `davit-cranes`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `davit-crane-500kg` | 500 KG Davit Crane |
-| `davit-crane-2-ton` | 2-Ton Davit Crane |
+| `davit-crane-500kg` | 500 KG Davit Crane | ✅ Seeded |
+| `davit-crane-2-ton` | 2-Ton Davit Crane | ✅ Seeded |
 
 ---
 
 ### Category 12: Stackers & Transfer Cars
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `transfer-cars`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `transfer-car-10-ton` | 10-Ton Transfer Car |
-| `coil-transfer-car` | Coil Transfer Car |
+| `transfer-car-10-ton` | 10-Ton Transfer Car | ✅ Seeded |
+| `coil-transfer-car` | Coil Transfer Car | ✅ Seeded |
 
 ---
 
 ### Category 13: Grab Buckets & Special Attachments
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `attachments`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `grab-bucket-clamshell` | Clamshell Grab Bucket |
-| `electromagnet-lifting` | Electromagnet Lifting Attachment |
+| `grab-bucket-clamshell` | Clamshell Grab Bucket | ✅ Seeded |
+| `electromagnet-lifting` | Electromagnet Lifting Attachment | ✅ Seeded |
 
 ---
 
 ### Category 14: Crane Components & Spares
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `crane-components`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `end-carriage-assembly` | End Carriage Assembly |
-| `drum-and-gearbox-unit` | Drum and Gearbox Unit |
+| `end-carriage-assembly` | End Carriage Assembly | ✅ Seeded |
+| `drum-and-gearbox-unit` | Drum and Gearbox Unit | ✅ Seeded |
 
 ---
 
 ### Category 15: Hoisting Winches
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `hoisting-winches`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `electric-winch-2-ton` | 2-Ton Electric Winch |
-| `electric-winch-10-ton` | 10-Ton Electric Winch |
+| `electric-winch-2-ton` | 2-Ton Electric Winch | ✅ Seeded |
+| `electric-winch-10-ton` | 10-Ton Electric Winch | ✅ Seeded |
 
 ---
 
 ### Category 16: Port & Shipyard Cranes
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `port-cranes`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `port-mobile-crane` | Port Mobile Crane |
-| `shipyard-gantry-crane` | Shipyard Gantry Crane |
+| `port-mobile-crane` | Port Mobile Crane | ✅ Seeded |
+| `shipyard-gantry-crane` | Shipyard Gantry Crane | ✅ Seeded |
 
 ---
 
 ### Category 17: Foundry & Steel Plant Cranes
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `foundry-cranes`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `foundry-ladle-crane` | Foundry Ladle Crane |
-| `coil-handling-crane` | Coil Handling Crane |
+| `foundry-ladle-crane` | Foundry Ladle Crane | ✅ Seeded |
+| `coil-handling-crane` | Coil Handling Crane | ✅ Seeded |
 
 ---
 
 ### Category 18: Custom Engineering Solutions
-**Firestore `category` value:** TBD
+**Firestore `category` value:** `custom-solutions`
 
-| Slug | Name |
+| Slug | Name | Notes |
 |---|---|
-| `custom-crane-solution` | Custom Crane Solution |
+| `custom-crane-solution` | Custom Crane Solution | ✅ Seeded |
 
 ---
 

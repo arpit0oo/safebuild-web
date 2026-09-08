@@ -257,9 +257,9 @@ const pageDesc = product?.shortDescription ?? "";
                   precision_manufacturing
                 </span>
               </div>
-              {product.imageUrl && (
+              {product.image && (
                 <img
-                  src={product.imageUrl}
+                  src={product.image}
                   alt={`${product.name} — Safe Build Engineering`}
                   class="absolute inset-0 w-full h-full object-cover border border-border-subtle shadow-[0_2px_24px_rgba(0,0,0,0.08)]"
                   loading="eager"
@@ -274,7 +274,9 @@ const pageDesc = product?.shortDescription ?? "";
           SECTION 2 — TECHNICAL SPECIFICATIONS
           Left sticky: heading + intro copy
           Right: spec table with hover orange left border per row
+          Only renders when spec data exists.
           =========================================================== */}
+        {specRows.length > 0 && (
         <section class="py-section-padding bg-image-placeholder border-b border-border-subtle">
           <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Left: sticky label + heading */}
@@ -330,13 +332,15 @@ const pageDesc = product?.shortDescription ?? "";
             </div>
           </div>
         </section>
+        )}
 
         {/* ===========================================================
           DYNAMIC SECTIONS — renders product.sections[] if present
           Supports type: "bullets" | "table" | "text"
           =========================================================== */}
         {product.sections && product.sections.length > 0 && (
-          product.sections.map((section, si) => (
+          <>
+          {product.sections.map((section, si) => (
             <section class={[
               'py-section-padding border-b border-border-subtle',
               si % 2 === 0 ? 'bg-image-placeholder' : 'bg-surface-white',
@@ -406,7 +410,8 @@ const pageDesc = product?.shortDescription ?? "";
                 </div>
               </div>
             </section>
-          ))
+          ))}
+          </>
         )}
 
         {/* ===========================================================
@@ -448,7 +453,7 @@ const pageDesc = product?.shortDescription ?? "";
               )}
             </div>
 
-            {/* Right: second image (gallery[1] or same imageUrl) */}
+            {/* Right: second image (gallery[1] or same image) */}
             <div
               class="order-1 md:order-2 h-[360px] md:h-[500px] w-full relative"
               data-aos="fade-left"
@@ -459,9 +464,9 @@ const pageDesc = product?.shortDescription ?? "";
                   engineering
                 </span>
               </div>
-              {(product.galleryUrls?.[1] ?? product.imageUrl) && (
+              {(product.galleryUrls?.[1] ?? product.image) && (
                 <img
-                  src={product.galleryUrls?.[1] ?? product.imageUrl}
+                  src={product.galleryUrls?.[1] ?? product.image}
                   alt={`${product.name} detail — Safe Build Engineering`}
                   class="absolute inset-0 w-full h-full object-cover border border-border-subtle shadow-[0_2px_24px_rgba(0,0,0,0.08)]"
                   loading="lazy"
@@ -497,7 +502,7 @@ const pageDesc = product?.shortDescription ?? "";
                       category={p.category}
                       categoryName={p.categoryName}
                       shortDescription={p.shortDescription}
-                      imageUrl={p.imageUrl}
+                      image={p.image}
                       slug={p.slug}
                     />
                   </div>

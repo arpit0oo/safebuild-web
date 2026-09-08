@@ -1,7 +1,14 @@
 # COMPONENTS.md — Safe Build Engineering
 
 > Specs for all global and reusable Astro components.
-> Updated to reflect actual built component state as of 2026-09-05.
+> Updated to reflect actual built component state as of 2026-09-07.
+>
+> **Component file reality check:**
+> The following exist as standalone `.astro` files in `src/components/`:
+> `Navbar.astro`, `Footer.astro`, `SectionLabel.astro`, `CTABanner.astro`, `ProductCard.astro`
+>
+> The following are **inlined** in their page files and do NOT exist as component files:
+> `FeatureCard`, `VisionMissionCard`, `CoreValueBar`, `BlogCard`, `QuoteForm`
 
 ---
 
@@ -342,38 +349,34 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 |---|---|---|
 | `name` | `string` | Product name |
 | `category` | `string` | Firestore category slug, e.g. `"eot-cranes"` |
+| `categoryName` | `string?` | Human-readable label from Firestore (e.g. `"Gantry Cranes"`). **Preferred** over slug. |
 | `shortDescription` | `string` | ~80 char summary |
-| `imageUrl` | `string` | Product image URL. **Currently always `""` (empty string) for all seeded products.** Falls back to `precision_manufacturing` icon placeholder. |
+| `imageUrl` | `string` | Product image URL. Currently always `""` for all seeded products. Falls back to `precision_manufacturing` icon placeholder. |
 | `slug` | `string` | URL slug for detail link |
-| `capacity` | `string` | Read from `product.specs?.capacity ?? ''`. Empty if spec key is not `"capacity"` (e.g. Goliath Crane uses `"Safe Working Load"`). |
 
 ### Internal Logic
 
-- **Category badge:** Mapped via `CATEGORY_LABELS` record (`eot-cranes` → `"EOT CRANE"`, `gantry-cranes` → `"GANTRY CRANE"`, `hoists` → `"HOIST"`). Unknown slugs fall back to `.toUpperCase()`.
-- **Capacity display:** `truncateCapacity()` strips everything from the first `+` or `(` — e.g. `"100 TON (MAIN) + 20 TON (AUX)"` → `"100 TON"`.
-- **Image fallback:** `imgSrc = imageUrl || ''`. When falsy, renders a `<div>` placeholder with `precision_manufacturing` icon.
+- **Category label:** `categoryName ? categoryName.toUpperCase() : category.replace(/-/g, ' ').toUpperCase()`. Prefers Firestore `categoryName`; slug conversion is fallback only.
+- **Image fallback:** When `imageUrl` is falsy, renders a `<div>` placeholder with `precision_manufacturing` icon.
+- **No capacity chip** — removed. Card no longer reads `specs.capacity`.
 
 ### Design
 
-- Full-bleed top image with `aspect-[4/3]`, `object-cover`
-- Orange category pill badge, top-left over image
-- Dark charcoal capacity chip, top-right of card body
+- Full-bleed top image with `aspect-[4/3]`, `object-cover`, `group-hover:scale-105 duration-500`
+- Orange category pill badge, top-left over image (border `border-[#EA6C0A]`)
 - Left orange border accent on hover (`.card-hover`)
-- Category shown as `label-caps` eyebrow inside badge (not in card body)
-- Footer: "View Specs →" with `arrow_forward` icon
+- Footer: "View Specs" with `arrow_forward` icon — color changes to `#EA6C0A` on hover
 - Entire card wrapped in `<a href="/products/{slug}">`, no nested links
-
-### Known Issues (Pending Fix)
-
-- `capacity` prop is empty for products where Firestore uses `"Safe Working Load"` instead of `"capacity"` as the spec key — chip renders nothing. **Batch 4: normalise capacity field.**
 
 ---
 
 ## 10. `BlogCard.astro` — Blog Listing Card
 
-**Location:** `src/components/BlogCard.astro`
+> **Status: NOT YET BUILT.** `BlogCard` is planned but not yet created. Blog listing page (Phase 6) is not started.
 
-### Props
+**Planned location:** `src/components/BlogCard.astro`
+
+### Planned Props
 
 | Prop | Type | Notes |
 |---|---|---|
@@ -386,29 +389,27 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 
 ---
 
-## 11. `QuoteForm.astro` — Quote Request Form
+## 11. `QuoteForm` — Quote Request Form
 
-**Location:** `src/components/QuoteForm.astro`
+> **Status: INLINED — not a standalone component.** The quote form lives directly in `src/pages/products/[slug].astro` (Section 5) and in `src/pages/contact.astro`. There is NO `QuoteForm.astro` file.
 
-### Fields
+### Fields (as implemented in `[slug].astro`)
 
 1. Full Name (required)
-2. Email (required)
-3. Phone (required)
-4. Company Name (optional)
-5. Product Interest (dropdown: EOT Crane, Gantry Crane, Hoist, General)
-6. Required Capacity (text, e.g. "10 Ton")
-7. Required Span (text)
-8. Lift Height (text)
-9. Additional Notes (textarea)
+2. Company (required)
+3. Email (required)
+4. Phone (optional)
+5. Required Capacity (text)
+6. Required Span (text)
+7. Additional Notes / Specifications (textarea)
 
 ### Behavior
 
-- Server-side POST on `[slug].astro` — form submits to same page URL
-- Firestore write via `submitQuote()` helper in `firestore.ts`
-- Success: redirect with `?success=1` — avoids re-POST on refresh
-- Error: redirect with `?error=1`
-- All inputs: `sharp-edges`, `border border-outline`, `focus:border-primary-container`
+- Server-side POST to same page URL (`/products/{slug}`)
+- Firestore write via dynamic import of `submitQuote()` from `firestore.ts`
+- Success: redirect with `?submitted=1` — avoids re-POST on refresh
+- Error: banner shown on same page
+- All inputs: `input-field` class (sharp-edges, `border border-outline`, `focus:border-primary-container`)
 
 ---
 
@@ -416,13 +417,13 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 
 | Component | About | Products | Product Detail | Blog | Blog Detail | Contact | Homepage |
 |---|---|---|---|---|---|---|---|
-| `Navbar` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `Footer` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `SectionLabel` | ✓ | ✓ | ✓ | ✓ | — | ✓ | ✓ |
-| `CTABanner` | ✓ | ✓ | ✓ | — | — | — | ✓ |
-| `FeatureCard` | ✓ | — | ✓ | — | — | — | ✓ |
-| `VisionMissionCard` | ✓ | — | — | — | — | — | — |
-| `CoreValueBar` | ✓ | — | — | — | — | — | ✓ |
-| `ProductCard` | — | ✓ | ✓ (related) | — | — | — | ✓ |
-| `BlogCard` | — | — | — | ✓ | — | — | — |
-| `QuoteForm` | — | — | ✓ | — | — | ✓ | — |
+| `Navbar` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `Footer` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `SectionLabel` | ✅ | ✅ | ✅ | ✅ | — | ✅ | ✅ |
+| `CTABanner` | ✅ | ✅ | ✅ | — | — | — | ✅ |
+| `FeatureCard` *(inlined)* | ✅ | — | ✅ | — | — | — | ✅ |
+| `VisionMissionCard` *(inlined)* | ✅ | — | — | — | — | — | — |
+| `CoreValueBar` *(inlined)* | ✅ | — | — | — | — | — | ✅ |
+| `ProductCard` | — | ✅ | ✅ (related) | — | — | — | ✅ |
+| `BlogCard` *(not built)* | — | — | — | ✅ | — | — | — |
+| `QuoteForm` *(inlined)* | — | — | ✅ | — | — | ✅ | — |

@@ -1,6 +1,7 @@
 # TODO.md — Safe Build Engineering Build Order
 
 > Status key: ✅ Done | 🔄 In Progress | ⬜ Not Started | 🚫 Blocked
+> Last updated: 2026-09-07
 
 ---
 
@@ -80,15 +81,16 @@
 
 | Task | Status | Notes |
 |---|---|---|
-| Seed Firestore `products` with initial products | 🔄 In Progress | Goliath Crane seeded and verified. 40 remaining from CONTENT.md inventory |
+| Seed Firestore `products` with initial products | ✅ Done | All 42 products seeded across 18 categories |
+| Seed all 18 Firestore categories | ✅ Done | All categories live in Firestore |
 | Create `src/pages/products/index.astro` | ✅ Done | SSR fetch from Firestore — full implementation |
-| Implement category filter UI (EOT / Gantry / Hoists) | ✅ Done | `?category=` query param, JS-side filter (no Firestore index needed) |
-| Create `ProductCard.astro` | ✅ Done | Image, category badge, capacity chip, "View Specs →" footer |
+| Implement dynamic category filter tabs | ✅ Done | Tabs generated from live Firestore data — no hardcoding. `?category=` query param, JS-side filter |
+| Create `ProductCard.astro` | ✅ Done | Image, category badge, `categoryName` field used — no hardcoded map |
 | Render product grid (3-col desktop, 2-col tablet, 1-col mobile) | ✅ Done | |
 | Add AOS stagger animation to cards | ✅ Done | `data-aos-delay` based on column index |
 | Add empty state (no products in category) | ✅ Done | Icon + message + CTA |
 | Add error state (Firestore failure) | ✅ Done | `cloud_off` icon + retry link |
-| Fix category label — `categoryName` field pending | ⬜ | Card uses hardcoded CATEGORY_LABELS map. `categoryName` from Firestore not yet used. |
+| Fix category label — `categoryName` field | ✅ Done | `ProductCard` now prefers `categoryName` from Firestore; falls back to slug conversion |
 
 ---
 
@@ -100,14 +102,16 @@
 | Create `src/pages/products/[slug].astro` | ✅ Done | Full 5-section implementation |
 | Handle 404 redirect if slug not found | ✅ Done | `Astro.redirect('/products', 302)` |
 | Implement product hero (image + name + specs table) | ✅ Done | Section 1 |
-| Fix specs table rendering | ✅ Done | Changed from SPEC_LABELS key-map to `Object.entries(product.specs)` — all rows now render |
+| Fix specs table rendering | ✅ Done | `Object.entries(product.specs)` — all human-readable keys render |
+| Specs section empty-header bug | ✅ Done | Wrapped in `specRows.length > 0` guard — section hidden when no specs |
 | Hero tagline fallback | ✅ Done | `product.tagline ?? product.shortDescription` |
 | Replace hardcoded features list with `product.features` | ✅ Done | Section 3 — dynamic, hidden if empty |
-| Implement image gallery | ✅ Done | Primary image + gallery[0] in hero; gallery[1] in Section 3 |
-| Embed `QuoteForm.astro` at bottom of detail page | ✅ Done | Section 5 — server-side POST to Firestore |
+| Implement image gallery | ✅ Done | Primary image in hero; `galleryUrls[1] ?? imageUrl` in Section 3 |
+| Implement `sections[]` renderer | ✅ Done | Supports `bullets`, `table`, `text` types; renders between specs and description |
+| Fix `sections.map()` JSX fragment bug | ✅ Done | Wrapped in `<>...</>` — was silently breaking all downstream siblings incl. quote section |
+| Embed quote form at bottom of detail page | ✅ Done | Section 5 — server-side POST → Firestore `quotes` collection, redirect with `?submitted=1` |
 | Add related products section (same category) | ✅ Done | Section 4 — pads with cross-category if fewer than 3 |
-| Switch product pages to SSG (`prerender = true`) | ⬜ | Requires all 41 products seeded first, then `getStaticPaths()` |
-| Implement `sections[]` renderer (Batch 5) | ⬜ | `sections` field exists in type but detail page has no renderer yet |
+| Switch product pages to SSG (`prerender = true`) | ⬜ | Add `getStaticPaths()` to `[slug].astro` — deferred pending performance review |
 
 ---
 
@@ -116,7 +120,7 @@
 | Task | Status | Notes |
 |---|---|---|
 | Seed Firestore `blogs` collection with 5 placeholder posts | ⬜ | Use slugs from `CONTENT.md` |
-| Create `src/pages/blog/index.astro` | ⬜ | SSR fetch published blogs |
+| Create `src/pages/blog/index.astro` | ⬜ | `src/pages/blog/` directory exists but is empty |
 | Create `BlogCard.astro` | ⬜ | |
 | Implement tag filter UI | ⬜ | |
 | Render blog grid | ⬜ | |
@@ -139,26 +143,26 @@
 
 | Task | Status | Notes |
 |---|---|---|
-| Create `src/pages/contact.astro` | ⬜ | |
-| Build enquiry form (saves to `enquiries` collection) | ⬜ | Client-side Firestore addDoc |
-| Build quote form tab/section (saves to `quotes` collection) | ⬜ | Use `QuoteForm.astro` |
-| Add contact info block (address, phone, email) | ⬜ | |
-| Form validation (required fields, email format) | ⬜ | |
-| Success/error feedback states | ⬜ | |
+| Create `src/pages/contact.astro` | ✅ Done | 23 KB — full implementation confirmed in filesystem |
+| Build enquiry form (saves to `enquiries` collection) | ✅ Done | Inline — no separate component |
+| Build quote form tab/section (saves to `quotes` collection) | ✅ Done | Inline in contact.astro |
+| Add contact info block (address, phone, email) | ✅ Done | |
+| Form validation (required fields, email format) | ✅ Done | |
+| Success/error feedback states | ✅ Done | |
 
 ---
 
-## Phase 9 — Homepage (Built Last)
+## Phase 9 — Homepage
 
 | Task | Status | Notes |
 |---|---|---|
-| Create `src/pages/index.astro` | ⬜ | |
-| Hero section with GSAP text animation | ⬜ | |
-| Featured products section (fetch `isFeatured: true`) | ⬜ | |
-| Stats/numbers strip | ⬜ | |
-| Why Choose Us section (reuse `FeatureCard.astro`) | ⬜ | |
-| Core values strip (reuse `CoreValueBar.astro`) | ⬜ | |
-| CTA Banner (reuse `CTABanner.astro`) | ⬜ | |
+| Create `src/pages/index.astro` | ✅ Done | 21 KB — full implementation confirmed in filesystem |
+| Hero section with GSAP text animation | 🔄 Unknown | File exists — QA pending |
+| Featured products section (fetch `isFeatured: true`) | 🔄 Unknown | File exists — QA pending |
+| Stats/numbers strip | 🔄 Unknown | File exists — QA pending |
+| Why Choose Us / FeatureCard section | 🔄 Unknown | File exists — QA pending |
+| Core values strip | 🔄 Unknown | File exists — QA pending |
+| CTA Banner | 🔄 Unknown | File exists — QA pending |
 
 ---
 
@@ -193,16 +197,19 @@
 
 ---
 
-## Upcoming Batch Tasks (Session 2026-09-05)
+## Upcoming Batch Tasks (Session 2026-09-07)
 
 | Task | Priority | Notes |
 |---|---|---|
-| Seed all 41 products in Firestore | 🔴 High | Required before SSG switch and full QA |
-| Fix `capacity` chip — normalise spec key across all products | 🟡 Medium | ProductCard reads `specs.capacity`; Goliath Crane uses `"Safe Working Load"` |
-| Fix `categoryName` display on ProductCard (Batch 4) | 🟡 Medium | Card uses hardcoded map — should prefer `product.categoryName` from Firestore |
-| Implement `sections[]` renderer on product detail page (Batch 5) | 🟡 Medium | Type exists in `types.ts` but no renderer built yet |
-| Switch product pages to SSG (`prerender = true`) | 🟠 Medium-High | Add `getStaticPaths()` to `[slug].astro` after seeding |
-| Rewrite Firestore security rules | 🔴 High | Do after seeding — current rules are open |
+| QA homepage (`index.astro`) | 🔴 High | File built — visual QA and Firestore data verification needed |
+| QA contact page (`contact.astro`) | 🔴 High | File built — form submission flow and Firestore write verification needed |
+| Blog listing page (`blog/index.astro`) | 🔴 High | Directory empty — seed blogs + build page |
+| Blog detail page (`blog/[slug].astro`) | 🔴 High | Not started |
+| Seed Firestore `blogs` collection | 🟠 Medium-High | 5 placeholder posts from `CONTENT.md` |
+| Switch product pages to SSG (`prerender = true`) | 🟡 Medium | Add `getStaticPaths()` to `[slug].astro` — all 42 products seeded |
+| Rewrite Firestore security rules | 🔴 High | Current rules are open — tighten before going live |
+| Update `ProductCategory` type in `types.ts` | 🟡 Medium | Currently only 3 values; 18 categories now in Firestore — type is incorrect |
+| Upload product images to Firebase Storage | 🟡 Medium | All `imageUrl` fields still empty strings — placeholder showing everywhere |
 
 ---
 
@@ -213,9 +220,11 @@
 | Real logo asset? | Using `type_specimen` material icon as placeholder — replace when logo is ready |
 | Real company address/phone? | ✅ Confirmed — Divakar Mishra, +91 99351 05322, Lucknow 226028 |
 | Firebase project created? | ✅ Active — dev server confirmed Firestore reads working |
-| Product images source? | Firebase Storage — upload via CMS. Currently all `imageUrl: ""` |
+| Product images source? | Firebase Storage — upload via CMS. Currently all `imageUrl: ""` — placeholder shown |
 | Blog body format? | HTML string stored in Firestore — rendered with `set:html` |
 | Domain? | TBD — `safebuild.in` assumed |
 | CMS subdomain? | `cms.safebuild.in` assumed |
 | Dark mode support? | Config has `darkMode: 'class'` but not actively implemented in V1 |
 | `specs` key format? | Human-readable strings (e.g. `"Safe Working Load"`). `Object.entries()` used for rendering. |
+| `ProductCategory` type? | Still `'eot-cranes' \| 'gantry-cranes' \| 'hoists'` — needs expanding to all 18 slugs. Not a runtime blocker (Firestore doesn't validate) but causes TS errors on new categories. |
+| `FeatureCard.astro`, `VisionMissionCard.astro`, `CoreValueBar.astro`, `BlogCard.astro` | These components are referenced in docs but **not present** in `src/components/` — they are inlined in their respective pages. Extract if reuse is needed. |
