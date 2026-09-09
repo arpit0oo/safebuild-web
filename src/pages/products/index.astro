@@ -425,7 +425,19 @@ const pageDesc  = "Explore Safe Build Engineering's full range of cranes, hoists
     });
   }
 
-  // Init: apply "all" state on load
-  applyFilter('all');
+  // Init: read ?category= URL param and pre-select matching card,
+  // otherwise default to showing all products.
+  (function () {
+    var param = new URLSearchParams(window.location.search).get('category');
+    if (param) {
+      var matchBtn = document.querySelector('.category-card[data-category="' + param + '"]');
+      if (matchBtn) {
+        setActiveCard(param);
+        applyFilter(param);
+        return;
+      }
+    }
+    applyFilter('all');
+  })();
 })();
 </script>
