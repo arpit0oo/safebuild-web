@@ -1,7 +1,7 @@
 # TODO.md — Safe Build Engineering Build Order
 
 > Status key: ✅ Done | 🔄 In Progress | ⬜ Not Started | 🚫 Blocked
-> Last updated: 2026-09-07
+> Last updated: 2026-09-09
 
 ---
 
@@ -17,6 +17,7 @@
 | Generate `CONTENT.md` | ✅ Done | Slugs, copy, placeholder specs |
 | Generate `TODO.md` | ✅ Done | This file |
 | Rewrite docs to match actual codebase state | ✅ Done | Session 2026-09-05 — types.ts, firestore.ts, slug.astro, ProductCard.astro read and all 4 docs updated |
+| Update docs to reflect 2026-09-09 session | ✅ Done | All 5 docs updated this session |
 
 ---
 
@@ -34,8 +35,8 @@
 | Install Firebase JS SDK | ✅ Done | `firebase@12.18.0` |
 | Create `src/lib/firebase.ts` | ✅ Done | App init with PUBLIC_ env vars, HMR guard |
 | Create `src/lib/firestore.ts` | ✅ Done | Typed helpers: getProducts, getProductBySlug, getFeaturedProducts, getBlogPosts, getBlogPostBySlug, submitEnquiry, submitQuote |
-| Create `src/lib/types.ts` | ✅ Done | Product (with specs: Record<string,string>, tagline, categoryName, features, sections), BlogPost, Enquiry, Quote interfaces |
-| Set up `.env` with Firebase credentials | ⬜ | Template created — fill in Firebase project credentials |
+| Create `src/lib/types.ts` | ✅ Done | Product (with specs: Record\<string,string\>, tagline, categoryName, features, sections, isPublished, seoTitle, seoDescription, seoKeywords), BlogPost, Enquiry, Quote interfaces |
+| Set up `.env` with Firebase credentials | ✅ Done | Credentials confirmed — dev server reads Firestore successfully |
 | Install GSAP, AOS, Lenis | ✅ Done | gsap@3.15.0, aos@2.3.4, lenis@1.3.26 |
 | Create `src/layouts/BaseLayout.astro` | ✅ Done | HTML shell, fonts, Lenis + AOS init, ViewTransitions, SEO meta |
 | Dev server running clean | ✅ Done | http://localhost:4321/ — SSR + Tailwind confirmed |
@@ -52,6 +53,8 @@
 | Wire `Navbar` and `Footer` into `BaseLayout.astro` | ✅ Done | Imports active, both rendering in SSR output |
 | Implement mobile drawer for Navbar | ✅ Done | Slide-in from right, backdrop, escape/click-outside close, ARIA |
 | Test Navbar active state via `activePage` prop | ✅ Done | Verified in SSR output — `isActive()` fn drives class logic |
+| Convert Navbar PRODUCTS to plain link (remove dropdown) | ✅ Done | `PRODUCTS` is now a plain `<a href="/products">` — no hover sub-menu |
+| Add favicon | ✅ Done | `public/favicon.png` (745 KB) + `public/favicon.svg` added |
 
 ---
 
@@ -84,18 +87,25 @@
 | Seed Firestore `products` with initial products | ✅ Done | All 42 products seeded across 18 categories |
 | Seed all 18 Firestore categories | ✅ Done | All categories live in Firestore |
 | Create `src/pages/products/index.astro` | ✅ Done | SSR fetch from Firestore — full implementation |
-| Implement dynamic category filter tabs | ✅ Done | Tabs generated from live Firestore data — no hardcoding. `?category=` query param, JS-side filter |
+| Implement dynamic category filter | ✅ Done | v1: tab bar. v2 (current): category cards grid |
+| Implement `?category=` URL param pre-selection | ✅ Done | Client-side JS reads param, activates matching category card |
 | Create `ProductCard.astro` | ✅ Done | Image, category badge, `categoryName` field used — no hardcoded map |
 | Render product grid (3-col desktop, 2-col tablet, 1-col mobile) | ✅ Done | |
 | Add AOS stagger animation to cards | ✅ Done | `data-aos-delay` based on column index |
 | Add empty state (no products in category) | ✅ Done | Icon + message + CTA |
 | Add error state (Firestore failure) | ✅ Done | `cloud_off` icon + retry link |
 | Fix category label — `categoryName` field | ✅ Done | `ProductCard` now prefers `categoryName` from Firestore; falls back to slug conversion |
+| Rename `imageUrl` → `image` in types.ts, firestore.ts, all pages | ✅ Done | Firestore field is `image`. Updated 2026-09-09 |
+| Add `isPublished: boolean` to Product interface | ✅ Done | `getProducts()` + `getFeaturedProducts()` filter by `isPublished == true` |
+| `getProductBySlug()` respects `isPublished` | ✅ Done | Returns null if `isPublished === false` → redirect to /products |
+| Add `seoTitle`, `seoDescription`, `seoKeywords` to Product interface | ✅ Done | Optional fields — empty for all products currently |
+| Add 11 real category images | ✅ Done | `public/images/categories/*.png` — 11 slugs with real images |
+| Create `scripts/update-images-and-publish.mjs` | ✅ Done | Batch script: sets image path + isPublished. 20 published, 22 hidden. Run 2026-09-09 |
 
 ---
 
 ## Phase 5 — Product Detail Page
-> Dynamic SSR page per product slug. **Complete — fixes in progress.**
+> Dynamic SSR page per product slug. **Complete.**
 
 | Task | Status | Notes |
 |---|---|---|
@@ -106,12 +116,12 @@
 | Specs section empty-header bug | ✅ Done | Wrapped in `specRows.length > 0` guard — section hidden when no specs |
 | Hero tagline fallback | ✅ Done | `product.tagline ?? product.shortDescription` |
 | Replace hardcoded features list with `product.features` | ✅ Done | Section 3 — dynamic, hidden if empty |
-| Implement image gallery | ✅ Done | Primary image in hero; `galleryUrls[1] ?? imageUrl` in Section 3 |
+| Implement image gallery | ✅ Done | Primary image in hero; `galleryUrls[1] ?? image` in Section 3 |
 | Implement `sections[]` renderer | ✅ Done | Supports `bullets`, `table`, `text` types; renders between specs and description |
 | Fix `sections.map()` JSX fragment bug | ✅ Done | Wrapped in `<>...</>` — was silently breaking all downstream siblings incl. quote section |
 | Embed quote form at bottom of detail page | ✅ Done | Section 5 — server-side POST → Firestore `quotes` collection, redirect with `?submitted=1` |
 | Add related products section (same category) | ✅ Done | Section 4 — pads with cross-category if fewer than 3 |
-| Switch product pages to SSG (`prerender = true`) | ⬜ | Add `getStaticPaths()` to `[slug].astro` — deferred pending performance review |
+| Switch product pages to SSG (`prerender = true`) | 🚫 Blocked | Deferred — staying SSR until all individual product images are delivered (Sky Hawk) and catalog is stable. Revisit after image delivery. |
 
 ---
 
@@ -143,12 +153,13 @@
 
 | Task | Status | Notes |
 |---|---|---|
-| Create `src/pages/contact.astro` | ✅ Done | 23 KB — full implementation confirmed in filesystem |
+| Create `src/pages/contact.astro` | ✅ Done | 23 KB — full implementation confirmed |
 | Build enquiry form (saves to `enquiries` collection) | ✅ Done | Inline — no separate component |
 | Build quote form tab/section (saves to `quotes` collection) | ✅ Done | Inline in contact.astro |
 | Add contact info block (address, phone, email) | ✅ Done | |
 | Form validation (required fields, email format) | ✅ Done | |
 | Success/error feedback states | ✅ Done | |
+| Update category dropdown to match 11 published categories | ✅ Done | Contact page product interest dropdown updated 2026-09-09 |
 
 ---
 
@@ -156,13 +167,21 @@
 
 | Task | Status | Notes |
 |---|---|---|
-| Create `src/pages/index.astro` | ✅ Done | 21 KB — full implementation confirmed in filesystem |
+| Create `src/pages/index.astro` | ✅ Done | 21 KB — full implementation confirmed |
 | Hero section with GSAP text animation | 🔄 Unknown | File exists — QA pending |
-| Featured products section (fetch `isFeatured: true`) | 🔄 Unknown | File exists — QA pending |
+| Featured products section (fetch `isFeatured: true`) | 🔄 Unknown | File exists — getFeaturedProducts() now filters by isPublished too |
 | Stats/numbers strip | 🔄 Unknown | File exists — QA pending |
 | Why Choose Us / FeatureCard section | 🔄 Unknown | File exists — QA pending |
 | Core values strip | 🔄 Unknown | File exists — QA pending |
 | CTA Banner | 🔄 Unknown | File exists — QA pending |
+
+---
+
+## Phase 9b — Custom 404 Page
+
+| Task | Status | Notes |
+|---|---|---|
+| Create `src/pages/404.astro` | ✅ Done | Static custom 404 page built |
 
 ---
 
@@ -188,28 +207,47 @@
 | Connect Cloudflare Pages to Git repo | ⬜ | |
 | Set all `FIREBASE_*` environment variables in CF dashboard | ⬜ | |
 | Configure custom domain | ⬜ | `safebuild.in` or `www.safebuild.in` |
-| Set up `robots.txt` and `sitemap.xml` | ⬜ | |
+| Set up `robots.txt` and `sitemap.xml` | ✅ / ⬜ | `robots.txt` exists; `sitemap.xml` not yet |
+| Sitemap page (`/sitemap`) | ⬜ | Static page |
+| Privacy Policy page (`/privacy`) | ⬜ | Static page |
+| Terms of Service page (`/terms`) | ⬜ | Static page |
 | Full cross-browser QA (Chrome, Safari, Firefox) | ⬜ | |
 | Mobile responsive QA (320px, 375px, 768px, 1280px) | ⬜ | |
 | Lighthouse performance audit | ⬜ | Target: 90+ all categories |
 | Add OG meta tags and verify social sharing | ⬜ | |
-| Rewrite Firestore security rules after seeding complete | ⬜ | Currently open rules — tighten before production |
+| SEO pass (seoTitle, seoDescription, seoKeywords per product) | ⬜ | Dedicated session before launch — fields exist in schema, all empty now |
+| Lock Firestore security rules | ✅ Done | products: read-only; quotes/enquiries: create-only; all else: denied |
+| Switch product pages to SSG (`prerender = true`) | 🚫 Blocked | Waiting on individual product images (Sky Hawk delivery) |
 
 ---
 
-## Upcoming Batch Tasks (Session 2026-09-07)
+## Phase 12 — Additional Pages (Post-Launch or Pre-Launch)
+
+| Task | Priority | Status | Notes |
+|---|---|---|---|
+| Services page | 🟡 Medium | ⬜ | Not started — no copy defined yet |
+| Gallery page | 🟡 Medium | ⬜ | Not started — no copy or image list defined |
+| Blog listing + detail (Phases 6–7) | 🔴 High | ⬜ | Seed blogs first, then build pages |
+
+---
+
+## Upcoming Batch Tasks (Session 2026-09-09)
 
 | Task | Priority | Notes |
 |---|---|---|
 | QA homepage (`index.astro`) | 🔴 High | File built — visual QA and Firestore data verification needed |
 | QA contact page (`contact.astro`) | 🔴 High | File built — form submission flow and Firestore write verification needed |
-| Blog listing page (`blog/index.astro`) | 🔴 High | Directory empty — seed blogs + build page |
+| Blog listing page (`blog/index.astro`) | 🔴 High | Directory exists, file not created — seed blogs + build page |
 | Blog detail page (`blog/[slug].astro`) | 🔴 High | Not started |
 | Seed Firestore `blogs` collection | 🟠 Medium-High | 5 placeholder posts from `CONTENT.md` |
-| Switch product pages to SSG (`prerender = true`) | 🟡 Medium | Add `getStaticPaths()` to `[slug].astro` — all 42 products seeded |
-| Rewrite Firestore security rules | 🔴 High | Current rules are open — tighten before going live |
-| Update `ProductCategory` type in `types.ts` | 🟡 Medium | Currently only 3 values; 18 categories now in Firestore — type is incorrect |
-| Upload product images to Firebase Storage | 🟡 Medium | All `imageUrl` fields still empty strings — placeholder showing everywhere |
+| Individual product images | 🔴 High | Waiting on client (Sky Hawk) — all products currently share category images |
+| Divakar decision: 1 product per category or all 20 with shared images | 🔴 High | Blocking individual product image strategy |
+| Services page | 🟡 Medium | No content defined yet |
+| Gallery page | 🟡 Medium | No image list or content defined yet |
+| SEO pass (all products + pages) | 🟡 Medium | Dedicated session before launch — seoTitle/seoDescription/seoKeywords fields exist |
+| Sitemap, Privacy, Terms pages | 🟡 Medium | Static pages — needed before launch |
+| Switch to SSG after images complete | 🟡 Medium | Add `getStaticPaths()` to `[slug].astro` — blocked on image delivery |
+| CMS admin panel | 🟡 Medium | Phase 10 — separate project, not started |
 
 ---
 
@@ -220,11 +258,15 @@
 | Real logo asset? | Using `type_specimen` material icon as placeholder — replace when logo is ready |
 | Real company address/phone? | ✅ Confirmed — Divakar Mishra, +91 99351 05322, Lucknow 226028 |
 | Firebase project created? | ✅ Active — dev server confirmed Firestore reads working |
-| Product images source? | Firebase Storage — upload via CMS. Currently all `imageUrl: ""` — placeholder shown |
+| Product images source? | Category-level images live in `public/images/categories/` (11 slugs). Individual per-product images waiting on client (Sky Hawk). |
+| Shared vs individual images? | ⬜ Divakar to decide: 1 product per published category OR all 20 products use shared category image |
 | Blog body format? | HTML string stored in Firestore — rendered with `set:html` |
 | Domain? | TBD — `safebuild.in` assumed |
 | CMS subdomain? | `cms.safebuild.in` assumed |
 | Dark mode support? | Config has `darkMode: 'class'` but not actively implemented in V1 |
 | `specs` key format? | Human-readable strings (e.g. `"Safe Working Load"`). `Object.entries()` used for rendering. |
-| `ProductCategory` type? | Still `'eot-cranes' \| 'gantry-cranes' \| 'hoists'` — needs expanding to all 18 slugs. Not a runtime blocker (Firestore doesn't validate) but causes TS errors on new categories. |
+| `ProductCategory` type? | Removed — `category` field is now typed as `string`. All 18+ slugs are free-form in Firestore. |
 | `FeatureCard.astro`, `VisionMissionCard.astro`, `CoreValueBar.astro`, `BlogCard.astro` | These components are referenced in docs but **not present** in `src/components/` — they are inlined in their respective pages. Extract if reuse is needed. |
+| SSG for product detail pages? | 🚫 Deferred — staying SSR until individual product images delivered and catalog stable. Revisit after Sky Hawk delivery. |
+| Firestore security rules? | ✅ Locked — products: public read, no write; quotes/enquiries: create-only; all else denied. |
+| SEO fields? | `seoTitle`, `seoDescription`, `seoKeywords` added to Product schema. All empty now — dedicated SEO pass session planned before launch. |

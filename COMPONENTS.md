@@ -1,14 +1,14 @@
 # COMPONENTS.md — Safe Build Engineering
 
 > Specs for all global and reusable Astro components.
-> Updated to reflect actual built component state as of 2026-09-07.
+> Updated to reflect actual built component state as of 2026-09-09.
 >
 > **Component file reality check:**
 > The following exist as standalone `.astro` files in `src/components/`:
 > `Navbar.astro`, `Footer.astro`, `SectionLabel.astro`, `CTABanner.astro`, `ProductCard.astro`
 >
 > The following are **inlined** in their page files and do NOT exist as component files:
-> `FeatureCard`, `VisionMissionCard`, `CoreValueBar`, `BlogCard`, `QuoteForm`
+> `FeatureCard`, `VisionMissionCard`, `CoreValueBar`, `BlogCard`, `QuoteForm`, `CategoryCards`
 
 ---
 
@@ -30,10 +30,8 @@
 
     <!-- Desktop Nav -->
     <nav class="hidden md:flex">
-      <a href="/products?category=eot-cranes">EOT Cranes</a>      label-caps, hover text-primary
-      <a href="/products?category=gantry-cranes">Gantry Cranes</a>
-      <a href="/products?category=hoists">Hoists</a>
-      <a href="/about">Engineering</a>        active = text-primary + border-b-2
+      <a href="/products">PRODUCTS</a>              label-caps, plain link — NO dropdown or sub-menu
+      <a href="/about">Engineering</a>              active = text-primary + border-b-2
       <a href="/contact">Contact</a>
     </nav>
 
@@ -64,6 +62,7 @@
 - Nav links: `font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-200`
 - Active link: adds `text-primary border-b-2 border-primary pb-1`
 - "Request Quote" CTA: `text-primary-container font-bold uppercase tracking-wider` — **no button bg, just text + arrow**
+- **PRODUCTS** link: plain `<a href="/products">` — no dropdown, no hover sub-menu (removed 2026-09-09)
 
 ### Mobile Behavior
 
@@ -348,16 +347,16 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 | Prop | Type | Notes |
 |---|---|---|
 | `name` | `string` | Product name |
-| `category` | `string` | Firestore category slug, e.g. `"eot-cranes"` |
-| `categoryName` | `string?` | Human-readable label from Firestore (e.g. `"Gantry Cranes"`). **Preferred** over slug. |
+| `category` | `string` | Firestore category slug, e.g. `"chain-hoist"` |
+| `categoryName` | `string?` | Human-readable label from Firestore (e.g. `"Chain Hoist"`). **Preferred** over slug. |
 | `shortDescription` | `string` | ~80 char summary |
-| `imageUrl` | `string` | Product image URL. Currently always `""` for all seeded products. Falls back to `precision_manufacturing` icon placeholder. |
+| `image` | `string` | Product image path, e.g. `/images/categories/chain-hoist.png`. Currently set to category image for published products. Falls back to `precision_manufacturing` icon placeholder when empty. |
 | `slug` | `string` | URL slug for detail link |
 
 ### Internal Logic
 
 - **Category label:** `categoryName ? categoryName.toUpperCase() : category.replace(/-/g, ' ').toUpperCase()`. Prefers Firestore `categoryName`; slug conversion is fallback only.
-- **Image fallback:** When `imageUrl` is falsy, renders a `<div>` placeholder with `precision_manufacturing` icon.
+- **Image fallback:** When `image` is falsy, renders a `<div>` placeholder with `precision_manufacturing` icon.
 - **No capacity chip** — removed. Card no longer reads `specs.capacity`.
 
 ### Design
@@ -370,7 +369,47 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 
 ---
 
-## 10. `BlogCard.astro` — Blog Listing Card
+## 10. `CategoryCards` — Category Cards Grid *(inlined)*
+
+> **Status: INLINED in `products/index.astro`.** Not a standalone component file.
+
+**Used in:** `products/index.astro` — Section 2 (above the product grid)
+
+Replaced the old tab-bar category filter as of 2026-09-09. Presents each product category as a clickable image card.
+
+### Data Source
+
+Derived dynamically from Firestore published products — the first product in each category provides the `image` path and `categoryName`. No separate categories collection fetch.
+
+### Structure
+
+```html
+<!-- Category cards grid (inlined in products/index.astro) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  {categoryCards.map(card => (
+    <div class="group cursor-pointer border border-border-subtle card-hover" data-cat={card.slug}>
+      <div class="aspect-[4/3] overflow-hidden bg-image-placeholder">
+        <img src={card.image} alt={card.label}
+             class="w-full h-full object-cover group-hover:scale-105 duration-500" />
+      </div>
+      <div class="p-4 border-t border-border-subtle bg-surface-white">
+        <p class="font-label-caps text-label-caps text-on-surface uppercase">{card.label}</p>
+        <p class="font-technical-data text-technical-data text-on-surface-variant mt-1">{card.count} Products</p>
+      </div>
+    </div>
+  ))}
+</div>
+```
+
+### Active State Behavior
+
+- Active card: `border-l-[3px] border-l-primary-container`, label `text-primary-container`
+- On click or `?category=` param: filters visible product cards via `data-category` attribute matching
+- Client-side JS only — no page reload, no additional Firestore call
+
+---
+
+## 11. `BlogCard.astro` — Blog Listing Card
 
 > **Status: NOT YET BUILT.** `BlogCard` is planned but not yet created. Blog listing page (Phase 6) is not started.
 
@@ -389,7 +428,7 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 
 ---
 
-## 11. `QuoteForm` — Quote Request Form
+## 12. `QuoteForm` — Quote Request Form
 
 > **Status: INLINED — not a standalone component.** The quote form lives directly in `src/pages/products/[slug].astro` (Section 5) and in `src/pages/contact.astro`. There is NO `QuoteForm.astro` file.
 
@@ -413,7 +452,7 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 
 ---
 
-## 12. Component Usage Matrix
+## 13. Component Usage Matrix
 
 | Component | About | Products | Product Detail | Blog | Blog Detail | Contact | Homepage |
 |---|---|---|---|---|---|---|---|
@@ -424,6 +463,7 @@ The horizontal strip of 5 core values (Integrity, Innovation, Safety, Quality, R
 | `FeatureCard` *(inlined)* | ✅ | — | ✅ | — | — | — | ✅ |
 | `VisionMissionCard` *(inlined)* | ✅ | — | — | — | — | — | — |
 | `CoreValueBar` *(inlined)* | ✅ | — | — | — | — | — | ✅ |
+| `CategoryCards` *(inlined)* | — | ✅ | — | — | — | — | — |
 | `ProductCard` | — | ✅ | ✅ (related) | — | — | — | ✅ |
 | `BlogCard` *(not built)* | — | — | — | ✅ | — | — | — |
 | `QuoteForm` *(inlined)* | — | — | ✅ | — | — | ✅ | — |

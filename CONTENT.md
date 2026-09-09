@@ -2,7 +2,7 @@
 
 > All copy, product slugs, descriptions, and placeholder content for the site.
 > Updated to reflect 18 product categories and 42 products (all seeded ✅).
-> Last updated: 2026-09-07
+> Last updated: 2026-09-09
 > All slugs are seeded in Firestore unless marked otherwise.
 
 ---
@@ -72,7 +72,9 @@
 ## 3. Products — Categories and Slugs (Full Inventory)
 
 > Target: 18 categories, 42 products total — all seeded ✅ as of 2026-09-07.
-> `imageUrl` is currently `""` (empty string) for all products — placeholder shown in UI.
+> `image` field (NOTE: field renamed from `imageUrl` on 2026-09-09 — use `image` everywhere).
+> **Visibility:** 20 products published (`isPublished: true`), 22 hidden (`isPublished: false`).
+> Published products are those whose category has a real image in `public/images/categories/`.
 > Specs are stored as `Record<string, string>` with human-readable key names.
 
 ---
@@ -261,6 +263,33 @@
 
 ---
 
+## 3b. Published Categories (11 with Real Images)
+
+> As of 2026-09-09. These categories have real images in `public/images/categories/` and
+> their products have `isPublished: true`. All others are hidden (`isPublished: false`).
+>
+> Image path convention: `/images/categories/{category-slug}.png`
+
+| Firestore `category` slug | Image filename |
+|---|---|
+| `chain-hoist` | `chain-hoist.png` |
+| `chain-pulley-block` | `chain-pulley-block.png` |
+| `double-girder-cranes` | `double-girder-cranes.png` |
+| `goliath-crane` | `goliath-crane.png` |
+| `heavy-duty-crane` | `heavy-duty-crane.png` |
+| `heavy-duty-gantry-crane` | `heavy-duty-gantry-crane.png` |
+| `hot-crane` | `hot-crane.png` |
+| `industrial-eot-crane` | `industrial-eot-crane.png` |
+| `overhead-trolley` | `overhead-trolley.png` |
+| `rail-mounted-gantry-crane` | `rail-mounted-gantry-crane.png` |
+| `underslung-crane` | `underslung-crane.png` |
+
+> **Note:** Individual per-product images are pending client delivery (Sky Hawk).
+> Until then, all published products display their category image.
+> Divakar to decide: 1 product per published category OR all 20 products share category image.
+
+---
+
 ## 4. Spec Format Reference (Actual Firestore Key Names)
 
 Specs are stored as `Record<string, string>` with **human-readable keys**.
@@ -313,7 +342,9 @@ specs: {
 
 ---
 
-## 7. Homepage Copy (Placeholder — Built Last)
+## 7. Homepage Copy — Status: ⬜ QA Pending
+
+> File built (`src/pages/index.astro`, 21 KB) — full visual QA not yet done.
 
 - **H1:** Industrial Lifting Solutions Built for India
 - **Lead:** Safe Build Engineering designs and manufactures EOT cranes, gantry cranes, and hoists engineered for critical infrastructure with zero-margin error.

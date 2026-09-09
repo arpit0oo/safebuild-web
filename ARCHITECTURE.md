@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — Safe Build Engineering
 
-> Last updated: 2026-09-07 | Status: Phases 4–5 complete; Phase 6–7 (Blog) next
+> Last updated: 2026-09-09 | Status: Phases 4–5 complete + bug fixes; Phase 6–7 (Blog) next
 
 ---
 
@@ -32,8 +32,26 @@ safebuild-web/                          # Root of Astro project
 │
 ├── public/
 │   ├── favicon.ico
+│   ├── favicon.png                     # ✅ Active favicon (745 KB PNG)
+│   ├── favicon.svg                     # SVG variant
 │   ├── robots.txt
-│   └── og-image.jpg                    # Default OG image
+│   └── images/
+│       └── categories/                 # 11 category images (PNG, served statically)
+│           ├── chain-hoist.png
+│           ├── chain-pulley-block.png
+│           ├── double-girder-cranes.png
+│           ├── goliath-crane.png
+│           ├── heavy-duty-crane.png
+│           ├── heavy-duty-gantry-crane.png
+│           ├── hot-crane.png
+│           ├── industrial-eot-crane.png
+│           ├── overhead-trolley.png
+│           ├── rail-mounted-gantry-crane.png
+│           └── underslung-crane.png
+│
+├── scripts/
+│   └── update-images-and-publish.mjs  # One-shot batch script: sets image path + isPublished
+│                                      # 20 products published, 22 hidden (run once, 2026-09-09)
 │
 ├── src/
 │   ├── layouts/
@@ -45,22 +63,19 @@ safebuild-web/                          # Root of Astro project
 │   │   ├── SectionLabel.astro          # "— LABEL TEXT" eyebrow component
 │   │   ├── CTABanner.astro             # Orange CTA section (reusable)
 │   │   ├── ProductCard.astro           # Card for product listing
-│   │   ├── BlogCard.astro              # Card for blog listing
-│   │   ├── FeatureCard.astro           # "Why We're Different" card pattern
-│   │   ├── VisionMissionCard.astro     # Vision/Mission card with left orange border
-│   │   ├── CoreValueBar.astro          # Horizontal core values strip
-│   │   └── QuoteForm.astro             # Quote request form (saves to Firestore)
+│   │   └── BlogCard.astro              # Card for blog listing (NOT YET BUILT)
 │   │
 │   ├── pages/
-│   │   ├── index.astro                 # Homepage (built last)
+│   │   ├── index.astro                 # Homepage (built — QA pending)
 │   │   ├── about.astro                 # About page (complete)
-│   │   ├── contact.astro               # Contact page
+│   │   ├── contact.astro               # Contact page (built — QA pending)
+│   │   ├── 404.astro                   # ✅ Custom 404 page (static)
 │   │   ├── products/
-│   │   │   ├── index.astro             # Products listing page (SSR, category filter)
+│   │   │   ├── index.astro             # Products listing page (SSR, category cards grid)
 │   │   │   └── [slug].astro            # Dynamic product detail page (SSR)
 │   │   └── blog/
-│   │       ├── index.astro             # Blog listing page
-│   │       └── [slug].astro            # Dynamic blog detail page
+│   │       ├── index.astro             # Blog listing page (NOT STARTED — dir exists, file empty)
+│   │       └── [slug].astro            # Dynamic blog detail page (NOT STARTED)
 │   │
 │   ├── lib/
 │   │   ├── firebase.ts                 # Firebase app + Firestore + Auth init
@@ -80,7 +95,7 @@ safebuild-web/                          # Root of Astro project
 └── TODO.md
 ```
 
-> **CMS App** lives in a separate directory: `safebuild-cms/` (separate Vite + React project)
+> **CMS App** lives in a separate directory: `safebuild-cms/` (separate Vite + React project — not yet started)
 
 ---
 
@@ -90,12 +105,13 @@ safebuild-web/                          # Root of Astro project
 |---|---|---|---|
 | `/` | `index.astro` | Firestore (featured products) | ✅ Built (21 KB) — QA pending |
 | `/about` | `about.astro` | Static | ✅ Complete |
-| `/products` | `products/index.astro` | Firestore `products` collection | ✅ SSR — dynamic category tabs from live data |
+| `/products` | `products/index.astro` | Firestore `products` (isPublished == true) | ✅ SSR — category cards grid, ?category= pre-selection |
 | `/products/[slug]` | `products/[slug].astro` | Firestore `products` doc by slug | ✅ SSR — 5-section layout, sections[] renderer, quote form |
-| `/blog` | `blog/index.astro` | Firestore `blogs` collection | ⬜ Not started — `blog/` dir empty |
+| `/blog` | `blog/index.astro` | Firestore `blogs` collection | ⬜ Not started — `blog/` dir exists, file not created |
 | `/blog/[slug]` | `blog/[slug].astro` | Firestore `blogs` doc by slug | ⬜ Not started |
 | `/contact` | `contact.astro` | Static form → writes to Firestore | ✅ Built (23 KB) — QA pending |
 | `/quote` | Redirect → `/contact?type=quote` | Writes to `quotes` collection | |
+| `/404` | `404.astro` | Static | ✅ Custom 404 page built |
 
 ---
 
@@ -108,39 +124,49 @@ products/
   {docId}/
     slug: string              // URL slug, e.g. "goliath-crane"
     name: string              // "Goliath Crane"
-    category: string          // Any category slug, e.g. "eot-cranes", "gantry-cranes", "hoists"
-                              // NOTE: 18 categories and 42 products are now seeded in Firestore.
-                              //       ProductCategory type in types.ts still has only 3 values — needs update.
-    categoryName?: string     // Human-readable label, e.g. "Gantry Cranes" — preferred over slug in UI
+    category: string          // Category slug, e.g. "double-girder-cranes"
+                              // Typed as string (ProductCategory union removed — 18+ categories exist)
+    categoryName?: string     // Human-readable label, e.g. "Double Girder Cranes"
     shortDescription: string  // ~80 chars, for listing cards
-    tagline?: string          // Short marketing tagline shown in hero (falls back to shortDescription)
+    tagline?: string          // Short marketing tagline (falls back to shortDescription)
     description: string       // Full body text for detail page (split on \n\n for paragraphs)
     specs: Record<string, string>
-                              // Human-readable key/value map — keys are whatever the CMS stores.
-                              // e.g. { "Safe Working Load": "1000 kg to 60,000 kg", "Span": "5 m to 50 m" }
-                              // Rendered via Object.entries(specs) directly on detail page.
+                              // Human-readable key/value map, e.g. { "Safe Working Load": "10,000 kg" }
+                              // Rendered via Object.entries(specs) — no key mapping applied
     features?: string[]       // Bullet-point feature list (rendered in Section 3 of detail page)
     sections?: Array<{        // Structured detail-page content sections — renderer is LIVE
       title: string
       type: 'bullets' | 'table' | 'text'
       content: string[] | Record<string, string> | string
     }>
-    imageUrl: string          // Primary product image (Firebase Storage or CDN URL)
-                              // NOTE: Currently empty string ("") for all seeded products — placeholder shown
-    galleryUrls: string[]     // Additional images
+    image: string             // Primary product image path, e.g. "/images/categories/chain-hoist.png"
+                              // NOTE: field is "image", NOT "imageUrl" — renamed 2026-09-09
+                              // Empty string ("") if no individual image assigned yet
+    galleryUrls?: string[]    // Additional images (optional)
     isFeatured: boolean       // Show on homepage featured section
-    order: number             // Manual sort order for listing page
+    isPublished: boolean      // ✅ Added 2026-09-09 — controls visibility on all public pages
+                              // false = hidden from listing, detail page returns null (→ redirect)
+    order: number             // Manual sort order
+    seoTitle?: string         // SEO page title override (empty for now)
+    seoDescription?: string   // SEO meta description override (empty for now)
+    seoKeywords?: string      // SEO keywords (empty for now)
     createdAt: Timestamp
     updatedAt: Timestamp
 ```
 
+#### Note on `image` field (renamed from `imageUrl`)
+
+The `imageUrl` field was renamed to `image` on 2026-09-09 across `types.ts`, `firestore.ts`, and all page files. The image path convention is `/images/categories/{category-slug}.png` — a static file served from `public/images/categories/`. Individual per-product images are pending client delivery (Sky Hawk).
+
+#### Note on `isPublished`
+
+`getProducts()` and `getFeaturedProducts()` filter by `isPublished == true` — unpublished products are never returned. `getProductBySlug()` returns `null` if the document has `isPublished === false`, causing the detail page to redirect to `/products`. As of 2026-09-09: **20 products published, 22 hidden**.
+
 #### Note on `specs`
 
-The `specs` field is `Record<string, string>` with human-readable key names (e.g. `"Safe Working Load"`, `"Height of Lift"`).
-- Firestore documents store these keys directly from the CMS
-- The detail page renders them via `Object.entries(product.specs)` — no key mapping
-- `SPEC_LABELS` map in `[slug].astro` is present but **bypassed** — kept for reference only
-- The specs `<section>` is now guarded: only renders when `specRows.length > 0`
+The `specs` field is `Record<string, string>` with human-readable key names.
+- Rendered via `Object.entries(product.specs)` — no key mapping
+- The specs `<section>` is guarded: only renders when `specRows.length > 0` (Bug 1 fix)
 
 #### Note on `sections[]`
 
@@ -149,10 +175,11 @@ The `sections[]` renderer is **live** on `[slug].astro`. It renders between the 
 - `table` — rendered as a parameter/value table matching the specs table style
 - `text` — rendered as a body paragraph
 
+The `sections[].map()` call is wrapped in a `<>...</>` Fragment to prevent a JSX fragment bug that was silently breaking all downstream siblings including the quote form section (Bug 2 fix).
+
 #### Note on `ProductCategory` type
 
-`types.ts` still defines `ProductCategory = 'eot-cranes' | 'gantry-cranes' | 'hoists'`.
-18 categories are now in Firestore. The type needs expanding to match. This is not a runtime blocker (Firestore does not enforce it) but causes TypeScript errors for new category slugs.
+`ProductCategory` union type has been removed. `types.ts` now defines `ProductCategory = string` (kept as alias for backward compat only — do not use for narrowing). 18+ categories are live in Firestore.
 
 ---
 
@@ -164,7 +191,7 @@ blogs/
     slug: string              // URL slug, e.g. "eot-crane-maintenance-guide"
     title: string
     excerpt: string           // ~150 chars for listing cards
-    body: string              // Full HTML/Markdown content
+    body: string              // Full HTML content (rendered with set:html)
     coverImageUrl: string
     author: string
     tags: string[]            // e.g. ["EOT Cranes", "Safety", "Maintenance"]
@@ -217,7 +244,7 @@ All pages that require Firestore data use **server-side rendering** at request t
 ```astro
 ---
 // src/pages/products/[slug].astro
-import { getProductBySlug, getProducts } from '../../lib/firestore';
+import { getProductBySlug } from '../../lib/firestore';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const { slug } = Astro.params as { slug: string };
@@ -225,6 +252,7 @@ const { slug } = Astro.params as { slug: string };
 let product = null;
 try {
   product = await getProductBySlug(slug);
+  // Returns null if not found OR if isPublished === false
 } catch (e) {
   // fetchError = true
 }
@@ -240,34 +268,44 @@ if (Astro.request.method === 'POST' && product) {
 ---
 ```
 
-### Dynamic Category Tabs on Products Listing
+### Category Cards Grid on Products Listing
 
-`products/index.astro` derives category tabs dynamically from live Firestore data:
+`products/index.astro` replaced the old tab bar with a **category cards grid**. Cards are derived dynamically from the published product set — no separate categories collection fetch. Each card shows:
+- Category image (`/images/categories/{slug}.png`) from the product's `image` field
+- Category label (from `product.categoryName ?? slugToLabel(product.category)`)
+- Product count
 
 ```ts
-// Build one tab per unique category from all fetched products
-const categoryCounts = new Map<string, number>();
+// Build one card per unique category from all published products
+const categoryMap = new Map<string, CategoryCard>();
 for (const p of allProducts) {
-  categoryCounts.set(p.category, (categoryCounts.get(p.category) ?? 0) + 1);
+  if (!categoryMap.has(p.category)) {
+    categoryMap.set(p.category, {
+      slug: p.category,
+      label: p.categoryName ?? slugToLabel(p.category),
+      count: 0,
+      image: p.image ?? '',
+    });
+  }
+  categoryMap.get(p.category)!.count++;
 }
-const categoryTabs = Array.from(categoryCounts.entries())
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([slug, count]) => ({ label: slugToLabel(slug), slug, count }));
 ```
 
-New Firestore categories automatically appear in the filter bar without any code change.
+The `?category=slug` query parameter pre-selects the matching card on page load (client-side JS reads the param and activates the filter). New Firestore categories automatically appear in the grid without any code change, provided they have at least one published product.
 
-### Pending: SSG for Product Detail Pages
+### `getProducts` — Filtering Strategy
 
-Product detail pages (`[slug].astro`) are currently **SSR** (rendered on every request).
-A future batch may add `export const prerender = true` + `getStaticPaths()` to convert them
-to **static generation** at build time. All 42 products are now seeded, so this is unblocked.
+`products/index.astro` fetches **all published products** in one Firestore call (no `where()` filter on category), then filters in JavaScript. This avoids requiring a composite Firestore index for `where('category') + orderBy('order')`.
 
-### `getProducts` — Category Filtering Strategy
+`getProducts()` and `getFeaturedProducts()` filter by `isPublished == true` before returning. Unpublished products are never returned to any public page.
 
-`products/index.astro` fetches **all products** in one Firestore call (no `where()` filter),
-then filters in JavaScript. This avoids requiring a composite Firestore index for
-`where('category') + orderBy('order')`.
+### SSG Decision
+
+Product detail pages (`[slug].astro`) remain **SSR** (rendered on every request). SSG (`prerender = true` + `getStaticPaths()`) is **deferred** until:
+1. All individual product images are delivered by client (Sky Hawk)
+2. The catalog is stable (no frequent add/remove)
+
+This is a deliberate decision — revisit after image delivery is complete.
 
 ---
 
@@ -305,10 +343,10 @@ export default defineConfig({
 
 ## 8. CMS — Separate React App
 
-- **Location:** `safebuild-cms/` (separate Vite + React project)
+- **Location:** `safebuild-cms/` (separate Vite + React project — **not yet started**)
 - **Stack:** Vite + React + Firebase Auth + Firestore SDK
 - **Auth:** Email/password Firebase Auth (single admin user)
-- **Features:**
+- **Planned Features:**
   - Product CRUD (add/edit/delete, image upload to Firebase Storage)
   - Blog CRUD (rich text editor, publish/unpublish toggle)
   - Enquiries viewer (read-only, mark as read)
@@ -337,3 +375,43 @@ export default defineConfig({
 5. **All forms save directly to Firestore** — no email-only or serverless middleman
 6. **Dark backgrounds use `#171C1F` (`on-background`)** — footer, CTA banner dark variant
 7. **`FeatureCard`, `VisionMissionCard`, `CoreValueBar`, `BlogCard` are NOT standalone files** — they are currently inlined in their respective pages (`about.astro`, `index.astro`). Only `Navbar`, `Footer`, `SectionLabel`, `CTABanner`, and `ProductCard` exist as separate component files.
+8. **`image` not `imageUrl`** — the product image field is named `image` in Firestore, `types.ts`, `firestore.ts`, and all page files. Do not use `imageUrl`.
+9. **`isPublished` gates all public product visibility** — `getProducts()`, `getFeaturedProducts()`, and `getProductBySlug()` all enforce this. Never render a product without checking `isPublished`.
+10. **Products nav link is a plain `<a>`** — the Navbar `PRODUCTS` link goes directly to `/products`. No dropdown or hover sub-menu.
+11. **Category images live in `public/images/categories/`** — filename matches the Firestore `category` slug exactly, e.g. `chain-hoist.png`. Image path convention: `/images/categories/{slug}.png`.
+12. **Firestore security rules are locked** — `products` collection is read-only (public read, no client write). `quotes` and `enquiries` are create-only. All other access denied. See `firestore.rules`.
+
+---
+
+## 11. Firestore Security Rules
+
+Current rules (`firestore.rules`) — locked as of 2026-09-09:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Products — public read, no client writes
+    match /products/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // Quotes — create only (quote form submission)
+    match /quotes/{docId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    // Enquiries — create only (contact form submission)
+    match /enquiries/{docId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    // Default: deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+```
+
+> **Note:** The CMS admin panel will use Firebase Auth to bypass these rules via the Admin SDK (server-side). Client-side writes are intentionally locked.

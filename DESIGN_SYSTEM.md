@@ -1,6 +1,7 @@
 # DESIGN_SYSTEM.md — Safe Build Engineering
 
 > Extracted directly from `Prototype/about-raw.html` — single source of truth for all visual tokens.
+> Last updated: 2026-09-09
 
 ---
 
@@ -395,3 +396,47 @@ export default {
   },
 };
 ```
+
+---
+
+## 12. Category Cards Grid Pattern
+
+Used on `/products` page to present product categories as image cards before the product grid.
+
+### Layout
+
+- 4-col grid desktop (`grid-cols-4`), 2-col tablet (`md:grid-cols-2`), 1-col mobile
+- Each card: full-bleed image top, category label + product count below
+- Cards are derived dynamically from Firestore published products — no separate categories fetch
+
+### Card Structure
+
+```html
+<!-- Category card (inlined in products/index.astro) -->
+<div class="group cursor-pointer border border-border-subtle card-hover">
+  <!-- Image -->
+  <div class="aspect-[4/3] overflow-hidden bg-image-placeholder">
+    <img src="/images/categories/{slug}.png" alt="{label}"
+         class="w-full h-full object-cover group-hover:scale-105 duration-500" />
+  </div>
+  <!-- Label strip -->
+  <div class="p-4 border-t border-border-subtle bg-surface-white">
+    <p class="font-label-caps text-label-caps text-on-surface uppercase">{label}</p>
+    <p class="font-technical-data text-technical-data text-on-surface-variant mt-1">{count} Products</p>
+  </div>
+</div>
+```
+
+### Image Convention
+
+- Path: `/images/categories/{category-slug}.png`
+- Filename matches the Firestore `category` field exactly
+- 11 images currently available (see `public/images/categories/`)
+- Fallback: `bg-image-placeholder` shown when image is empty
+
+### Active State
+
+When a category is selected (via click or `?category=` URL param), the active card gets:
+- `border-l-[3px] border-l-primary-container` — orange left border
+- Label text: `text-primary-container`
+- All other category product cards remain visible; non-matching products are hidden via `data-category` JS filter
