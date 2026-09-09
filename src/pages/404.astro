@@ -1,0 +1,99 @@
+---
+// =============================================================
+// src/pages/404.astro — Safe Build Engineering
+// Custom 404 — Not Found page.
+// Dark hero with orange accent, industrial aesthetic.
+// Matches DESIGN_SYSTEM.md: sharp edges, Rajdhani headlines,
+// orange #F97316 accent, dot-grid overlay, btn-primary / btn-secondary.
+// =============================================================
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Page Not Found | Safe Build Engineering"
+  description="The page you're looking for doesn't exist. Explore our precision-engineered cranes and hoists."
+  activePage=""
+>
+
+  <!-- ============================================================
+       404 HERO — Full dark section, centred
+       ============================================================ -->
+  <section
+    class="relative min-h-[calc(100vh-80px)] bg-on-background flex items-center justify-center overflow-hidden"
+    aria-labelledby="error-heading"
+  >
+
+    <!-- Dot-grid texture overlay -->
+    <div
+      class="absolute inset-0 opacity-30"
+      style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiLz48L3N2Zz4=');"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Left orange bar accent -->
+    <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container" aria-hidden="true"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-gutter max-w-container-max mx-auto py-section-padding">
+
+      <!-- Big 404 number -->
+      <div
+        class="font-display-xl text-[clamp(120px,20vw,220px)] leading-none font-bold text-primary-container select-none"
+        aria-hidden="true"
+      >
+        404
+      </div>
+
+      <!-- Divider line with icon -->
+      <div class="flex items-center justify-center gap-4 my-6" aria-hidden="true">
+        <div class="h-px w-16 bg-primary-container opacity-60"></div>
+        <span class="material-symbols-outlined text-primary-container text-[24px] leading-none">
+          construction
+        </span>
+        <div class="h-px w-16 bg-primary-container opacity-60"></div>
+      </div>
+
+      <!-- Heading -->
+      <h1
+        id="error-heading"
+        class="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-surface-white uppercase tracking-tight mb-4"
+      >
+        Page Not Found
+      </h1>
+
+      <!-- Sub-message -->
+      <p class="font-body-md text-body-md text-surface-white opacity-70 max-w-md mx-auto mb-10">
+        This page has been decommissioned or never existed.
+        Head back to solid ground.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/"
+          class="btn-primary"
+          id="cta-go-home"
+        >
+          <span class="material-symbols-outlined text-[16px] leading-none">home</span>
+          Go Home
+        </a>
+        <a
+          href="/products"
+          class="inline-flex items-center gap-2 font-label-caps text-label-caps font-semibold uppercase tracking-wider px-6 py-3 border-2 border-surface-white text-surface-white hover:bg-surface-white hover:text-on-background transition-all duration-200"
+          id="cta-view-products"
+        >
+          View Products
+          <span class="material-symbols-outlined text-[16px] leading-none">arrow_forward</span>
+        </a>
+      </div>
+
+      <!-- Tiny breadcrumb hint -->
+      <p class="mt-12 font-technical-data text-technical-data text-surface-white opacity-30 uppercase tracking-widest">
+        Safe Build Engineering — Error 404
+      </p>
+
+    </div>
+  </section>
+
+</BaseLayout>
