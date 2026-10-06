@@ -15,7 +15,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^11.2.0",
     "@astrojs/tailwind": "^5.1.5",
-
+    "@sanity/client": "^8.9.0",
     "@types/aos": "^3.0.8",
     "aos": "^2.3.4",
     "astro": "^4.16.19",
