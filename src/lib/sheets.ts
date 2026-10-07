@@ -8,7 +8,7 @@ export async function submitEnquiry(data: {
   message: string;
   source?: string;
 }) {
-  await fetch(WEBHOOK_URL, {
+  fetch(WEBHOOK_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type: 'enquiry', ...data }),
@@ -28,7 +28,7 @@ export async function submitQuote(data: {
   liftHeight: string;
   additionalNotes: string;
 }) {
-  await fetch(WEBHOOK_URL, {
+  fetch(WEBHOOK_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type: 'quote', ...data }),
