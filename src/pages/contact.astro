@@ -40,7 +40,6 @@ if (Astro.request.method === 'POST') {
   try {
     const fd      = await Astro.request.formData();
     const formId  = String(fd.get('_form') ?? '');
-    console.log('[DEBUG] formId:', JSON.stringify(formId));
 
     if (formId === 'enquiry') {
       const name    = String(fd.get('name')    ?? '').trim();
@@ -48,10 +47,8 @@ if (Astro.request.method === 'POST') {
       const email   = String(fd.get('email')   ?? '').trim();
       const phone   = String(fd.get('phone')   ?? '').trim();
       const message = String(fd.get('message') ?? '').trim();
-      console.log('[DEBUG] fields:', JSON.stringify({ name, email, message }));
 
       if (name && email && message) {
-        console.log('[DEBUG] validation passed');
         const { submitEnquiry } = await import('../lib/sheets');
         await submitEnquiry({ name, company, email, phone, message, source: 'contact-form' });
         return Astro.redirect('/contact?eq=1#enquiry', 302);
