@@ -40,6 +40,7 @@ if (Astro.request.method === 'POST') {
   try {
     const fd      = await Astro.request.formData();
     const formId  = String(fd.get('_form') ?? '');
+    console.log('[DEBUG] formId:', JSON.stringify(formId));
 
     if (formId === 'enquiry') {
       const name    = String(fd.get('name')    ?? '').trim();
@@ -47,9 +48,11 @@ if (Astro.request.method === 'POST') {
       const email   = String(fd.get('email')   ?? '').trim();
       const phone   = String(fd.get('phone')   ?? '').trim();
       const message = String(fd.get('message') ?? '').trim();
+      console.log('[DEBUG] fields:', JSON.stringify({ name, email, message }));
 
       if (name && email && message) {
-        const { submitEnquiry } = await import('../lib/firestore');
+        console.log('[DEBUG] validation passed');
+        const { submitEnquiry } = await import('../lib/sheets');
         await submitEnquiry({ name, company, email, phone, message, source: 'contact-form' });
         return Astro.redirect('/contact?eq=1#enquiry', 302);
       }
@@ -66,7 +69,7 @@ if (Astro.request.method === 'POST') {
       const notes    = String(fd.get('notes')    ?? '').trim();
 
       if (name && email) {
-        const { submitQuote } = await import('../lib/firestore');
+        const { submitQuote } = await import('../lib/sheets');
         await submitQuote({ name, company, email, phone, productInterest: interest, capacity, span, liftHeight: '', additionalNotes: notes });
         return Astro.redirect('/contact?qr=1#quote', 302);
       }
@@ -239,7 +242,7 @@ if (Astro.request.method === 'POST') {
         )}
 
         {!equSubmitted && (
-          <form method="POST" action="/contact#enquiry" class="flex flex-col gap-stack-md" id="enquiry-form">
+          <form method="POST" action="/contact#enquiry" class="flex flex-col gap-stack-md" id="enquiry-form" data-astro-reload>
             <input type="hidden" name="_form" value="enquiry" />
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -344,7 +347,7 @@ if (Astro.request.method === 'POST') {
         )}
 
         {!qrSubmitted && (
-          <form method="POST" action="/contact#quote" class="flex flex-col gap-stack-md" id="quote-form">
+          <form method="POST" action="/contact#quote" class="flex flex-col gap-stack-md" id="quote-form" data-astro-reload>
             <input type="hidden" name="_form" value="quote" />
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -24,7 +24,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionLabel from "../../components/SectionLabel.astro";
 import ProductCard from "../../components/ProductCard.astro";
 import CTABanner from "../../components/CTABanner.astro";
-import { getProductBySlug, getProducts } from "../../lib/firestore";
+import { getProductBySlug, getProducts } from "../../lib/sanity";
 import type { Product } from "../../lib/types";
 
 // ── ROUTE PARAM ─────────────────────────────────────────────
@@ -103,7 +103,7 @@ const SPEC_LABELS: Record<string, string> = {
 };
 
 const specRows = product?.specs
-  ? Object.entries(product.specs).map(([label, value], i) => ({
+  ? (product.specs as {key:string,value:string}[]).map(({key: label, value}, i) => ({
       label,
       value: String(value),
       isEven: i % 2 === 0,
@@ -133,7 +133,7 @@ if (Astro.request.method === "POST" && product) {
 
     if (name && email) {
       // Import dynamically to avoid SSR bundling issues
-      const { submitQuote } = await import("../../lib/firestore");
+      const { submitQuote } = await import("../../lib/sheets");
       await submitQuote({
         name,
         company,
@@ -362,9 +362,9 @@ const pageDesc = product?.shortDescription ?? "";
                   <div class="lg:col-span-8" data-aos="fade-up" data-aos-delay="80">
 
                     {/* BULLETS */}
-                    {section.type === 'bullets' && Array.isArray(section.content) && (
+                    {section.type === 'bullets' && Array.isArray(section.bullets) && (
                       <ul class="list-none space-y-3">
-                        {(section.content as string[]).map(item => (
+                        {(section.bullets as string[]).map(item => (
                           <li class="flex items-start gap-3 border-b border-border-subtle pb-3">
                             <span
                               class="material-symbols-outlined text-primary-container text-[20px] leading-none mt-0.5 shrink-0"
@@ -379,13 +379,13 @@ const pageDesc = product?.shortDescription ?? "";
                     )}
 
                     {/* TABLE */}
-                    {section.type === 'table' && !Array.isArray(section.content) && typeof section.content === 'object' && (
+                    {section.type === 'table' && Array.isArray(section.tableRows) && (
                       <div class="border border-border-subtle bg-surface-white overflow-hidden">
                         <div class="grid grid-cols-2 border-b border-border-subtle bg-[#0D1117] px-6 py-4">
                           <div class="font-label-caps text-label-caps text-surface-white uppercase tracking-widest">Parameter</div>
                           <div class="font-label-caps text-label-caps text-surface-white uppercase tracking-widest">Value</div>
                         </div>
-                        {Object.entries(section.content).map(([key, val], i) => (
+                        {(section.tableRows as {key:string,value:string}[]).map(({key, value}: any, i) => (
                           <div class={[
                             'grid grid-cols-2 border-b border-border-subtle px-6 py-5 items-center',
                             'transition-all duration-150',
@@ -393,16 +393,16 @@ const pageDesc = product?.shortDescription ?? "";
                             i % 2 === 0 ? 'bg-surface-white' : 'bg-image-placeholder',
                           ].join(' ')}>
                             <div class="font-technical-data text-technical-data text-on-surface-variant uppercase tracking-wide">{key}</div>
-                            <div class="font-body-md text-body-md text-on-surface font-medium">{String(val)}</div>
+                            <div class="font-body-md text-body-md text-on-surface font-medium">{String(value)}</div>
                           </div>
                         ))}
                       </div>
                     )}
 
                     {/* TEXT */}
-                    {section.type === 'text' && typeof section.content === 'string' && (
+                    {section.type === 'text' && typeof section.text === 'string' && (
                       <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-                        {section.content}
+                        {section.text}
                       </p>
                     )}
 
