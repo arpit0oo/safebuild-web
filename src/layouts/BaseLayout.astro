@@ -79,7 +79,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://safebuil
     <!-- Global Navbar -->
     <Navbar activePage={activePage} />
 
-    <main>
+    <main class="overflow-x-hidden w-full">
       <slot />
     </main>
 
@@ -98,6 +98,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://safebuil
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         smoothWheel: true,
+        prevent: (node: Element) => node.id === 'site-navbar' || node.closest('#site-navbar') !== null,
       });
 
       function raf(time: number) {

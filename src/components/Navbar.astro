@@ -29,6 +29,7 @@ const topLinks = [
 <header
   id="site-navbar"
   class="bg-surface-white border-b border-border-subtle sticky top-0 z-50 w-full"
+  style="pointer-events: auto !important;"
 >
   <div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
 
@@ -88,7 +89,8 @@ const topLinks = [
     <!-- ── MOBILE HAMBURGER ──────────────────────────────────── -->
     <button
       id="nav-hamburger"
-      class="md:hidden text-on-surface p-1 focus:outline-none"
+      class="md:hidden text-on-surface p-1 focus:outline-none relative z-[60]"
+      style="pointer-events: auto !important; touch-action: manipulation;"
       aria-label="Open navigation menu"
       aria-expanded="false"
       aria-controls="mobile-drawer"
@@ -185,40 +187,57 @@ const topLinks = [
 
 
   // ── Mobile drawer ─────────────────────────────────────────────
-  const hamburger     = document.getElementById('nav-hamburger')!;
-  const closeBtn      = document.getElementById('nav-close')!;
-  const drawer        = document.getElementById('mobile-drawer')!;
-  const backdrop      = document.getElementById('nav-backdrop')!;
-  const hamburgerIcon = document.getElementById('hamburger-icon')!;
+  // Re-initialised after every View Transition swap, because <body> is
+  // replaced and the new nodes would otherwise have no listeners.
+  let closeCurrentDrawer: (() => void) | null = null;
+  let drawerIsOpen = false;
 
-  let isOpen = false;
+  function initNavbar() {
+    const hamburger     = document.getElementById('nav-hamburger');
+    const closeBtn      = document.getElementById('nav-close');
+    const drawer        = document.getElementById('mobile-drawer');
+    const backdrop      = document.getElementById('nav-backdrop');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    if (!hamburger || !closeBtn || !drawer || !backdrop || !hamburgerIcon) return;
 
-  function openDrawer() {
-    isOpen = true;
-    drawer.classList.remove('translate-x-full');
-    backdrop.classList.remove('hidden', 'opacity-0');
-    requestAnimationFrame(() => backdrop.classList.add('opacity-100'));
-    hamburger.setAttribute('aria-expanded', 'true');
-    hamburgerIcon.textContent = 'close';
-    document.body.style.overflow = 'hidden';
+    drawerIsOpen = false;
+
+    function openDrawer() {
+      drawerIsOpen = true;
+      drawer!.classList.remove('translate-x-full');
+      backdrop!.classList.remove('hidden', 'opacity-0');
+      requestAnimationFrame(() => backdrop!.classList.add('opacity-100'));
+      hamburger!.setAttribute('aria-expanded', 'true');
+      hamburgerIcon!.textContent = 'close';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      drawerIsOpen = false;
+      drawer!.classList.add('translate-x-full');
+      backdrop!.classList.remove('opacity-100');
+      backdrop!.classList.add('opacity-0');
+      setTimeout(() => backdrop!.classList.add('hidden'), 300);
+      hamburger!.setAttribute('aria-expanded', 'false');
+      hamburgerIcon!.textContent = 'menu';
+      document.body.style.overflow = '';
+    }
+
+    closeCurrentDrawer = closeDrawer;
+
+    hamburger.addEventListener('click', () => drawerIsOpen ? closeDrawer() : openDrawer());
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    drawer.querySelectorAll('a').forEach(link => link.addEventListener('click', closeDrawer));
   }
 
-  function closeDrawer() {
-    isOpen = false;
-    drawer.classList.add('translate-x-full');
-    backdrop.classList.remove('opacity-100');
-    backdrop.classList.add('opacity-0');
-    setTimeout(() => backdrop.classList.add('hidden'), 300);
-    hamburger.setAttribute('aria-expanded', 'false');
-    hamburgerIcon.textContent = 'menu';
-    document.body.style.overflow = '';
-  }
+  initNavbar();
+  document.addEventListener('astro:after-swap', initNavbar);
 
-  hamburger.addEventListener('click', () => isOpen ? closeDrawer() : openDrawer());
-  closeBtn.addEventListener('click', closeDrawer);
-  backdrop.addEventListener('click', closeDrawer);
-  drawer.querySelectorAll('a').forEach(link => link.addEventListener('click', closeDrawer));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen) closeDrawer(); });
+  // Bound once on document — must not be re-added inside initNavbar
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawerIsOpen) closeCurrentDrawer?.();
+  });
 
 
 </script>

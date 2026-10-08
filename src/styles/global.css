@@ -272,3 +272,13 @@ html.lenis {
 [data-aos].aos-animate {
   pointer-events: auto;
 }
+
+/* ── Navbar always interactive — never blocked by AOS or page layers ── */
+#site-navbar {
+  pointer-events: auto !important;
+  z-index: 9999 !important;
+}
+
+#site-navbar * {
+  pointer-events: auto !important;
+}
