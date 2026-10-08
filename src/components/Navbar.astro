@@ -35,13 +35,8 @@ const topLinks = [
 
     <!-- ── LOGO ─────────────────────────────────────────────── -->
     <a href="/" class="flex items-center gap-2 no-underline" aria-label="Safe Build Engineering — Home">
-      <span
-        aria-hidden="true"
-        class="material-symbols-outlined text-primary-container text-[26px] leading-none"
-      >precision_manufacturing</span>
-      <span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight whitespace-nowrap">
-        Safe Build Engineering
-      </span>
+      <img src="/logo-icon.png" alt="" class="h-7 w-auto" />
+      <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-bold">Safe Build Engineering</span>
     </a>
 
     <!-- ── DESKTOP NAV ────────────────────────────────────────── -->
@@ -52,8 +47,8 @@ const topLinks = [
         href="/products"
         class={
           activePage === 'products'
-            ? 'font-label-caps text-label-caps font-semibold text-primary-container border-b-2 border-primary-container pb-0.5 transition-colors duration-200 uppercase tracking-wider'
-            : 'font-label-caps text-label-caps font-semibold text-on-surface hover:text-primary-container transition-colors duration-200 uppercase tracking-wider'
+            ? 'font-label-caps text-label-caps text-base font-semibold text-primary-container border-b-2 border-primary-container pb-0.5 transition-colors duration-200 uppercase tracking-wider'
+            : 'font-label-caps text-label-caps text-base font-semibold text-on-surface hover:text-primary-container transition-colors duration-200 uppercase tracking-wider'
         }
         aria-current={activePage === 'products' ? 'page' : undefined}
       >
@@ -66,8 +61,8 @@ const topLinks = [
           href={link.href}
           class={
             activePage === link.key
-              ? 'font-label-caps text-label-caps font-semibold text-primary-container border-b-2 border-primary-container pb-0.5 transition-colors duration-200 uppercase tracking-wider'
-              : 'font-label-caps text-label-caps font-semibold text-on-surface hover:text-primary-container transition-colors duration-200 uppercase tracking-wider'
+              ? 'font-label-caps text-label-caps text-base font-semibold text-primary-container border-b-2 border-primary-container pb-0.5 transition-colors duration-200 uppercase tracking-wider'
+              : 'font-label-caps text-label-caps text-base font-semibold text-on-surface hover:text-primary-container transition-colors duration-200 uppercase tracking-wider'
           }
           aria-current={activePage === link.key ? 'page' : undefined}
         >
