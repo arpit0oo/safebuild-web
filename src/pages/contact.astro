@@ -17,6 +17,7 @@
 
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
+import { getCategories } from '../lib/sanity';
 
 // ── COMPANY CONSTANTS ───────────────────────────────────────
 const ADDRESS     = '891, Murlipur Goyala, Near RSB Transmission Ltd., Behind Tata Telco, Deva Road, Lucknow — 226028';
@@ -30,6 +31,14 @@ const MAPS_EMBED  = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.
 // ── SSR: handle POST submissions ─────────────────────────────
 // Two distinct form IDs distinguish enquiry vs. quote.
 // On success → 302 redirect with flag to avoid re-POST on refresh.
+// ── Fetch categories from Sanity for the product dropdown ───
+let categories: { name: string; slug: string }[] = [];
+try {
+  categories = await getCategories();
+} catch (e) {
+  console.warn('[contact.astro] getCategories failed:', e);
+}
+
 const url = new URL(Astro.request.url);
 const equSubmitted = url.searchParams.get('eq') === '1';  // enquiry success
 const qrSubmitted  = url.searchParams.get('qr') === '1';  // quote success
@@ -383,17 +392,9 @@ if (Astro.request.method === 'POST') {
               </label>
               <select id="qr-interest" name="interest" class="input-field">
                 <option value="">Select a category</option>
-                <option value="chain-hoist">Chain Hoist</option>
-                <option value="chain-pulley-block">Chain Pulley Block</option>
-                <option value="double-girder-cranes">Double Girder Cranes</option>
-                <option value="goliath-crane">Goliath Crane</option>
-                <option value="heavy-duty-crane">Heavy Duty Crane</option>
-                <option value="heavy-duty-gantry-crane">Heavy Duty Gantry Crane</option>
-                <option value="hot-crane">HOT Crane</option>
-                <option value="industrial-eot-crane">Industrial EOT Crane</option>
-                <option value="overhead-trolley">Overhead Trolley</option>
-                <option value="rail-mounted-gantry-crane">Rail Mounted Gantry Crane</option>
-                <option value="underslung-crane">Underslung Crane</option>
+                {categories.map(cat => (
+                  <option value={cat.slug}>{cat.name}</option>
+                ))}
                 <option value="other">Other / Not Sure</option>
               </select>
             </div>

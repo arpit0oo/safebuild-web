@@ -351,7 +351,7 @@ const pageDesc = product?.shortDescription ?? "";
                   {/* Left: section title */}
                   <div class="lg:col-span-4" data-aos="fade-up">
                     <div class="sticky top-28">
-                      <SectionLabel text={`— ${section.title.toUpperCase()}`} />
+                      <SectionLabel text={`— ${(section.title ?? '').toUpperCase()}`} />
                       <h2 class="font-headline-lg text-headline-lg text-on-surface mt-4 uppercase">
                         {section.title}
                       </h2>
