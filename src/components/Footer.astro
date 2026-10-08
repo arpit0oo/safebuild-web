@@ -3,129 +3,154 @@
 // Footer.astro — Safe Build Engineering
 // Global site footer. Used in BaseLayout.astro on every page.
 // No props — fully static content.
-// Matches prototype: bg-on-background (#171C1F), 4-col grid,
-// orange column headers, left-indent hover on links.
 // =============================================================
 
 const currentYear = new Date().getFullYear();
 
-const companyLinks = [
-  { label: 'About',   href: '/about'   },
-  { label: 'Sitemap', href: '/sitemap' },
+const equipmentLinks = [
+  { label: 'EOT Cranes',           href: '/products?category=eot-cranes' },
+  { label: 'Gantry Cranes',        href: '/products?category=gantry-cranes' },
+  { label: 'Jib Cranes',           href: '/products?category=jib-cranes' },
+  { label: 'Wire Rope Hoists',     href: '/products?category=wire-rope-hoists' },
+  { label: 'View All Equipment',   href: '/products' },
 ];
 
-const legalLinks = [
-  { label: 'Privacy Policy',   href: '/privacy' },
-  { label: 'Terms of Service', href: '/terms'   },
+const companyLinks = [
+  { label: 'About Us',             href: '/about' },
+  { label: 'Request a Quote',      href: '/contact?type=quote' },
+  { label: 'Contact Us',           href: '/contact' },
+  { label: 'Privacy Policy',       href: '/privacy' },
+  { label: 'Terms of Service',     href: '/terms' },
 ];
 ---
 
-<footer class="bg-on-background w-full">
+<footer class="bg-on-background w-full border-t border-white/10 relative">
 
   <!-- ── MAIN GRID ──────────────────────────────────────────── -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg w-full px-gutter py-section-padding max-w-container-max mx-auto">
+  <div class="w-full px-gutter py-14 md:py-16 max-w-container-max mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
 
-    <!-- Column 1: Brand / Tagline -->
-    <div class="flex flex-col gap-4">
-      <div class="flex items-center">
-        <img src="/logo-full.png" alt="Safe Build Engineering" class="h-12 w-auto" />
+      <!-- Column 1: Brand / Tagline (Span 4) -->
+      <div class="lg:col-span-4 flex flex-col gap-5">
+        <a href="/" class="inline-block" aria-label="Safe Build Engineering Home">
+          <img src="/logo-full.png" alt="Safe Build Engineering" class="h-12 w-auto object-contain" />
+        </a>
+        <p class="font-body-md text-body-md text-surface-variant/80 leading-relaxed max-w-sm">
+          Precision Engineering Excellence. Heavy-duty overhead cranes, gantry systems, and industrial lifting machinery built to lift and built to last.
+        </p>
+        <div class="inline-flex items-center gap-2.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[11px] font-label-caps uppercase tracking-wider text-surface-variant/80 w-fit">
+          <span class="w-1.5 h-1.5 bg-primary-container inline-block"></span>
+          <span>Heavy Duty Lifting • Certified Quality</span>
+        </div>
       </div>
-      <p class="font-body-md text-body-md text-surface-variant leading-relaxed max-w-[220px]">
-        Precision Engineering Excellence.<br />
-        Built to Lift. Built to Last.
-      </p>
-    </div>
 
-    <!-- Column 2: Company -->
-    <div class="flex flex-col gap-3">
-      <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest mb-1">
-        Company
-      </h4>
-      {companyLinks.map(link => (
+      <!-- Column 2: Equipment & Solutions (Span 3) -->
+      <div class="lg:col-span-3 flex flex-col gap-3">
+        <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-wider text-sm font-semibold mb-1 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-primary-container inline-block"></span>
+          Equipment & Solutions
+        </h4>
+        <nav class="flex flex-col gap-2" aria-label="Footer equipment links">
+          {equipmentLinks.map(link => (
+            <a
+              href={link.href}
+              class="font-body-md text-body-md text-surface-variant/80 hover:text-white transition-all duration-150 border-l-2 border-transparent hover:border-primary-container hover:pl-2.5 py-0.5"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Column 3: Company (Span 2) -->
+      <div class="lg:col-span-2 flex flex-col gap-3">
+        <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-wider text-sm font-semibold mb-1 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-primary-container inline-block"></span>
+          Company
+        </h4>
+        <nav class="flex flex-col gap-2" aria-label="Footer company links">
+          {companyLinks.map(link => (
+            <a
+              href={link.href}
+              class="font-body-md text-body-md text-surface-variant/80 hover:text-white transition-all duration-150 border-l-2 border-transparent hover:border-primary-container hover:pl-2.5 py-0.5"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Column 4: Works & Contact (Span 3) -->
+      <div class="lg:col-span-3 flex flex-col gap-4">
+        <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-wider text-sm font-semibold mb-1 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-primary-container inline-block"></span>
+          Works & Contact
+        </h4>
+
+        <!-- Address -->
+        <address class="not-italic flex items-start gap-3 text-surface-variant/80">
+          <div class="w-7 h-7 bg-white/[0.05] border border-white/10 flex items-center justify-center text-primary-container shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[16px] leading-none" aria-hidden="true">location_on</span>
+          </div>
+          <span class="font-body-md text-body-md leading-relaxed text-surface-variant/90 text-sm">
+            891, Murlipur Goyala,<br />
+            Near RSB Transmission Ltd.,<br />
+            Behind Tata Telco, Deva Road,<br />
+            Lucknow — 226028
+          </span>
+        </address>
+
+        <!-- Phone -->
         <a
-          href={link.href}
-          class="font-body-md text-body-md text-surface-variant hover:text-primary-fixed-dim transition-all duration-150 border-l-[3px] border-transparent hover:border-primary-container hover:pl-2"
+          href="tel:+919935105322"
+          class="flex items-center gap-3 text-surface-variant/80 hover:text-white transition-colors group"
+          aria-label="Call Safe Build Engineering"
         >
-          {link.label}
+          <div class="w-7 h-7 bg-white/[0.05] border border-white/10 flex items-center justify-center text-primary-container group-hover:border-primary-container/50 shrink-0 transition-colors">
+            <span class="material-symbols-outlined text-[16px] leading-none" aria-hidden="true">call</span>
+          </div>
+          <span class="font-body-md text-body-md text-surface-variant/90 group-hover:text-white transition-colors text-sm">+91 99351 05322</span>
         </a>
-      ))}
-    </div>
 
-    <!-- Column 3: Legal -->
-    <div class="flex flex-col gap-3">
-      <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest mb-1">
-        Legal
-      </h4>
-      {legalLinks.map(link => (
+        <!-- Email -->
         <a
-          href={link.href}
-          class="font-body-md text-body-md text-surface-variant hover:text-primary-fixed-dim transition-all duration-150 border-l-[3px] border-transparent hover:border-primary-container hover:pl-2"
+          href="mailto:info@safebuilds.in"
+          class="flex items-center gap-3 text-surface-variant/80 hover:text-white transition-colors group"
+          aria-label="Email Safe Build Engineering"
         >
-          {link.label}
+          <div class="w-7 h-7 bg-white/[0.05] border border-white/10 flex items-center justify-center text-primary-container group-hover:border-primary-container/50 shrink-0 transition-colors">
+            <span class="material-symbols-outlined text-[16px] leading-none" aria-hidden="true">mail</span>
+          </div>
+          <span class="font-body-md text-body-md text-surface-variant/90 group-hover:text-white transition-colors break-all text-sm">info@safebuilds.in</span>
         </a>
-      ))}
+
+        <!-- WhatsApp -->
+        <a
+          href="https://wa.me/919935105322"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2.5 px-3 py-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] text-xs font-semibold uppercase tracking-wider transition-colors w-fit mt-1"
+          aria-label="WhatsApp Safe Build Engineering"
+        >
+          <span class="material-symbols-outlined text-[16px] leading-none" aria-hidden="true">chat</span>
+          <span>WhatsApp Direct</span>
+        </a>
+      </div>
+
     </div>
-
-    <!-- Column 4: Contact -->
-    <div class="flex flex-col gap-4">
-      <h4 class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest mb-1">
-        Contact
-      </h4>
-
-      <!-- Address -->
-      <address class="not-italic font-body-md text-body-md text-surface-variant leading-relaxed flex items-start gap-2">
-        <span
-          aria-hidden="true"
-          class="material-symbols-outlined text-primary-container text-[18px] leading-none mt-1 shrink-0"
-        >location_on</span>
-        <span>
-          891, Murlipur Goyala,<br />
-          Near RSB Transmission Ltd.,<br />
-          Behind Tata Telco, Deva Road,<br />
-          Lucknow — 226028
-        </span>
-      </address>
-
-      <!-- Phone -->
-      <a
-        href="tel:+919935105322"
-        class="font-body-md text-body-md text-surface-variant hover:text-primary-fixed-dim transition-colors flex items-center gap-2"
-        aria-label="Call Safe Build Engineering"
-      >
-        <span aria-hidden="true" class="material-symbols-outlined text-primary-container text-[18px] leading-none shrink-0">call</span>
-        +91 99351 05322
-      </a>
-
-      <!-- Email -->
-      <a
-        href="mailto:info@safebuilds.in"
-        class="font-body-md text-body-md text-surface-variant hover:text-primary-fixed-dim transition-colors flex items-center gap-2 break-all"
-        aria-label="Email Safe Build Engineering"
-      >
-        <span aria-hidden="true" class="material-symbols-outlined text-primary-container text-[18px] leading-none shrink-0">mail</span>
-        info@safebuilds.in
-      </a>
-
-      <!-- WhatsApp -->
-      <a
-        href="https://wa.me/919935105322"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="font-body-md text-body-md text-surface-variant hover:text-primary-fixed-dim transition-colors flex items-center gap-2"
-        aria-label="WhatsApp Safe Build Engineering"
-      >
-        <span aria-hidden="true" class="material-symbols-outlined text-primary-container text-[18px] leading-none shrink-0">chat</span>
-        WhatsApp Us
-      </a>
-    </div>
-
   </div>
 
   <!-- ── BOTTOM BAR ─────────────────────────────────────────── -->
-  <div class="w-full border-t border-on-surface-variant/30 py-6 text-center px-gutter">
-    <p class="font-technical-data text-technical-data text-surface-variant opacity-70">
-      © {currentYear} Safebuild Engineering Private Limited. All Rights Reserved.
-    </p>
+  <div class="w-full border-t border-white/10 py-5 px-gutter">
+    <div class="max-w-container-max mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <p class="font-technical-data text-technical-data text-surface-variant/60 text-xs">
+        © {currentYear} Safebuild Engineering Private Limited. All Rights Reserved.
+      </p>
+      <p class="font-technical-data text-technical-data text-surface-variant/60 text-xs flex items-center gap-2">
+        <span class="w-1.5 h-1.5 bg-primary-container inline-block"></span>
+        <span>Engineered for Indian Heavy Industry</span>
+      </p>
+    </div>
   </div>
 
 </footer>
