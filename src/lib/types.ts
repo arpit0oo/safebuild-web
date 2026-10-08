@@ -1,9 +1,7 @@
 // =============================================================
 // types.ts — Safe Build Engineering
-// Canonical TypeScript interfaces for all Firestore collections.
+// Canonical TypeScript interfaces for Sanity CMS collections.
 // =============================================================
-
-import type { Timestamp } from 'firebase/firestore/lite';
 
 // -------------------------------------------------------------
 // PRODUCT
@@ -43,8 +41,8 @@ export interface Product {
     type: 'bullets' | 'table' | 'text';
     content: string[] | Record<string, string> | string;
   }>;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ProductCategory union type removed — 18+ categories now live in Firestore.
@@ -65,10 +63,10 @@ export interface BlogPost {
   coverImageUrl: string;
   author: string;
   tags: string[];            // e.g. ["EOT Cranes", "Safety"]
-  publishedAt: Timestamp;
+  publishedAt: string;
   isPublished: boolean;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // -------------------------------------------------------------
@@ -85,7 +83,7 @@ export interface Enquiry {
   message: string;
   source: EnquirySource;
   productSlug?: string;      // If submitted from a product detail page
-  createdAt?: Timestamp;
+  createdAt?: string;
   isRead: boolean;
 }
 
@@ -107,7 +105,7 @@ export interface Quote {
   span: string;              // e.g. "20m"
   liftHeight: string;        // e.g. "8m"
   additionalNotes: string;
-  createdAt?: Timestamp;
+  createdAt?: string;
   status: QuoteStatus;
 }
 
