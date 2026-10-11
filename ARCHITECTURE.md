@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — Safe Build Engineering
 
-> Last updated: 2026-09-09 | Status: Phases 4–5 complete + bug fixes; Phase 6–7 (Blog) next
+> Last updated: 2026-10-11 | Status: Firebase removed, Sanity CMS & Google Sheets active; Services page is next to build; Blog deprioritized
 
 ---
 
@@ -9,15 +9,22 @@
 | Layer | Technology |
 |---|---|
 | Framework | Astro 4.x (SSR enabled — `output: 'server'`) |
-| Styling | Tailwind CSS v3 (config extracted from prototype) |
+| Styling | Tailwind CSS v3 (custom config extracted from prototype) |
 | Animations | GSAP 3, AOS (Animate on Scroll), Lenis (smooth scroll) |
-| Page Transitions | Astro View Transitions (`<ViewTransitions />`) |
-| Backend / DB | Firebase Firestore (runtime SSR fetching) |
-| Auth | Firebase Auth (CMS admin panel only) |
-| CMS | Separate React app (Vite) with Firebase Auth |
-| Deployment | Cloudflare Pages + Workers (SSR adapter) |
+| Page Transitions | Astro View Transitions (`<ViewTransitions />`) with `astro:after-swap` rebindings |
+| Content Management (CMS) | Sanity CMS (`@sanity/client` runtime GROQ queries) |
+| Form Submissions | Google Sheets via Apps Script Webhook (fire-and-forget `fetch`) |
+| Domain | `safebuilds.in` (canonical URL: `https://safebuilds.in`) |
+| Corporate Email | Zoho Mail (4 accounts configured for `safebuilds.in`, primary: `info@safebuilds.in`) |
+| Deployment | Cloudflare Pages + Workers (`@astrojs/cloudflare` SSR adapter) |
 | Icons | Google Material Symbols (Outlined, variable font) |
+| Brand Assets | Real logo images (`logo-icon.png` in Navbar, `logo-full.png` in Footer) |
 | Fonts | Google Fonts — Rajdhani, Inter, Barlow Condensed |
+
+> **Note on Architecture Evolution:**
+> Firebase (Firestore, Auth, Firebase SDK) has been **completely removed**.
+> Content is hosted and managed in **Sanity CMS**.
+> Contact and quote form submissions are ingested directly into **Google Sheets** via an Apps Script webhook.
 
 ---
 
@@ -29,64 +36,52 @@ safebuild-web/                          # Root of Astro project
 ├── tailwind.config.mjs                 # Full design token config (see DESIGN_SYSTEM.md)
 ├── package.json
 ├── tsconfig.json
+├── .env.local                          # Local environment variables (Sanity + Sheets)
 │
 ├── public/
 │   ├── favicon.ico
-│   ├── favicon.png                     # ✅ Active favicon (745 KB PNG)
+│   ├── favicon.png                     # Active favicon
 │   ├── favicon.svg                     # SVG variant
+│   ├── logo-icon.png                   # Navbar brand icon
+│   ├── logo-full.png                   # Footer full brand logo
 │   ├── robots.txt
 │   └── images/
-│       └── categories/                 # 11 category images (PNG, served statically)
-│           ├── chain-hoist.png
-│           ├── chain-pulley-block.png
-│           ├── double-girder-cranes.png
-│           ├── goliath-crane.png
-│           ├── heavy-duty-crane.png
-│           ├── heavy-duty-gantry-crane.png
-│           ├── hot-crane.png
-│           ├── industrial-eot-crane.png
-│           ├── overhead-trolley.png
-│           ├── rail-mounted-gantry-crane.png
-│           └── underslung-crane.png
+│       └── categories/                 # Category images (PNG fallback)
 │
 ├── scripts/
-│   └── update-images-and-publish.mjs  # One-shot batch script: sets image path + isPublished
-│                                      # 20 products published, 22 hidden (run once, 2026-09-09)
+│   └── migrate-to-sanity.mjs          # Migration script from local JSON to Sanity
 │
 ├── src/
 │   ├── layouts/
-│   │   └── BaseLayout.astro            # <html>, ViewTransitions, GSAP/Lenis/AOS init
+│   │   └── BaseLayout.astro            # <html>, canonical, ViewTransitions, Lenis + AOS init
 │   │
 │   ├── components/
-│   │   ├── Navbar.astro                # Global sticky navbar
-│   │   ├── Footer.astro                # Global footer
+│   │   ├── Navbar.astro                # Global sticky navbar (logo-icon.png, initNavbar on swap)
+│   │   ├── Footer.astro                # Global footer (logo-full.png, info@safebuilds.in, legal name)
 │   │   ├── SectionLabel.astro          # "— LABEL TEXT" eyebrow component
 │   │   ├── CTABanner.astro             # Orange CTA section (reusable)
-│   │   ├── ProductCard.astro           # Card for product listing
-│   │   └── BlogCard.astro              # Card for blog listing (NOT YET BUILT)
+│   │   └── ProductCard.astro           # Card for product listing
 │   │
 │   ├── pages/
-│   │   ├── index.astro                 # Homepage (built — QA pending)
-│   │   ├── about.astro                 # About page (complete)
-│   │   ├── contact.astro               # Contact page (built — QA pending)
-│   │   ├── 404.astro                   # ✅ Custom 404 page (static)
+│   │   ├── index.astro                 # Homepage (SSR Sanity featured products, GSAP hero)
+│   │   ├── about.astro                 # About page (static company story & values)
+│   │   ├── services.astro              # Services page (NEXT TASK TO BUILD)
+│   │   ├── contact.astro               # Contact page (Sanity categories dropdown, Sheets forms)
+│   │   ├── 404.astro                   # Custom 404 page (static)
 │   │   ├── products/
-│   │   │   ├── index.astro             # Products listing page (SSR, category cards grid)
-│   │   │   └── [slug].astro            # Dynamic product detail page (SSR)
-│   │   └── blog/
-│   │       ├── index.astro             # Blog listing page (NOT STARTED — dir exists, file empty)
-│   │       └── [slug].astro            # Dynamic blog detail page (NOT STARTED)
+│   │   │   ├── index.astro             # Products listing page (SSR Sanity fetch, client-side category filter)
+│   │   │   └── [slug].astro            # Dynamic product detail page (SSR Sanity fetch, quote form to Sheets)
+│   │   └── blog/                       # DEPRIORITIZED (not in immediate plan)
+│   │       ├── index.astro
+│   │       └── [slug].astro
 │   │
 │   ├── lib/
-│   │   ├── firebase.ts                 # Firebase app + Firestore + Auth init
-│   │   ├── firestore.ts                # Typed Firestore helper functions
-│   │   └── types.ts                    # TypeScript interfaces for all collections
+│   │   ├── sanity.ts                   # Sanity client & typed GROQ query functions
+│   │   ├── sheets.ts                   # Google Sheets webhook fire-and-forget submission helpers
+│   │   └── types.ts                    # TypeScript interfaces for Sanity documents & forms
 │   │
 │   └── styles/
-│       └── global.css                  # Base resets, sharp-edges, utility classes
-│
-├── Prototype/
-│   └── about-raw.html                  # Exported prototype (source of truth for design)
+│       └── global.css                  # Base resets, sharp-edges, button and input styles
 │
 ├── ARCHITECTURE.md                     # This file
 ├── DESIGN_SYSTEM.md
@@ -95,323 +90,223 @@ safebuild-web/                          # Root of Astro project
 └── TODO.md
 ```
 
-> **CMS App** lives in a separate directory: `safebuild-cms/` (separate Vite + React project — not yet started)
-
 ---
 
 ## 3. Routing Table
 
 | Route | File | Data Source | Notes |
 |---|---|---|---|
-| `/` | `index.astro` | Firestore (featured products) | ✅ Built (21 KB) — QA pending |
+| `/` | `index.astro` | Sanity (`getFeaturedProducts`, fallback `getProducts`) | ✅ Active (SSR) — GSAP hero animation, featured product cards |
 | `/about` | `about.astro` | Static | ✅ Complete |
-| `/products` | `products/index.astro` | Firestore `products` (isPublished == true) | ✅ SSR — category cards grid, ?category= pre-selection |
-| `/products/[slug]` | `products/[slug].astro` | Firestore `products` doc by slug | ✅ SSR — 5-section layout, sections[] renderer, quote form |
-| `/blog` | `blog/index.astro` | Firestore `blogs` collection | ⬜ Not started — `blog/` dir exists, file not created |
-| `/blog/[slug]` | `blog/[slug].astro` | Firestore `blogs` doc by slug | ⬜ Not started |
-| `/contact` | `contact.astro` | Static form → writes to Firestore | ✅ Built (23 KB) — QA pending |
-| `/quote` | Redirect → `/contact?type=quote` | Writes to `quotes` collection | |
-| `/404` | `404.astro` | Static | ✅ Custom 404 page built |
+| `/services` | `services.astro` | Static / CMS | 🚀 **Next task to build** — Planned engineering services showcase |
+| `/products` | `products/index.astro` | Sanity `getProducts()` | ✅ SSR — Dynamic category cards grid, instant client-side filter |
+| `/products/[slug]` | `products/[slug].astro` | Sanity `getProductBySlug(slug)` | ✅ SSR — Specs table, dynamic `sections[]`, Sheets quote form |
+| `/contact` | `contact.astro` | Sanity `getCategories()` → Google Sheets webhook | ✅ SSR — Dynamic dropdown, fire-and-forget Sheets enquiry & quote |
+| `/quote` | Redirect → `/contact?type=quote` | Writes to Google Sheets | Direct quote shortcut |
+| `/404` | `404.astro` | Static | ✅ Custom 404 page |
+| `/blog` | `blog/index.astro` | Deprioritized | ⏸️ Deprioritized — not in immediate roadmap |
+| `/blog/[slug]` | `blog/[slug].astro` | Deprioritized | ⏸️ Deprioritized |
 
 ---
 
-## 4. Firebase Firestore Collections
+## 4. Content & Data Architecture
 
-### `products`
+### 4.1 Sanity CMS (`src/lib/sanity.ts`)
 
-```
-products/
-  {docId}/
-    slug: string              // URL slug, e.g. "goliath-crane"
-    name: string              // "Goliath Crane"
-    category: string          // Category slug, e.g. "double-girder-cranes"
-                              // Typed as string (ProductCategory union removed — 18+ categories exist)
-    categoryName?: string     // Human-readable label, e.g. "Double Girder Cranes"
-    shortDescription: string  // ~80 chars, for listing cards
-    tagline?: string          // Short marketing tagline (falls back to shortDescription)
-    description: string       // Full body text for detail page (split on \n\n for paragraphs)
-    specs: Record<string, string>
-                              // Human-readable key/value map, e.g. { "Safe Working Load": "10,000 kg" }
-                              // Rendered via Object.entries(specs) — no key mapping applied
-    features?: string[]       // Bullet-point feature list (rendered in Section 3 of detail page)
-    sections?: Array<{        // Structured detail-page content sections — renderer is LIVE
-      title: string
-      type: 'bullets' | 'table' | 'text'
-      content: string[] | Record<string, string> | string
-    }>
-    image: string             // Primary product image path, e.g. "/images/categories/chain-hoist.png"
-                              // NOTE: field is "image", NOT "imageUrl" — renamed 2026-09-09
-                              // Empty string ("") if no individual image assigned yet
-    galleryUrls?: string[]    // Additional images (optional)
-    isFeatured: boolean       // Show on homepage featured section
-    isPublished: boolean      // ✅ Added 2026-09-09 — controls visibility on all public pages
-                              // false = hidden from listing, detail page returns null (→ redirect)
-    order: number             // Manual sort order
-    seoTitle?: string         // SEO page title override (empty for now)
-    seoDescription?: string   // SEO meta description override (empty for now)
-    seoKeywords?: string      // SEO keywords (empty for now)
-    createdAt: Timestamp
-    updatedAt: Timestamp
-```
-
-#### Note on `image` field (renamed from `imageUrl`)
-
-The `imageUrl` field was renamed to `image` on 2026-09-09 across `types.ts`, `firestore.ts`, and all page files. The image path convention is `/images/categories/{category-slug}.png` — a static file served from `public/images/categories/`. Individual per-product images are pending client delivery (Sky Hawk).
-
-#### Note on `isPublished`
-
-`getProducts()` and `getFeaturedProducts()` filter by `isPublished == true` — unpublished products are never returned. `getProductBySlug()` returns `null` if the document has `isPublished === false`, causing the detail page to redirect to `/products`. As of 2026-09-09: **20 products published, 22 hidden**.
-
-#### Note on `specs`
-
-The `specs` field is `Record<string, string>` with human-readable key names.
-- Rendered via `Object.entries(product.specs)` — no key mapping
-- The specs `<section>` is guarded: only renders when `specRows.length > 0` (Bug 1 fix)
-
-#### Note on `sections[]`
-
-The `sections[]` renderer is **live** on `[slug].astro`. It renders between the Specs section and the Description/Overview section. Supports three content types:
-- `bullets` — rendered as a `check_circle` icon list
-- `table` — rendered as a parameter/value table matching the specs table style
-- `text` — rendered as a body paragraph
-
-The `sections[].map()` call is wrapped in a `<>...</>` Fragment to prevent a JSX fragment bug that was silently breaking all downstream siblings including the quote form section (Bug 2 fix).
-
-#### Note on `ProductCategory` type
-
-`ProductCategory` union type has been removed. `types.ts` now defines `ProductCategory = string` (kept as alias for backward compat only — do not use for narrowing). 18+ categories are live in Firestore.
-
----
-
-### `blogs`
-
-```
-blogs/
-  {docId}/
-    slug: string              // URL slug, e.g. "eot-crane-maintenance-guide"
-    title: string
-    excerpt: string           // ~150 chars for listing cards
-    body: string              // Full HTML content (rendered with set:html)
-    coverImageUrl: string
-    author: string
-    tags: string[]            // e.g. ["EOT Cranes", "Safety", "Maintenance"]
-    publishedAt: Timestamp
-    isPublished: boolean
-    createdAt: Timestamp
-    updatedAt: Timestamp
-```
-
-### `enquiries`
-
-```
-enquiries/
-  {docId}/
-    name: string
-    email: string
-    phone: string
-    company: string           // Optional
-    message: string
-    source: string            // "contact-form" | "product-page"
-    productSlug: string       // Optional, if enquiry came from a product page
-    createdAt: Timestamp
-    isRead: boolean
-```
-
-### `quotes`
-
-```
-quotes/
-  {docId}/
-    name: string
-    email: string
-    phone: string
-    company: string
-    productInterest: string   // Product name or "General"
-    capacity: string          // Requested load capacity, e.g. "10 Ton"
-    span: string              // Required span, e.g. "20m"
-    liftHeight: string        // e.g. "8m"
-    additionalNotes: string
-    createdAt: Timestamp
-    status: string            // "new" | "in-review" | "quoted" | "closed"
-```
-
----
-
-## 5. SSR Data Fetching Pattern
-
-All pages that require Firestore data use **server-side rendering** at request time.
-
-```astro
----
-// src/pages/products/[slug].astro
-import { getProductBySlug } from '../../lib/firestore';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-
-const { slug } = Astro.params as { slug: string };
-
-let product = null;
-try {
-  product = await getProductBySlug(slug);
-  // Returns null if not found OR if isPublished === false
-} catch (e) {
-  // fetchError = true
-}
-
-if (!product) {
-  return Astro.redirect('/products', 302);
-}
-
-// POST handler: server-side quote form submission
-if (Astro.request.method === 'POST' && product) {
-  // ... parse formData, call submitQuote(), redirect with ?submitted=1
-}
----
-```
-
-### Category Cards Grid on Products Listing
-
-`products/index.astro` replaced the old tab bar with a **category cards grid**. Cards are derived dynamically from the published product set — no separate categories collection fetch. Each card shows:
-- Category image (`/images/categories/{slug}.png`) from the product's `image` field
-- Category label (from `product.categoryName ?? slugToLabel(product.category)`)
-- Product count
+Sanity CMS serves as the primary content repository for products and categories. The client is configured with `@sanity/client`:
 
 ```ts
-// Build one card per unique category from all published products
-const categoryMap = new Map<string, CategoryCard>();
-for (const p of allProducts) {
-  if (!categoryMap.has(p.category)) {
-    categoryMap.set(p.category, {
-      slug: p.category,
-      label: p.categoryName ?? slugToLabel(p.category),
-      count: 0,
-      image: p.image ?? '',
-    });
-  }
-  categoryMap.get(p.category)!.count++;
-}
+export const sanityClient = createClient({
+  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
+  dataset: import.meta.env.PUBLIC_SANITY_DATASET,
+  useCdn: false,
+  apiVersion: '2024-01-01',
+  token: import.meta.env.SANITY_API_TOKEN,
+});
 ```
 
-The `?category=slug` query parameter pre-selects the matching card on page load (client-side JS reads the param and activates the filter). New Firestore categories automatically appear in the grid without any code change, provided they have at least one published product.
+#### Document Type: `product`
+- `name`: Product name string
+- `slug`: Sanity slug (`slug.current`)
+- `category`: Category slug string
+- `categoryName`: Human-readable category title
+- `image`: Sanity image asset URL projection (`image.asset->url`)
+- `tagline`: Marketing tagline (falls back to `shortDescription`)
+- `description`: Full body text for detail page (split by `\n\n`)
+- `shortDescription`: ~80–100 character summary for cards
+- `order`: Manual numeric sorting order
+- `isFeatured`: Boolean for homepage featured section
+- `isPublished`: Boolean gating public visibility (`*[_type == "product" && isPublished == true]`)
+- `skyhawkUrl`: External technical asset reference
+- `features`: Array of string feature bullets
+- `specs`: Array of `{ key: string, value: string }`
+- `sections`: Array of flexible structured sections:
+  - `title`: Section title string (guarded against `null` / `undefined`)
+  - `type`: `'bullets' | 'table' | 'text'`
+  - `bullets`: `string[]` (when type is bullets)
+  - `text`: `string` (when type is text)
+  - `tableRows`: Array of `{ key: string, value: string }` (when type is table)
+- `seoTitle`, `seoDescription`, `seoKeywords`: SEO metadata overrides
 
-### `getProducts` — Filtering Strategy
-
-`products/index.astro` fetches **all published products** in one Firestore call (no `where()` filter on category), then filters in JavaScript. This avoids requiring a composite Firestore index for `where('category') + orderBy('order')`.
-
-`getProducts()` and `getFeaturedProducts()` filter by `isPublished == true` before returning. Unpublished products are never returned to any public page.
-
-### SSG Decision
-
-Product detail pages (`[slug].astro`) remain **SSR** (rendered on every request). SSG (`prerender = true` + `getStaticPaths()`) is **deferred** until:
-1. All individual product images are delivered by client (Sky Hawk)
-2. The catalog is stable (no frequent add/remove)
-
-This is a deliberate decision — revisit after image delivery is complete.
+#### Document Type: `category`
+- `name`: Category title string
+- `slug`: Sanity slug (`slug.current`)
+- `image`: Category cover image projection (`image.asset->url`)
+- `description`: Category overview text
+- `features`: Array of string bullets
+- `isPublished`: Boolean flag
+- `seoTitle`, `seoDescription`, `seoKeywords`: SEO metadata overrides
 
 ---
 
-## 6. Astro Config (`astro.config.mjs`)
+### 4.2 Google Sheets Webhook Integration (`src/lib/sheets.ts`)
+
+All form submissions (enquiries and quote requests) are sent to a dedicated Google Apps Script Webhook (`SHEETS_WEBHOOK_URL`).
+
+```ts
+const WEBHOOK_URL = import.meta.env.SHEETS_WEBHOOK_URL;
+
+export async function submitEnquiry(data: {
+  name: string;
+  company?: string;
+  email: string;
+  phone: string;
+  message: string;
+  source?: string;
+}) {
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'enquiry', ...data }),
+    redirect: 'follow',
+  });
+  // Apps Script always returns 302 → fire-and-forget; don't await response to avoid cold-start wait
+}
+
+export async function submitQuote(data: {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  productInterest: string;
+  capacity: string;
+  span: string;
+  liftHeight: string;
+  additionalNotes: string;
+}) {
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'quote', ...data }),
+    redirect: 'follow',
+  });
+  // Apps Script always returns 302 → fire-and-forget; don't await response to avoid cold-start wait
+}
+```
+
+#### Key Architecture Principles for Form Submissions:
+1. **Fire-and-Forget `fetch`**: Google Apps Script webhooks can experience cold starts (2–4 seconds) and typically return HTTP 302 redirects. By dispatching `fetch()` without awaiting resolution, user requests redirect immediately without perceived lag.
+2. **`data-astro-reload`**: Form tags specify `data-astro-reload` to bypass client-side Astro View Transitions on submit, preventing client routing interference and guaranteeing reliable server POST execution.
+3. **Redirect with Query Flags**: Upon submission, the server returns a 302 redirect to `/contact?eq=1#enquiry`, `/contact?qr=1#quote`, or `/products/[slug]?submitted=1#quote`, preventing form resubmission on browser refresh.
+
+---
+
+## 5. SSR Data Fetching & Rendering Patterns
+
+- **Runtime SSR**: Server-side queries run in Astro frontmatter at request time using `sanityClient.fetch()`.
+- **Dynamic Category Count**: Category cards and counts are derived directly from published products returned by Sanity, preventing discrepancies between database content and UI.
+- **Client-Side Product Filtering**: `products/index.astro` renders all published products into the DOM tagged with `data-category="{slug}"`. Filtering runs via lightweight vanilla JavaScript for instant UI updates with zero additional network requests.
+- **Deep Null Guards on Dynamic Content**: In `products/[slug].astro`, flexible CMS sections are safely guarded:
+  ```astro
+  <SectionLabel text={`— ${(section.title ?? '').toUpperCase()}`} />
+  <h2>{section.title}</h2>
+  ```
+  Empty or missing titles are gracefully handled without breaking rendering.
+
+---
+
+## 6. Astro Configuration (`astro.config.mjs`)
 
 ```js
+// @ts-check
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import cloudflare from '@astrojs/cloudflare';
+import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   output: 'server',
   adapter: cloudflare(),
-  integrations: [tailwind()],
+  integrations: [
+    tailwind({
+      configFile: './tailwind.config.mjs',
+      applyBaseStyles: false,
+    }),
+  ],
 });
 ```
 
 ---
 
-## 7. Cloudflare Deployment
+## 7. Cloudflare Deployment & Environment Variables
 
-- **Platform:** Cloudflare Pages (SSR via Workers)
+- **Platform:** Cloudflare Pages (SSR via Cloudflare Workers runtime)
 - **Adapter:** `@astrojs/cloudflare`
-- **Build command:** `npm run build`
-- **Output directory:** `dist/`
-- **Environment Variables** (Cloudflare Pages > Settings > Environment Variables):
-  - `FIREBASE_API_KEY`
-  - `FIREBASE_AUTH_DOMAIN`
-  - `FIREBASE_PROJECT_ID`
-  - `FIREBASE_STORAGE_BUCKET`
-  - `FIREBASE_MESSAGING_SENDER_ID`
-  - `FIREBASE_APP_ID`
+- **Domain:** `https://safebuilds.in`
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist/`
 
----
+### Production Environment Variables (Cloudflare Pages Dashboard):
 
-## 8. CMS — Separate React App
+All legacy `FIREBASE_*` environment variables have been **completely removed**. The application requires only the following:
 
-- **Location:** `safebuild-cms/` (separate Vite + React project — **not yet started**)
-- **Stack:** Vite + React + Firebase Auth + Firestore SDK
-- **Auth:** Email/password Firebase Auth (single admin user)
-- **Planned Features:**
-  - Product CRUD (add/edit/delete, image upload to Firebase Storage)
-  - Blog CRUD (rich text editor, publish/unpublish toggle)
-  - Enquiries viewer (read-only, mark as read)
-  - Quotes dashboard (status update, read-only form data)
-- **Deploy:** Separate Cloudflare Pages app (e.g., `cms.safebuild.in`)
-
----
-
-## 9. Animation & Scroll Strategy
-
-| Library | Purpose | Init Location |
+| Variable Name | Exposure | Purpose |
 |---|---|---|
-| Lenis | Smooth scroll (replaces native scroll) | `BaseLayout.astro` `<script>` block |
-| GSAP | Hero text animation, stagger reveals | Per-page `<script is:inline>` |
-| AOS | Scroll-triggered card/section fade-ins | `BaseLayout.astro` — `AOS.init()` on load |
-| Astro View Transitions | Cross-page animated transitions | `<ViewTransitions />` in `BaseLayout.astro` |
+| `PUBLIC_SANITY_PROJECT_ID` | Public / Client & Server | Sanity Project ID (`5vqxh570`) |
+| `PUBLIC_SANITY_DATASET` | Public / Client & Server | Sanity Dataset (`production`) |
+| `SANITY_API_TOKEN` | Server / Secret | Sanity API token for authenticated queries |
+| `SHEETS_WEBHOOK_URL` | Server / Secret | Google Apps Script Webhook URL for form submissions |
 
 ---
 
-## 10. Design Rules (Hard Constraints)
+## 8. Corporate Email & Domain Configuration
 
-1. **Zero border radius everywhere** — override Tailwind's default with `borderRadius: { DEFAULT: '0', none: '0' }` and global `.sharp-edges { border-radius: 0 !important; }`
-2. **Navbar and Footer are global Astro components** — never inlined in page files
-3. **No static product/blog data** — all content fetched from Firestore at request time (SSR)
-4. **Orange accent `#F97316` is the only action/brand color** — used for CTAs, active nav states, left border accents, and icon tints
-5. **All forms save directly to Firestore** — no email-only or serverless middleman
-6. **Dark backgrounds use `#171C1F` (`on-background`)** — footer, CTA banner dark variant
-7. **`FeatureCard`, `VisionMissionCard`, `CoreValueBar`, `BlogCard` are NOT standalone files** — they are currently inlined in their respective pages (`about.astro`, `index.astro`). Only `Navbar`, `Footer`, `SectionLabel`, `CTABanner`, and `ProductCard` exist as separate component files.
-8. **`image` not `imageUrl`** — the product image field is named `image` in Firestore, `types.ts`, `firestore.ts`, and all page files. Do not use `imageUrl`.
-9. **`isPublished` gates all public product visibility** — `getProducts()`, `getFeaturedProducts()`, and `getProductBySlug()` all enforce this. Never render a product without checking `isPublished`.
-10. **Products nav link is a plain `<a>`** — the Navbar `PRODUCTS` link goes directly to `/products`. No dropdown or hover sub-menu.
-11. **Category images live in `public/images/categories/`** — filename matches the Firestore `category` slug exactly, e.g. `chain-hoist.png`. Image path convention: `/images/categories/{slug}.png`.
-12. **Firestore security rules are locked** — `products` collection is read-only (public read, no client write). `quotes` and `enquiries` are create-only. All other access denied. See `firestore.rules`.
+- **Domain:** `safebuilds.in`
+- **Email Service Provider:** Zoho Mail
+- **Configured Accounts:** 4 professional mailboxes set up under `safebuilds.in`
+- **Primary Public Contact Email:** `info@safebuilds.in`
+- **Legacy Gmail Discontinued:** The old Gmail (`safebuildengineering26@gmail.com`) is completely replaced across all code and documentation.
 
 ---
 
-## 11. Firestore Security Rules
+## 9. Animation, View Transitions & Script Rebinding
 
-Current rules (`firestore.rules`) — locked as of 2026-09-09:
+| Library | Purpose | Implementation Location |
+|---|---|---|
+| Lenis | Smooth scrolling | `BaseLayout.astro` |
+| GSAP | Staggered hero text reveals | `src/pages/index.astro` |
+| AOS | Scroll-triggered element reveals | `BaseLayout.astro` (initialized on load and `astro:page-load`) |
+| Astro View Transitions | Single-page transition effects | `<ViewTransitions />` in `BaseLayout.astro` |
 
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Products — public read, no client writes
-    match /products/{docId} {
-      allow read: if true;
-      allow write: if false;
-    }
-    // Quotes — create only (quote form submission)
-    match /quotes/{docId} {
-      allow create: if true;
-      allow read, update, delete: if false;
-    }
-    // Enquiries — create only (contact form submission)
-    match /enquiries/{docId} {
-      allow create: if true;
-      allow read, update, delete: if false;
-    }
-    // Default: deny everything else
-    match /{document=**} {
-      allow read, write: if false;
-    }
-  }
-}
-```
+### Critical View Transition Rebinding Pattern:
+Because Astro View Transitions swap the `<body>` element on navigation, event listeners attached to DOM elements are lost unless re-bound. 
+- In `Navbar.astro`, mobile hamburger and drawer listeners are wrapped in `initNavbar()`:
+  ```js
+  initNavbar();
+  document.addEventListener('astro:after-swap', initNavbar);
+  ```
+- Escape key listener is bound once to `document` to avoid duplicate listener accumulation.
 
-> **Note:** The CMS admin panel will use Firebase Auth to bypass these rules via the Admin SDK (server-side). Client-side writes are intentionally locked.
+---
+
+## 10. Design & Architecture Hard Constraints
+
+1. **Zero Border Radius**: Industrial aesthetic enforced with `0` border-radius globally across all buttons, cards, containers, and inputs.
+2. **Brand Logos**:
+   - Navbar brand uses `/logo-icon.png` (`h-7 w-auto`).
+   - Footer brand uses `/logo-full.png` (`h-12 w-auto`).
+   - Former temporary Material Symbol `type_specimen` proxy has been retired.
+3. **No Firebase Dependencies**: Firebase SDK, Firestore rules, and Auth libraries are completely purged from the codebase.
+4. **Form Delivery Guarantee**: Forms submit to Astro server routes, which fire-and-forget to Google Sheets, using `data-astro-reload` to bypass View Transitions.
+5. **Services Page Priority**: The Services page (`/services`) is the immediate next build item.
+6. **Blog Deprioritized**: Blog routes (`/blog`, `/blog/[slug]`) are postponed and not part of the active development phase.
+7. **Legal Entity Name**: Displayed as "Safebuild Engineering Private Limited" in footer bottom bar.
