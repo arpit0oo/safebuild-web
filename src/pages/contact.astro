@@ -248,8 +248,11 @@ if (Astro.request.method === 'POST') {
         )}
 
         {!equSubmitted && (
-          <form method="POST" action="/contact#enquiry" class="flex flex-col gap-stack-md" id="enquiry-form" data-astro-reload>
-            <input type="hidden" name="_form" value="enquiry" />
+          <form class="flex flex-col gap-stack-md" id="enquiry-form">
+            <input type="hidden" name="access_key" value="132a9188-be74-48bc-adc5-d9d776bc6e92" />
+            <input type="hidden" name="subject" value="🔔 New Enquiry — Safe Build Engineering" />
+            <input type="hidden" name="from_name" value="Safe Build Engineering Website" />
+            <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" />
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="space-y-1">
@@ -287,6 +290,13 @@ if (Astro.request.method === 'POST') {
               </label>
               <textarea id="eq-message" name="message" rows={4} required class="input-field resize-none" placeholder="Describe your requirement or question…"></textarea>
             </div>
+
+            <p id="enquiry-error" class="hidden border border-error bg-error-container p-4 flex items-start gap-3" role="alert">
+              <span class="material-symbols-outlined text-error text-[20px] mt-0.5 shrink-0">error</span>
+              <span class="font-body-md text-body-md text-error">
+                Something went wrong. Please try again or call +91 99351 05322.
+              </span>
+            </p>
 
             <button type="submit" id="enquiry-submit" class="btn-primary self-start mt-2">
               Send Enquiry
@@ -353,8 +363,11 @@ if (Astro.request.method === 'POST') {
         )}
 
         {!qrSubmitted && (
-          <form method="POST" action="/contact#quote" class="flex flex-col gap-stack-md" id="quote-form" data-astro-reload>
-            <input type="hidden" name="_form" value="quote" />
+          <form class="flex flex-col gap-stack-md" id="quote-form">
+            <input type="hidden" name="access_key" value="132a9188-be74-48bc-adc5-d9d776bc6e92" />
+            <input type="hidden" name="subject" value="🔔 New Quote Request — Safe Build Engineering" />
+            <input type="hidden" name="from_name" value="Safe Build Engineering Website" />
+            <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" />
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="space-y-1">
@@ -420,6 +433,13 @@ if (Astro.request.method === 'POST') {
               </label>
               <textarea id="qr-notes" name="notes" rows={3} class="input-field resize-none" placeholder="Any special requirements, site conditions, or specifications…"></textarea>
             </div>
+
+            <p id="quote-error" class="hidden border border-error bg-error-container p-4 flex items-start gap-3" role="alert">
+              <span class="material-symbols-outlined text-error text-[20px] mt-0.5 shrink-0">error</span>
+              <span class="font-body-md text-body-md text-error">
+                Something went wrong. Please try again or call +91 99351 05322.
+              </span>
+            </p>
 
             <button type="submit" id="quote-submit" class="btn-primary self-start w-full md:w-auto mt-2">
               Request Quote
@@ -509,5 +529,63 @@ if (Astro.request.method === 'POST') {
 
     </div>
   </section>
+
+  <script>
+    function initEnquiryForm() {
+      const form = document.getElementById('enquiry-form') as HTMLFormElement | null;
+      if (!form || form.dataset.bound === '1') return;
+      form.dataset.bound = '1';
+      const btn = document.getElementById('enquiry-submit') as HTMLButtonElement | null;
+      const err = document.getElementById('enquiry-error');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        err?.classList.add('hidden');
+        if (btn) btn.disabled = true;
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.message || 'Submit failed');
+          window.location.href = '/contact?eq=1#enquiry';
+        } catch (error) {
+          console.error('[enquiry] submit failed:', error);
+          err?.classList.remove('hidden');
+          if (btn) btn.disabled = false;
+        }
+      });
+    }
+    document.addEventListener('astro:page-load', initEnquiryForm);
+
+    function initQuoteForm() {
+      const form = document.getElementById('quote-form') as HTMLFormElement | null;
+      if (!form || form.dataset.bound === '1') return;
+      form.dataset.bound = '1';
+      const btn = document.getElementById('quote-submit') as HTMLButtonElement | null;
+      const err = document.getElementById('quote-error');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        err?.classList.add('hidden');
+        if (btn) btn.disabled = true;
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.message || 'Submit failed');
+          window.location.href = '/contact?qr=1#quote';
+        } catch (error) {
+          console.error('[quote] submit failed:', error);
+          err?.classList.remove('hidden');
+          if (btn) btn.disabled = false;
+        }
+      });
+    }
+    document.addEventListener('astro:page-load', initQuoteForm);
+  </script>
 
 </BaseLayout>
