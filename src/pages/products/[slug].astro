@@ -115,44 +115,8 @@ const descParagraphs = product?.description
   ? product.description.split("\n\n").filter(Boolean)
   : [];
 
-// ── FORM: handle POST submission ─────────────────────────────
-// The form POSTs to this same page. We handle it server-side,
-// then redirect with ?success=1 or ?error=1 to avoid re-POST on refresh.
+// ── FORM: redirect-back success flag ─────────────────────────
 let formResult: "success" | "error" | null = null;
-
-if (Astro.request.method === "POST" && product) {
-  try {
-    const fd = await Astro.request.formData();
-    const name = String(fd.get("name") ?? "").trim();
-    const company = String(fd.get("company") ?? "").trim();
-    const email = String(fd.get("email") ?? "").trim();
-    const phone = String(fd.get("phone") ?? "").trim();
-    const capacity = String(fd.get("capacity") ?? "").trim();
-    const span = String(fd.get("span") ?? "").trim();
-    const notes = String(fd.get("notes") ?? "").trim();
-
-    if (name && email) {
-      // Import dynamically to avoid SSR bundling issues
-      const { submitQuote } = await import("../../lib/sheets");
-      await submitQuote({
-        name,
-        company,
-        email,
-        phone,
-        productInterest: product.name,
-        capacity,
-        span,
-        liftHeight: "",
-        additionalNotes: notes,
-      });
-      return Astro.redirect(`/products/${slug}?submitted=1`, 302);
-    }
-    formResult = "error";
-  } catch (e) {
-    console.error(`[products/${slug}] Quote submit failed:`, e);
-    formResult = "error";
-  }
-}
 
 // Check for redirect-back success flag
 const url = new URL(Astro.request.url);
