@@ -1,0 +1,465 @@
+---
+// =============================================================
+// src/pages/services.astro — Safe Build Engineering
+// Services Page: Full lifecycle capabilities, 3-phase workflow,
+// pan-India coverage, commitments, and CTA banner.
+// =============================================================
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+// Service cards data
+const serviceCards = [
+  {
+    number: '01',
+    title: 'Design & Engineering',
+    tag: 'CAD • FEA • DEFLECTION MODELING',
+    description:
+      'Custom structural and mechanical design tailored to plant layout, headroom limitations, duty classifications, and load dynamics. Every model undergoes rigorous 3D finite element analysis (FEA) and deflection simulations.',
+    footerText: 'FEA Stress Analysis • Custom Span & Headroom Planning',
+    image:
+      'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80',
+    imageAlt: 'Engineering Design & Blueprint Planning',
+    iconPath: 'M3 21h18M3 7v14M21 7v14M7 3l10 0M12 3v18M7 7h10M7 12h10M7 17h10',
+  },
+  {
+    number: '02',
+    title: 'Precision Manufacturing',
+    tag: 'BOX GIRDERS • AUTOMATED WELDING',
+    description:
+      'Heavy-gauge box girder fabrication, precision CNC gear profiling, stress-relieved weldments, and shot-blasted surface treatment. Manufactured in our Lucknow facility under uncompromising quality control standards.',
+    footerText: 'Submerged Arc Welding • Laser-Aligned Wheel Carriages',
+    image:
+      'https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?w=800&q=80',
+    imageAlt: 'Precision Crane Girder Manufacturing Factory',
+    iconPath:
+      'M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83M12 8a4 4 0 100 8 4 4 0 000-8z',
+  },
+  {
+    number: '03',
+    title: 'Installation & Commissioning',
+    tag: 'RUNWAY ALIGNMENT • LOAD TESTING',
+    description:
+      'End-to-end on-site gantry rail erection, laser alignment of runways, electrical busbar connection, and on-site dynamic deflection proof testing up to 125% rated load capacity prior to handover.',
+    footerText: '125% Overload Proof Testing • Certified Rigging Engineers',
+    image:
+      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80',
+    imageAlt: 'Heavy-duty Gantry Crane Installation and Erection',
+    iconPath:
+      'M12 2v6m0 0a3 3 0 013 3v4a5 5 0 01-10 0v-2h4v2a1 1 0 002 0v-4a1 1 0 00-1-1H7M4 22h16',
+  },
+  {
+    number: '04',
+    title: 'Maintenance & AMC',
+    tag: '24/7 BREAKDOWN RESPONSE • SPARE PARTS',
+    description:
+      'Scheduled preventive maintenance contracts, emergency breakdown response, precision wire rope replacement, brake lining relining, motor servicing, and structural health re-evaluations.',
+    footerText: '24/7 Breakdown Dispatch • Comprehensive Replacement Spares',
+    image:
+      'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80',
+    imageAlt: 'Crane Wheel Assembly and End Carriage Maintenance',
+    iconPath:
+      'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z',
+  },
+];
+
+// Workflow steps data
+const workflowSteps = [
+  {
+    number: '01',
+    phase: 'PHASE 1',
+    title: 'Consult & Plan',
+    description:
+      'Our structural engineers conduct extensive site visits, laser survey existing runway rails, evaluate clearance headroom, and calculate duty-cycle specifications.',
+    tag: 'Engineering Assessment • Specification Sheet',
+  },
+  {
+    number: '02',
+    phase: 'PHASE 2',
+    title: 'Design & Build',
+    description:
+      'Fabrication begins using certified structural steel, precision-turned wheels, and standardized hoists. Routine radiographic and ultrasonic weld testing guarantee integrity.',
+    tag: 'Precision Fabrication • In-Factory Pre-Assembly',
+  },
+  {
+    number: '03',
+    phase: 'PHASE 3',
+    title: 'Install & Support',
+    description:
+      'Professional erection, complete load-deflection commissioning, operator training, and enrollment into our structured preventive Annual Maintenance Contract (AMC).',
+    tag: 'Load Proof Testing • Lifetime Dedicated Support',
+  },
+];
+
+// Regional hubs
+const regionalHubs = [
+  { region: 'NORTH INDIA', states: 'UP, NCR, Haryana, Punjab, Rajasthan' },
+  { region: 'WEST & CENTRAL', states: 'Gujarat, Maharashtra, MP' },
+  { region: 'EAST & SOUTH', states: 'West Bengal, Odisha, Karnataka, TN' },
+];
+---
+
+<BaseLayout
+  title="Services — Safe Build Engineering"
+  description="From heavy-duty overhead crane design and turnkey manufacturing to on-site commissioning and nationwide lifetime maintenance — explore Safe Build Engineering services."
+  activePage="services"
+>
+
+  <!-- ============================================================
+       SECTION 1: HERO (Cinematic Industrial Full-Bleed Overlay)
+       ============================================================ -->
+  <section class="relative bg-[#0D1117] text-white border-b border-gray-800 overflow-hidden">
+    <!-- Background Image with Dark Gradients -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1485083269755-a7b559a4fe5e?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+        alt="Industrial Crane Manufacturing Facility"
+        class="w-full h-full object-cover object-center brightness-[0.42] contrast-125"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#080B0F] via-[#0D1117]/90 to-[#0D1117]/50"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-[#0D1117]/40"></div>
+    </div>
+
+    <!-- Architectural / engineering grid accent lines -->
+    <div
+      class="absolute inset-0 opacity-10 pointer-events-none z-[1]"
+      style="background-image: linear-gradient(#F97316 1px, transparent 1px), linear-gradient(90deg, #F97316 1px, transparent 1px); background-size: 60px 60px;"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Thin vertical orange accent line on far left -->
+    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container z-20"></div>
+
+    <div class="max-w-container-max mx-auto px-gutter py-28 md:py-36 relative z-10">
+      <div class="max-w-3xl">
+        <SectionLabel text="OUR SERVICES" />
+
+        <h1
+          id="services-hero-title"
+          class="font-headline-lg text-4xl sm:text-5xl md:text-6xl text-surface-white tracking-tight uppercase leading-[1.05] mb-6"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          Engineering Solutions <br class="hidden sm:inline" />
+          <span class="relative inline-block text-surface-white">
+            Built to Last
+            <span class="absolute left-0 bottom-1 w-full h-[3px] bg-primary-container opacity-90"></span>
+          </span>.
+        </h1>
+
+        <p
+          class="text-gray-200 text-lg md:text-xl font-normal leading-relaxed max-w-2xl mb-10"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          From heavy-duty industrial overhead crane design and turnkey manufacturing to on-site commissioning
+          and nationwide lifetime maintenance — we deliver zero-margin precision for mission-critical lifting.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4" data-aos="fade-up" data-aos-delay="300">
+          <a
+            href="#services-grid"
+            class="btn-primary"
+            id="hero-explore-services"
+          >
+            EXPLORE SERVICES →
+          </a>
+          <a
+            href="/contact?type=quote"
+            class="btn-ghost"
+            id="hero-request-quote"
+          >
+            REQUEST A QUOTE
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 2: SERVICES GRID (Visual & Substantial Cards)
+       ============================================================ -->
+  <section class="bg-surface-white py-section-padding border-b border-border-subtle" id="services-grid">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <!-- Section Header -->
+      <div class="mb-16 max-w-2xl" data-aos="fade-up">
+        <SectionLabel text="FULL LIFECYCLE CAPABILITIES" />
+        <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight mt-2">
+          Comprehensive Crane &amp; Lifting Expertise
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-2">
+          Tailored engineering protocols adhering to rigorous safety and structural quality standards.
+        </p>
+      </div>
+
+      <!-- 4 Visual Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {serviceCards.map((card, i) => (
+          <div
+            class="bg-surface-white border border-border-subtle card-hover relative group shadow-[0_2px_16px_rgba(0,0,0,0.05)] flex flex-col justify-between overflow-hidden"
+            data-aos="fade-up"
+            data-aos-delay={String(i * 100)}
+          >
+            <div>
+              <!-- Header Image with Badge Overlay -->
+              <div class="relative h-56 w-full overflow-hidden bg-[#080B0F] border-b border-gray-100">
+                <img
+                  src={card.image}
+                  alt={card.imageAlt}
+                  class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117]/80 via-transparent to-transparent"></div>
+
+                <!-- Icon Box -->
+                <div class="absolute top-4 left-4 w-12 h-12 bg-[#0D1117]/90 backdrop-blur-sm flex items-center justify-center border border-gray-700 text-primary-container group-hover:bg-primary-container group-hover:text-surface-white transition-colors">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path d={card.iconPath} stroke-linecap="square"></path>
+                  </svg>
+                </div>
+
+                <!-- Number Pill -->
+                <span class="absolute top-4 right-4 font-label-caps text-surface-white/90 bg-[#0D1117]/80 backdrop-blur-sm px-3 py-1 font-bold text-sm tracking-wider border border-gray-700">
+                  {card.number}
+                </span>
+
+                <!-- Tag Bar -->
+                <span class="absolute bottom-3 left-4 font-label-caps text-xs uppercase tracking-widest text-primary-container font-bold">
+                  {card.tag}
+                </span>
+              </div>
+
+              <!-- Content Area -->
+              <div class="p-8">
+                <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-tight mb-3">
+                  {card.title}
+                </h3>
+                <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                  {card.description}
+                </p>
+              </div>
+            </div>
+
+            <!-- Footer Strip -->
+            <div class="px-8 pb-8 pt-0">
+              <div class="pt-5 border-t border-gray-100 flex items-center text-xs font-label-caps uppercase tracking-wider text-on-surface font-bold">
+                <span class="text-primary-container mr-2">•</span> {card.footerText}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 3: HOW IT WORKS (Grey Background)
+       ============================================================ -->
+  <section class="bg-image-placeholder py-section-padding border-b border-border-subtle relative overflow-hidden">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+        <SectionLabel text="EXECUTION WORKFLOW" class="text-center" />
+        <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight mt-2">
+          How It Works
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-2">
+          A disciplined three-phase deployment framework engineered for zero downtime and seamless site integration.
+        </p>
+      </div>
+
+      <!-- 3 Numbered Steps Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        {workflowSteps.map((step, i) => (
+          <div
+            class="bg-surface-white p-8 md:p-10 border border-border-subtle relative card-hover shadow-[0_2px_16px_rgba(0,0,0,0.04)] flex flex-col justify-between"
+            data-aos="fade-up"
+            data-aos-delay={String(i * 100)}
+          >
+            <div>
+              <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+                <span class="font-label-caps font-bold text-5xl text-primary-container tracking-tight">
+                  {step.number}
+                </span>
+                <span class="text-xs font-label-caps uppercase tracking-widest text-on-surface bg-image-placeholder px-3 py-1 font-semibold border border-border-subtle">
+                  {step.phase}
+                </span>
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-tight mb-3">
+                {step.title}
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                {step.description}
+              </p>
+            </div>
+            <div class="mt-8 pt-4 border-t border-gray-100 flex items-center text-primary-container text-xs font-label-caps font-bold uppercase tracking-wider">
+              <span>{step.tag}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 4: PAN-INDIA COVERAGE & INFRASTRUCTURE
+       ============================================================ -->
+  <section class="bg-surface-white py-section-padding border-b border-border-subtle">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+
+        <!-- Left: Coverage Overview and Regional Hubs -->
+        <div class="lg:col-span-7 flex flex-col justify-between" data-aos="fade-right">
+          <div>
+            <SectionLabel text="RELIABLE SERVICE LOGISTICS" />
+            <h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight mb-6 mt-2">
+              Pan-India Service &amp; Rapid Site Support
+            </h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-6">
+              Headquartered at our manufacturing and engineering hub in Lucknow, Safe Build Engineering
+              supports industrial installations, steel complexes, heavy fabrication plants, and logistics
+              infrastructure across all major industrial belts in India.
+            </p>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">
+              Our certified field technicians and rigging specialists are equipped for rapid dispatch,
+              carrying calibrated diagnostic tools, load-testing gear, and critical replacement spares to
+              minimize plant downtime.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border-subtle">
+            {regionalHubs.map(hub => (
+              <div class="p-4 bg-image-placeholder border border-border-subtle">
+                <span class="font-headline-sm text-lg font-bold text-on-surface block uppercase">
+                  {hub.region}
+                </span>
+                <span class="text-xs text-on-surface-variant font-body-md mt-1 block">
+                  {hub.states}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Right: Industrial Facility Visual Showcase + Service Commitments -->
+        <div class="lg:col-span-5 flex flex-col gap-6" data-aos="fade-left" data-aos-delay="100">
+          <!-- Industrial Installation Facility Image -->
+          <div class="relative h-60 w-full overflow-hidden border border-border-subtle shadow-md">
+            <img
+              src="https://plus.unsplash.com/premium_photo-1725408082757-cd1a39a947ad?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+              alt="High-capacity Double Girder EOT Crane Facility"
+              class="w-full h-full object-cover object-center"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0D1117]/85 via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
+              <span class="font-label-caps text-xs uppercase tracking-wider font-bold bg-primary-container px-2.5 py-1">
+                PRODUCTION FACILITY
+              </span>
+            </div>
+          </div>
+
+          <!-- Industrial Technical Metric Commitment Card -->
+          <div class="bg-[#0D1117] text-white p-8 md:p-9 border border-gray-800 relative flex-1 flex flex-col justify-between shadow-lg">
+            <div class="absolute top-0 left-0 w-1 h-full bg-primary-container"></div>
+            <div>
+              <h3 class="font-headline-sm text-2xl uppercase tracking-tight text-white mb-6 font-bold">
+                Our Service Commitments
+              </h3>
+              <div class="space-y-5">
+                <div class="flex items-start gap-4">
+                  <span class="w-2 h-2 mt-2 bg-primary-container shrink-0"></span>
+                  <div>
+                    <h4 class="font-headline-sm text-lg text-white uppercase leading-snug font-bold">
+                      Precision Machined Components
+                    </h4>
+                    <p class="text-gray-400 text-sm font-body-md mt-1">
+                      Every replacement component is machined to strict engineering tolerance specs.
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4">
+                  <span class="w-2 h-2 mt-2 bg-primary-container shrink-0"></span>
+                  <div>
+                    <h4 class="font-headline-sm text-lg text-white uppercase leading-snug font-bold">
+                      Rigorous Quality Verification
+                    </h4>
+                    <p class="text-gray-400 text-sm font-body-md mt-1">
+                      Comprehensive structural inspection on every fabrication and runway joint.
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4">
+                  <span class="w-2 h-2 mt-2 bg-primary-container shrink-0"></span>
+                  <div>
+                    <h4 class="font-headline-sm text-lg text-white uppercase leading-snug font-bold">
+                      Full Documentation &amp; Testing
+                    </h4>
+                    <p class="text-gray-400 text-sm font-body-md mt-1">
+                      Official static &amp; dynamic load test certificates issued post-commissioning.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-800 flex items-center justify-between">
+              <span class="font-label-caps text-xs uppercase tracking-wider text-gray-400">
+                HQ: LUCKNOW, INDIA
+              </span>
+              <span class="font-label-caps text-xs uppercase tracking-wider text-primary-container font-bold">
+                RAPID ON-SITE MOBILIZATION
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 5: CTA BANNER (Using reusable CTABanner component)
+       ============================================================ -->
+  <CTABanner
+    heading="Ready to Get Started?"
+    subtext="Speak with our engineering consultants to evaluate your plant requirements, schedule an on-site runway survey, or request a customized technical proposal."
+    primaryLabel="Request a Proposal"
+    primaryHref="/contact?type=quote"
+    secondaryLabel="Talk to an Engineer"
+    secondaryHref="tel:+919935105322"
+  />
+
+
+  <!-- ============================================================
+       PAGE-LEVEL GSAP ANIMATION
+       Hero H1 entrance animation. Runs after Lenis/AOS init.
+       ============================================================ -->
+  <script>
+    import { gsap } from 'gsap';
+
+    document.addEventListener('astro:page-load', () => {
+      const h1 = document.getElementById('services-hero-title');
+      if (!h1) return;
+
+      gsap.fromTo(
+        h1,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          delay: 0.15,
+        }
+      );
+    });
+  </script>
+
+</BaseLayout>

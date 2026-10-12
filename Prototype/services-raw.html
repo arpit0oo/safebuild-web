@@ -1,0 +1,567 @@
+clear
+npm run dev
+
+
+
+ lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Services - Safe Build Engineering</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=Rajdhani:wght@600;700&amp;display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#F97316',
+                            dark: '#0D1117',
+                            darker: '#080B0F',
+                            cardDark: '#161B22',
+                            grey: '#F1F5F9',
+                            body: '#4B5563',
+                            border: '#E5E7EB',
+                            orangeHover: '#EA6C0A'
+                        }
+                    },
+                    fontFamily: {
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        barlow: ['"Barlow Condensed"', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        * {
+            border-radius: 0px !important;
+        }
+
+        .hover-accent-border {
+            transition: border-left 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .hover-accent-border:hover {
+            border-left: 3px solid #F97316;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+
+<body class="bg-white font-inter text-brand-body antialiased selection:bg-brand-orange selection:text-white">
+    <!-- ================= SECTION 1: HERO (Cinematic Industrial Full-Bleed Overlay) ================= -->
+    <header class="relative bg-brand-dark text-white border-b border-gray-800 overflow-hidden">
+        <!-- Cinematic Industrial Workshop Background with Dark Gradients -->
+        <div class="absolute inset-0 z-0">
+            <img alt="Industrial Crane Manufacturing Facility"
+                class="w-full h-full object-cover object-center filter brightness-[0.42] contrast-125"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1UyDoacKce3Qs5jXn5WU-x13J3S8JPuqbVBhe4wVpeJpcFE2jGM-DQTbrUEUhEmnllKW9Fy4pbTaQcUKAUE0YZqU2iq_bpLGUsxavi270xJlMhX3u8hpa1C5y8YltJexL9YjSCxVgdLNxljIvD731QvYSIGe8p4wvM3riFAWldoy1QgLiMvSfrtgbrIwJHyAt6Qr1xi1LDY-gMirdhfeCyK9Um9w_opJ_TzRE6MuUJe90VEQ1jBj1Jd-S4">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-darker via-brand-dark/90 to-brand-dark/50"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-brand-dark/40"></div>
+        </div>
+        <!-- Subtle architectural / engineering grid accent lines -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none z-[1]"
+            style="background-image: linear-gradient(#F97316 1px, transparent 1px), linear-gradient(90deg, #F97316 1px, transparent 1px); background-size: 60px 60px;">
+        </div>
+        <!-- Thin vertical orange accent line on far left -->
+        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-orange z-20"></div>
+        <div class="max-w-[1200px] mx-auto px-6 py-28 md:py-36 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 mb-6">
+                    <span class="w-6 h-[2px] bg-brand-orange"></span>
+                    <span class="font-barlow text-brand-orange tracking-widest text-sm font-bold uppercase">
+                        OUR SERVICES
+                    </span>
+                </div>
+                <h1
+                    class="font-rajdhani font-bold text-4xl sm:text-5xl md:text-6xl text-white tracking-tight uppercase leading-[1.05] mb-6">
+                    Engineering Solutions <br class="hidden sm:inline">
+                    <span class="relative inline-block text-white">
+                        Built to Last
+                        <span class="absolute left-0 bottom-1 w-full h-[3px] bg-brand-orange opacity-90"></span>
+                    </span>.
+                </h1>
+                <p class="text-gray-200 text-lg md:text-xl font-normal leading-relaxed max-w-2xl mb-10">
+                    From heavy-duty industrial overhead crane design and turnkey manufacturing to on-site commissioning
+                    and nationwide lifetime maintenance — we deliver zero-margin precision for mission-critical lifting.
+                </p>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a class="inline-flex items-center justify-center bg-brand-orange hover:bg-brand-orangeHover text-white font-barlow font-bold text-base tracking-wider uppercase px-8 py-4 border border-brand-orange transition-colors duration-200 shadow-lg shadow-black/40"
+                        href="#services-grid">
+                        EXPLORE SERVICES →
+                    </a>
+                    <a class="inline-flex items-center justify-center bg-brand-dark/60 hover:bg-white hover:text-brand-dark text-white font-barlow font-bold text-base tracking-wider uppercase px-8 py-4 border-2 border-white backdrop-blur-sm transition-all duration-200"
+                        href="#quote">
+                        REQUEST A QUOTE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ================= SECTION 2: SERVICES GRID (Visual & Substantial Cards) ================= -->
+    <section class="bg-white py-24 border-b border-brand-border" id="services-grid">
+        <div class="max-w-[1200px] mx-auto px-6">
+            <!-- Section Header -->
+            <div class="mb-16 max-w-2xl">
+                <div class="inline-flex items-center gap-2 mb-3">
+                    <span class="w-5 h-[2px] bg-brand-orange"></span>
+                    <span class="font-barlow text-brand-orange tracking-widest text-sm font-bold uppercase">
+                        FULL LIFECYCLE CAPABILITIES
+                    </span>
+                </div>
+                <h2 class="font-rajdhani font-bold text-3xl md:text-4xl text-brand-dark uppercase tracking-tight">
+                    Comprehensive Crane &amp; Lifting Expertise
+                </h2>
+                <p class="text-brand-body text-base mt-2">Tailored engineering protocols adhering to rigorous safety and
+                    structural quality standards.</p>
+            </div>
+            <!-- 4 Visual Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Service Card 1: Design & Engineering -->
+                <div
+                    class="bg-white border border-brand-border hover-accent-border relative group shadow-[0_2px_16px_rgba(0,0,0,0.05)] flex flex-col justify-between overflow-hidden">
+                    <div>
+                        <!-- Header Image with Badge Overlay -->
+                        <div class="relative h-56 w-full overflow-hidden bg-brand-darker border-b border-gray-100">
+                            <img alt="Engineering Design &amp; Blueprint Planning"
+                                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida/AEtjO1XTJwh-UZtNVnuh3IDRdjz_D9ceU03J_HBslvmSMW7BFa6KFcU-PSWaN4zCn6rl8Nf9_cNG4FdAJReo3oC99MWOl2wZmawYI3TE966B9EjnOmBXJePOVaFJT5ZQpvK-T7YcMaiv5nxDZm2efKDNlqtPfRo386y6bBv82Lmt6iGSUYNa4NCqkzlM94nl0wrzEFbzcMXzEUhsisy4CGtjk1Vlid_4rtbvh2Rb0v2IJlUYnVmVxhUV1J3-_IU">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent">
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 w-12 h-12 bg-brand-dark/90 backdrop-blur-sm flex items-center justify-center border border-gray-700 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8"
+                                    viewBox="0 0 24 24">
+                                    <path d="M3 21h18M3 7v14M21 7v14M7 3l10 0M12 3v18M7 7h10M7 12h10M7 17h10"
+                                        stroke-linecap="square"></path>
+                                </svg>
+                            </div>
+                            <span
+                                class="absolute top-4 right-4 font-barlow text-white/90 bg-brand-dark/80 backdrop-blur-sm px-3 py-1 font-bold text-sm tracking-wider border border-gray-700">01</span>
+                            <span
+                                class="absolute bottom-3 left-4 font-barlow text-xs uppercase tracking-widest text-brand-orange font-bold">CAD
+                                • FEA • DEFLECTION MODELING</span>
+                        </div>
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <h3 class="font-rajdhani font-bold text-2xl text-brand-dark uppercase tracking-tight mb-3">
+                                Design &amp; Engineering
+                            </h3>
+                            <p class="text-brand-body leading-relaxed text-sm md:text-base">
+                                Custom structural and mechanical design tailored to plant layout, headroom limitations,
+                                duty classifications, and load dynamics. Every model undergoes rigorous 3D finite
+                                element analysis (FEA) and deflection simulations.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-8 pb-8 pt-0">
+                        <div
+                            class="pt-5 border-t border-gray-100 flex items-center text-xs font-barlow uppercase tracking-wider text-brand-dark font-bold">
+                            <span class="text-brand-orange mr-2">•</span> FEA Stress Analysis • Custom Span &amp;
+                            Headroom Planning
+                        </div>
+                    </div>
+                </div>
+                <!-- Service Card 2: Precision Manufacturing -->
+                <div
+                    class="bg-white border border-brand-border hover-accent-border relative group shadow-[0_2px_16px_rgba(0,0,0,0.05)] flex flex-col justify-between overflow-hidden">
+                    <div>
+                        <!-- Header Image with Badge Overlay -->
+                        <div class="relative h-56 w-full overflow-hidden bg-brand-darker border-b border-gray-100">
+                            <img alt="Precision Crane Girder Manufacturing Factory"
+                                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida/AEtjO1XryS3FEIu9xjSzPEUyKZzP0tduaySRS2PkcyMNye-tndUJLqjFuCo0nVJlG2oZIC1mSb_WN72nEFMPL-LJ8s4lqXRSygq_5TOJA7RmvOjWEXW5IoLRFErG3svnQQ6lA88W1ZRkwaYE5LZ1xrMRdSL6cOriwNH_pYgAtjfdQMEGcyx_WNbXcicU3vFs_Qeq2iaiVYg3GKdb8Gc6-CuZzLd6xpr4e9MuxPJBGDbHhOO_y080PefoljAKQQ">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent">
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 w-12 h-12 bg-brand-dark/90 backdrop-blur-sm flex items-center justify-center border border-gray-700 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83M12 8a4 4 0 100 8 4 4 0 000-8z"
+                                        stroke-linecap="square"></path>
+                                </svg>
+                            </div>
+                            <span
+                                class="absolute top-4 right-4 font-barlow text-white/90 bg-brand-dark/80 backdrop-blur-sm px-3 py-1 font-bold text-sm tracking-wider border border-gray-700">02</span>
+                            <span
+                                class="absolute bottom-3 left-4 font-barlow text-xs uppercase tracking-widest text-brand-orange font-bold">BOX
+                                GIRDERS • AUTOMATED WELDING</span>
+                        </div>
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <h3 class="font-rajdhani font-bold text-2xl text-brand-dark uppercase tracking-tight mb-3">
+                                Precision Manufacturing
+                            </h3>
+                            <p class="text-brand-body leading-relaxed text-sm md:text-base">
+                                Heavy-gauge box girder fabrication, precision CNC gear profiling, stress-relieved
+                                weldments, and shot-blasted surface treatment. Manufactured in our Lucknow facility
+                                under uncompromising quality control standards.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-8 pb-8 pt-0">
+                        <div
+                            class="pt-5 border-t border-gray-100 flex items-center text-xs font-barlow uppercase tracking-wider text-brand-dark font-bold">
+                            <span class="text-brand-orange mr-2">•</span> Submerged Arc Welding • Laser-Aligned Wheel
+                            Carriages
+                        </div>
+                    </div>
+                </div>
+                <!-- Service Card 3: Installation & Commissioning -->
+                <div
+                    class="bg-white border border-brand-border hover-accent-border relative group shadow-[0_2px_16px_rgba(0,0,0,0.05)] flex flex-col justify-between overflow-hidden">
+                    <div>
+                        <!-- Header Image with Badge Overlay -->
+                        <div class="relative h-56 w-full overflow-hidden bg-brand-darker border-b border-gray-100">
+                            <img alt="Heavy-duty Gantry Crane Installation and Erection"
+                                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida/AEtjO1WILODoyzO9Z6lnq_daLF7e-r-k8O5jMBhuqCPtzU0yTviYcx4ks1Z7a0GYHYeOiKiFMssYawgGm9uU_4xTggMc-5m-0Nm2m8ocG8ORe6cWclUxeVO0DHwGRYFn9aAhMfW0mUbz-otfx9Wr5qDSlGtXNjl2FBxVxVuUbQvoTUyYUJG_NmlVH4xI3ABW44kdhl73CFPIgudSoza6ChWCSlYValtW0uhdI8_JOrPmRF5T61Nhtyc0hBerRfw">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent">
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 w-12 h-12 bg-brand-dark/90 backdrop-blur-sm flex items-center justify-center border border-gray-700 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2v6m0 0a3 3 0 013 3v4a5 5 0 01-10 0v-2h4v2a1 1 0 002 0v-4a1 1 0 00-1-1H7M4 22h16"
+                                        stroke-linecap="square"></path>
+                                </svg>
+                            </div>
+                            <span
+                                class="absolute top-4 right-4 font-barlow text-white/90 bg-brand-dark/80 backdrop-blur-sm px-3 py-1 font-bold text-sm tracking-wider border border-gray-700">03</span>
+                            <span
+                                class="absolute bottom-3 left-4 font-barlow text-xs uppercase tracking-widest text-brand-orange font-bold">RUNWAY
+                                ALIGNMENT • LOAD CERTIFICATION</span>
+                        </div>
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <h3 class="font-rajdhani font-bold text-2xl text-brand-dark uppercase tracking-tight mb-3">
+                                Installation &amp; Commissioning
+                            </h3>
+                            <p class="text-brand-body leading-relaxed text-sm md:text-base">
+                                End-to-end on-site gantry rail erection, laser alignment of runways, electrical busbar
+                                connection, and on-site dynamic deflection proof testing up to 125% rated load capacity
+                                prior to handover.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-8 pb-8 pt-0">
+                        <div
+                            class="pt-5 border-t border-gray-100 flex items-center text-xs font-barlow uppercase tracking-wider text-brand-dark font-bold">
+                            <span class="text-brand-orange mr-2">•</span> 125% Overload Proof Testing • Certified
+                            Rigging Engineers
+                        </div>
+                    </div>
+                </div>
+                <!-- Service Card 4: Maintenance & AMC -->
+                <div
+                    class="bg-white border border-brand-border hover-accent-border relative group shadow-[0_2px_16px_rgba(0,0,0,0.05)] flex flex-col justify-between overflow-hidden">
+                    <div>
+                        <!-- Header Image with Badge Overlay -->
+                        <div class="relative h-56 w-full overflow-hidden bg-brand-darker border-b border-gray-100">
+                            <img alt="Crane Wheel Assembly and End Carriage Maintenance"
+                                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida/AEtjO1VCtmgM8VbxLlE8dvxuDS34D1DvgTUMDdP4LSoI3fePqxTIyorY08-Eq6DfGmx-o4Hu4wRicmLvKx6Xo7THIuaSJSGgNHtKzhEka8vRii4eZxIxN-ebTKwyjYDIgTOmY-NtEwkYgEYFy-DOlMBgE_4_Ksm5HUO_RAW7TFt6ElLXyYmKEIP1TNBu2BUgy-G9WSkbVNaFRvwY6T0Xd81gWuh17rHolFl_IaUlyc19rr0n0PmsqJJmwWdtZMg">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent">
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 w-12 h-12 bg-brand-dark/90 backdrop-blur-sm flex items-center justify-center border border-gray-700 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"
+                                        stroke-linecap="square"></path>
+                                </svg>
+                            </div>
+                            <span
+                                class="absolute top-4 right-4 font-barlow text-white/90 bg-brand-dark/80 backdrop-blur-sm px-3 py-1 font-bold text-sm tracking-wider border border-gray-700">04</span>
+                            <span
+                                class="absolute bottom-3 left-4 font-barlow text-xs uppercase tracking-widest text-brand-orange font-bold">24/7
+                                BREAKDOWN RESPONSE • OEM SPARES</span>
+                        </div>
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <h3 class="font-rajdhani font-bold text-2xl text-brand-dark uppercase tracking-tight mb-3">
+                                Maintenance &amp; AMC
+                            </h3>
+                            <p class="text-brand-body leading-relaxed text-sm md:text-base">
+                                Scheduled preventive maintenance contracts, emergency breakdown response, OEM wire rope
+                                replacement, brake lining relining, motor servicing, and structural health
+                                re-certifications.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-8 pb-8 pt-0">
+                        <div
+                            class="pt-5 border-t border-gray-100 flex items-center text-xs font-barlow uppercase tracking-wider text-brand-dark font-bold">
+                            <span class="text-brand-orange mr-2">•</span> 24/7 Breakdown Dispatch • Comprehensive OEM
+                            Spares
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= SECTION 3: HOW IT WORKS (Grey #F1F5F9 Background) ================= -->
+    <section class="bg-brand-grey py-24 border-b border-brand-border relative overflow-hidden">
+        <div class="max-w-[1200px] mx-auto px-6">
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 mb-3">
+                    <span class="w-5 h-[2px] bg-brand-orange"></span>
+                    <span class="font-barlow text-brand-orange tracking-widest text-sm font-bold uppercase">
+                        EXECUTION WORKFLOW
+                    </span>
+                    <span class="w-5 h-[2px] bg-brand-orange"></span>
+                </div>
+                <h2 class="font-rajdhani font-bold text-3xl md:text-4xl text-brand-dark uppercase tracking-tight">
+                    How It Works
+                </h2>
+                <p class="text-brand-body text-base mt-2">
+                    A disciplined three-phase deployment framework engineered for zero downtime and seamless site
+                    integration.
+                </p>
+            </div>
+            <!-- 3 Numbered Steps Grid with Technical Visual Polish -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                <!-- Step 1 -->
+                <div
+                    class="bg-white p-8 md:p-10 border border-brand-border relative hover-accent-border shadow-[0_2px_16px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+                            <span class="font-barlow font-bold text-5xl text-brand-orange tracking-tight">01</span>
+                            <span
+                                class="text-xs font-barlow uppercase tracking-widest text-brand-dark bg-brand-grey px-3 py-1 font-semibold border border-gray-200">PHASE
+                                1</span>
+                        </div>
+                        <h3 class="font-rajdhani font-bold text-2xl text-brand-dark uppercase tracking-tight mb-3">
+                            Consult &amp; Plan
+                        </h3>
+                        <p class="text-brand-body leading-relaxed text-sm md:text-base">
+                            Our structural engineers conduct extensive site visits, laser survey existing runway rails,
+                            evaluate clearance headroom, and calculate duty-cycle specifications.
+                        </p>
+                    </div>
+                    <div
+                        class="mt-8 pt-4 border-t border-gray-100 flex items-center text-brand-orange text-xs font-barlow font-bold uppercase tracking-wider">
+                        <span class="">Engineering Assessment • Specification Sheet</span>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div
+                    class="bg-white p-8 md:p-10 border border-brand-border relative hover-accent-border shadow-[0_2px_16px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+                            <span class="font-barlow font-bold text-5xl text-brand-orange tracking-tight">02</span>
+                            <span
+                                class="text-xs font-barlow uppercase tracking-widest text-brand-dark bg-brand-grey px-3 py-1 font-semibold border border-gray-200">PHASE
+                                2</span>
+                        </div>
+                        <h3 class="font-rajdhani font-bold text-2xl text-brand-dark uppercase tracking-tight mb-3">
+                            Design &amp; Build
+                        </h3>
+                        <p class="text-brand-body leading-relaxed text-sm md:text-base">
+                            Fabrication begins using certified structural steel, precision-turned wheels, and
+                            standardized hoists. Routine radiographic and ultrasonic weld testing guarantee integrity.
+                        </p>
+                    </div>
+                    <div
+                        class="mt-8 pt-4 border-t border-gray-100 flex items-center text-brand-orange text-xs font-barlow font-bold uppercase tracking-wider">
+                        <span class="">Precision Fabrication • In-Factory Pre-Assembly</span>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div
+                    class="bg-white p-8 md:p-10 border border-brand-border relative hover-accent-border shadow-[0_2px_16px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+                            <span class="font-barlow font-bold text-5xl text-brand-orange tracking-tight">03</span>
+                            <span
+                                class="text-xs font-barlow uppercase tracking-widest text-brand-dark bg-brand-grey px-3 py-1 font-semibold border border-gray-200">PHASE
+                                3</span>
+                        </div>
+                        <h3 class="font-rajdhani font-bold text-2xl text-brand-dark uppercase tracking-tight mb-3">
+                            Install &amp; Support
+                        </h3>
+                        <p class="text-brand-body leading-relaxed text-sm md:text-base">
+                            Professional erection, complete load-deflection commissioning, operator training, and
+                            enrollment into our structured preventive Annual Maintenance Contract (AMC).
+                        </p>
+                    </div>
+                    <div
+                        class="mt-8 pt-4 border-t border-gray-100 flex items-center text-brand-orange text-xs font-barlow font-bold uppercase tracking-wider">
+                        <span class="">Load Certification • Lifetime Dedicated Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= SECTION 4: PAN-INDIA COVERAGE & INFRASTRUCTURE ================= -->
+    <section class="bg-white py-24 border-b border-brand-border">
+        <div class="max-w-[1200px] mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+                <!-- Left: Coverage Overview and Regional Hubs -->
+                <div class="lg:col-span-7 flex flex-col justify-between">
+                    <div>
+                        <div class="inline-flex items-center gap-2 mb-3">
+                            <span class="w-5 h-[2px] bg-brand-orange"></span>
+                            <span class="font-barlow text-brand-orange tracking-widest text-sm font-bold uppercase">
+                                RELIABLE SERVICE LOGISTICS
+                            </span>
+                        </div>
+                        <h2
+                            class="font-rajdhani font-bold text-3xl md:text-4xl text-brand-dark uppercase tracking-tight mb-6">
+                            Pan-India Service &amp; Rapid Site Support
+                        </h2>
+                        <p class="text-brand-body text-base md:text-lg leading-relaxed mb-6">
+                            Headquartered at our manufacturing and engineering hub in Lucknow, Safe Build Engineering
+                            supports industrial installations, steel complexes, heavy fabrication plants, and logistics
+                            infrastructure across all major industrial belts in India.
+                        </p>
+                        <p class="text-brand-body text-base leading-relaxed mb-8">
+                            Our certified field technicians and rigging specialists are equipped for rapid dispatch,
+                            carrying calibrated diagnostic tools, load-testing gear, and critical replacement spares to
+                            minimize plant downtime.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-brand-border">
+                        <div class="p-4 bg-brand-grey border border-brand-border">
+                            <span class="font-rajdhani font-bold text-xl text-brand-dark block">NORTH INDIA</span>
+                            <span class="text-xs text-brand-body font-inter">UP, NCR, Haryana, Punjab, Rajasthan</span>
+                        </div>
+                        <div class="p-4 bg-brand-grey border border-brand-border">
+                            <span class="font-rajdhani font-bold text-xl text-brand-dark block">WEST &amp;
+                                CENTRAL</span>
+                            <span class="text-xs text-brand-body font-inter">Gujarat, Maharashtra, MP</span>
+                        </div>
+                        <div class="p-4 bg-brand-grey border border-brand-border">
+                            <span class="font-rajdhani font-bold text-xl text-brand-dark block">EAST &amp; SOUTH</span>
+                            <span class="text-xs text-brand-body font-inter">West Bengal, Odisha, Karnataka, TN</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right: Industrial Facility Visual Showcase + Service Commitments -->
+                <div class="lg:col-span-5 flex flex-col gap-6">
+                    <!-- Industrial Installation Facility Image -->
+                    <div class="relative h-60 w-full overflow-hidden border border-brand-border shadow-md">
+                        <img alt="High-capacity Double Girder EOT Crane Facility"
+                            class="w-full h-full object-cover object-center"
+                            src="https://lh3.googleusercontent.com/aida/AEtjO1U_vDaeBRiUpe_jW8jJ9kvfUnkILXeMHq3MFRMumBbqnxtRzdTgcBcob7zLkEPaJYmdF6vdTToVxpyeJ4LFTUsP57COxIVaNnTBqIvUXcnTs_cgkDT9MicOL_6SkJxCYdUElq4x_D5ezwqfYeEFXQzYbyH_5dQo-UKwgEs1HB7I8Qh4ny1H23JX6JqvaWNaUI2UT7wregCfo4JxxHoCF5TkNmi-qER3bb6BuQ0AmRnPlklu7rP6vPHo">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-transparent to-transparent">
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
+                            <span
+                                class="font-barlow text-xs uppercase tracking-wider font-bold bg-brand-orange px-2.5 py-1">PRODUCTION
+                                FACILITY</span>
+                            <span class="font-rajdhani text-sm uppercase tracking-wider font-semibold text-gray-200">ISO
+                                &amp; IS SPECIFICATIONS</span>
+                        </div>
+                    </div>
+                    <!-- Industrial Technical Metric Commitment Card -->
+                    <div
+                        class="bg-brand-dark text-white p-8 md:p-9 border border-gray-800 relative flex-1 flex flex-col justify-between shadow-lg">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-brand-orange"></div>
+                        <div>
+                            <h3 class="font-rajdhani font-bold text-2xl uppercase tracking-tight text-white mb-6">
+                                Our Service Commitments
+                            </h3>
+                            <div class="space-y-5">
+                                <div class="flex items-start gap-4">
+                                    <span class="w-2 h-2 mt-2 bg-brand-orange flex-shrink-0"></span>
+                                    <div>
+                                        <h4 class="font-rajdhani font-bold text-lg text-white uppercase leading-snug">
+                                            Precision Machined Components</h4>
+                                        <p class="text-gray-400 text-sm">Every replacement component is machined to
+                                            strict engineering tolerance specs.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <span class="w-2 h-2 mt-2 bg-brand-orange flex-shrink-0"></span>
+                                    <div>
+                                        <h4 class="font-rajdhani font-bold text-lg text-white uppercase leading-snug">
+                                            Rigorous Quality Verification</h4>
+                                        <p class="text-gray-400 text-sm">Comprehensive structural inspection on every
+                                            fabrication and runway joint.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <span class="w-2 h-2 mt-2 bg-brand-orange flex-shrink-0"></span>
+                                    <div>
+                                        <h4 class="font-rajdhani font-bold text-lg text-white uppercase leading-snug">
+                                            Full Documentation &amp; Testing</h4>
+                                        <p class="text-gray-400 text-sm">Official static &amp; dynamic load test
+                                            certificates issued post-commissioning.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-800 flex items-center justify-between">
+                            <span class="font-barlow text-xs uppercase tracking-wider text-gray-400">HQ: LUCKNOW,
+                                INDIA</span>
+                            <span class="font-barlow text-xs uppercase tracking-wider text-brand-orange font-bold">RAPID
+                                ON-SITE MOBILIZATION</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= SECTION 5: CTA BANNER (Orange #F97316 Background) ================= -->
+    <section class="bg-brand-orange text-white py-20 relative overflow-hidden" id="quote">
+        <!-- Faint Crane Arm Silhouette Accent on background right side -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-10 hidden lg:block pr-12">
+            <svg class="w-80 h-80 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM5 16l4-4H6c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4z">
+                </path>
+            </svg>
+        </div>
+        <div class="max-w-[1200px] mx-auto px-6 relative z-10">
+            <div class="max-w-3xl">
+                <span class="font-barlow text-brand-dark uppercase tracking-widest text-sm font-bold block mb-2">
+                    — START YOUR PROJECT
+                </span>
+                <h2
+                    class="font-rajdhani font-bold text-4xl sm:text-5xl text-white uppercase tracking-tight leading-none mb-4">
+                    Ready to Get Started?
+                </h2>
+                <p class="text-white/90 text-lg md:text-xl font-normal leading-relaxed mb-8 max-w-2xl">
+                    Speak with our engineering consultants to evaluate your plant requirements, schedule an on-site
+                    runway survey, or request a customized technical proposal.
+                </p>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a class="inline-flex items-center justify-center bg-brand-dark hover:bg-brand-darker text-white font-barlow font-bold text-base tracking-wider uppercase px-8 py-4 border border-brand-dark transition-colors duration-200"
+                        href="/contact">
+                        REQUEST A PROPOSAL →
+                    </a>
+                    <a class="inline-flex items-center justify-center bg-transparent hover:bg-white hover:text-brand-orange text-white font-barlow font-bold text-base tracking-wider uppercase px-8 py-4 border-2 border-white transition-all duration-200"
+                        href="tel:+919935105322">
+                        TALK TO AN ENGINEER
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= SECTION 6: DARK FOOTER (Dark #0D1117) ================= -->
+
+
+
+</body>
+
+</html>
