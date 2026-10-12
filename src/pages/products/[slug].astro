@@ -597,13 +597,15 @@ const pageDesc = product?.shortDescription ?? "";
               {/* ── FORM (hidden on success) ── */}
               {formResult !== "success" && (
                 <form
-                  method="POST"
-                  action={`/products/${slug}#quote`}
                   class="space-y-6"
                   id="quote-form"
                   novalidate
-                  data-astro-reload
                 >
+                  <input type="hidden" name="access_key" value="132a9188-be74-48bc-adc5-d9d776bc6e92" />
+                  <input type="hidden" name="subject" value="🔔 New Product Quote Request — Safe Build Engineering" />
+                  <input type="hidden" name="from_name" value="Safe Build Engineering Website" />
+                  <input type="hidden" name="product_interest" value={product.name} />
+                  <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" />
                   {/* Row 1: Name + Company */}
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div class="space-y-2">
@@ -730,6 +732,19 @@ const pageDesc = product?.shortDescription ?? "";
                     />
                   </div>
 
+                  <p
+                    id="quote-error"
+                    class="hidden border border-error bg-[#ffdad6] p-4 flex items-start gap-3"
+                    role="alert"
+                  >
+                    <span class="material-symbols-outlined text-error text-[20px] mt-0.5 shrink-0">
+                      error
+                    </span>
+                    <span class="font-body-md text-body-md text-error">
+                      Something went wrong. Please try again or call +91 99351 05322.
+                    </span>
+                  </p>
+
                   {/* Submit */}
                   <button
                     type="submit"
@@ -761,4 +776,35 @@ const pageDesc = product?.shortDescription ?? "";
       </>
     )
   }
+
+  <script>
+    function initProductQuoteForm() {
+      const form = document.getElementById('quote-form') as HTMLFormElement | null;
+      if (!form || form.dataset.bound === '1') return;
+      form.dataset.bound = '1';
+      const btn = document.getElementById('quote-submit') as HTMLButtonElement | null;
+      const err = document.getElementById('quote-error');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        err?.classList.add('hidden');
+        if (btn) btn.disabled = true;
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.message || 'Submit failed');
+          window.location.href = window.location.pathname + '?submitted=1#quote';
+        } catch (error) {
+          console.error('[product quote] submit failed:', error);
+          err?.classList.remove('hidden');
+          if (btn) btn.disabled = false;
+        }
+      });
+    }
+    document.addEventListener('astro:page-load', initProductQuoteForm);
+  </script>
 </BaseLayout>
