@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://safebuild.in/sitemap.xml
+Sitemap: https://safebuilds.in/sitemap.xml
